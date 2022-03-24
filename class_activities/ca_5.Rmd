@@ -1,0 +1,137 @@
+---
+title: "STA 175 DataFest Activity 5"
+output: 
+  rmdformats::robobook:
+    css: "homework.css"
+    highlight: pygments
+link-citations: yes
+---
+
+## The Goal
+
+Last time, you started to work in RStudio Pro to collaborate on data analysis. You each selected a feature of interest in the data, and explored its relationship with site EUI (our response variable).
+
+Today, we'll start on modeling, and work on describing some of those relationships you explored visually with linear regression. Linear regression is often a good first choice for data, because it is easy to use and interpret and quick to run.
+
+## Setup
+
+Log in to RStudio Pro, and set your working directory to 
+
+`/deac/sta/classes/sta175-sp-2022/your_username`
+
+where `your_username` should be replaced with your actual username.
+
+Now open the group project your team created last time:
+
+* Click on File at the top of their screen.
+* Choose Open Project.
+* Choose the project you or a teammate created last week.
+
+Finally, have one person in the team create a new file called `Master_Activity5`. This should be an R script or a Markdown file where you will all put your final code. The person who creates the file should create a section with each team members name by using `## Name Here`. This helps show everyone where it is safe to type.
+
+Each team member will work on a separate part of the analysis, and add their results to the master file.
+
+## Exploring Regression
+
+### Recall: The Client
+
+We have a client who is interested in determining what features (explanatory variables) in the data set are related to high energy use for residential buildings with at least 6000 sq feet of floor area. Recall that energy use is included in the EUI variable in the data set.
+
+Since the client is particularly interested in large residential buildings, make a subset of your data called `large_residential`, which contains only residential buildings with at least 6000 sq feet of floor area.
+
+The client asks you to create visualizations and/or use a model to explore this. The goal is to identify features related to high energy use so the client can explore ways to help buildings make changes and reduce energy consumption. They ask you specifically to look at the age of the building, but want you to examine other features as well.
+
+:::{.question}
+#### Question 1
+
+Since the client is particularly interested in large residential buildings, make a subset of your data called `large_residential`, which contains only residential buildings with at least 6000 sq feet of floor area.
+:::
+
+While we will ultimately build a model with multiple predictors, it is useful to begin our exploration with one predictor. This allows us to explore each variable and assess model assumptions as we build the model.
+
+:::{.question}
+#### Question 2
+
+Have each member of your team choose one feature (explanatory variable) that they want to explore. Each member will work on regression modeling, starting with the relationship between their chosen feature and EUI, **in their own file**.
+:::
+
+Let's start by fitting a simple linear regression model with your chosen feature. For example, if I start with age as an explanatory variable, I can fit linear regression with the `lm` function:
+
+```r
+age_lm <- lm(site_eui ~ age, data = large_residential)
+```
+
+:::{.question}
+#### Question 3
+
+Using your chosen feature, fit a simple linear regression model with EUI as the response. Is the sign of the slope (positive or negative) what you would expect?
+:::
+
+Linear regression works best when some assumptions about the relationship between our predictor(s) and response are satisfied. In particular, we often make the following assumptions:
+
+* **Shape:** the true relationship is approximately linear
+* **Constant variance:** the variance of the residuals is the same for different values of the predictor(s)
+* **Normality:** the residuals are approximately normal
+
+As you may recall from STA 112 or STA 312, we can assess these assumptions with diagnostic plots, like residual plots and QQ plots. For example, here is some code to make a residual plot and a QQ plot for the `age_lm` model above:
+
+```r
+# residual plot
+large_residential %>%
+  ggplot(aes(x = predict(age_lm),
+             y = resid(age_lm))) +
+  geom_point() +
+  geom_abline(slope = 0, intercept = 0, color="blue") +
+  labs(x = "Predicted EUI",
+       y = "Residual") +
+  theme_bw()
+
+# QQ plot
+large_residential %>%
+  ggplot(aes(sample = resid(age_lm))) +
+  geom_qq() +
+  geom_qq_line(color="blue") +
+  labs(x = "Theoretical normal quantiles",
+       y = "Observed residual quantiles") +
+  theme_bw()
+```
+
+:::{.question}
+#### Question 4
+
+Create diagnostic plots for your fitted model from Question 3. Do the assumptions look reasonable? Do you notice any unusual points which may affect the fitted regression line?
+:::
+
+:::{.question}
+#### Question 5
+
+If you noticed anything unusual in Question 4, investigate further. Try some transformations of the predictor and/or response, and see how the diagnostic plots change. See if unusual points substantially change the fitted line, or if any of the unusual points are clear measurement errors (e.g., a negative age).
+:::
+
+Once we have a fitted regression model for which the assumptions seem reasonable, we want to know whether it is actually useful at predicting EUI. For a simple least-squares linear regression (one predictor), we typically summarize model fit with the correlation ( $r$ ) or coefficient of determination ( $R^2$ ). For multiple least-squares regression, we use the adjusted coefficient of determination ( $R^2_{adj}$ ), which accounts for the number of parameters in our model. $R^2$ and $R^2_{adj}$ can be found in the `summary` output in R.
+
+:::{.question}
+#### Question 6
+
+Does your regression model explain much of the variability in EUI?
+:::
+
+In general, we need more than one predictor to do a good job predicting the response. Let's add more predictors to the model. When we add predictors, we also need to think about whether there are any *interactions* between explanatory variables. Remember that an interaction means that the relationship between an explanatory and the response changes depending on the value of another explanatory variable in the model.
+
+:::{.question}
+#### Question 7
+
+Work with your team members to combine your chosen variables into a regression model. Think carefully about whether to include interactions between your variables, and whether to transform any variables (and if so, which transformations to use). Make sure to check diagnostics for your models.
+
+Which of the variables you examined seem most useful for predicting EUI?
+:::
+
+:::{.question}
+#### Question 8
+
+Your client is particularly interested in building age as an explanatory variable. Examine the relationship between building age and EUI, after accounting for the other variables in your model. Is the relationship what you expect? Does the relationship depend on other variables -- that is, does age interact with other predictors?
+:::
+
+## Next steps
+
+Exploring relationships by hand is important, but we probably can't investigate every variable in the data this way. A linear relationship might also not be an appropriate choice for our data. In our next steps, we'll talk about model selection techniques, and consider other types of regression.

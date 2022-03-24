@@ -1,0 +1,266 @@
+---
+title: "STA 175 DataFest Activity 7"
+output: 
+  rmdformats::robobook:
+    css: "homework.css"
+    highlight: pygments
+link-citations: yes
+---
+
+# The Goal
+
+Last time, we talked about Best Subset Selection, which is an approach we use when we want to fit an LSLR model but we don't know which of our X variables we want to include in that model. Best subset selection checks every possible subset of our X variables and finds the model that optimizes some metric, like the AIC or the $R^2_{adj}$. 
+
+Today, we are are going to learn a different technique for building models when our Y is numeric. This technique is called a **regression tree**. Like BSS, regression trees are useful when we have a lot of potential X variables and we are not sure which we want to use. Let's explore. 
+
+
+
+# The Data
+
+Instead of our typical data for this course, today we are going to work with a data set containing information on n = 333 penguins from three different species. To load the data, you need to use the following two lines of code: 
+
+```{r}
+library(palmerpenguins)
+data(penguins)
+penguins <- na.omit(penguins)
+```
+
+We have a client who is interested in building a model for Y = the body mass of a penguin in grams.
+
+In addition to this response variable, we have information on 7 explanatory variables. 
+
+<div>
+<ul>
+<li><code>species</code> - the type penguin.</li>
+<li><code>island</code> -  the island where the penguin lives.</li>
+<li><code>bill_length_mm</code> - the length of the penguin bill in millimeters.</li>
+<li><code>bill_depth_mm</code> - the depth of the penguin bill in millimeters.</li>
+<li><code>flipper_length_mm</code> - the flipper length of the penguin in millimeters.</li>
+<li><code>sex</code> - the biological sex of the penguin.</li>
+<li><code>year</code> -  the year the penguin was measured.</li>
+</ul>
+</div>
+
+# Building a Model 
+
+Our goal at the moment is to model body mass, which is a numeric response variable. This means we might tend to reach for a regression model. In our last class, we learned that Best Subset Selection (BSS) is a good tool to use when we want to build a regression model but we might not know which predictors (explanatory variables) that we want to use in our model.
+
+However, BSS works best when (1) we do not have many strong relationship among our X variables and (2) our numeric X variables have a linear relationship with Y. 
+
+Let's check for correlations among the X variables first. To do this, we need the following library: 
+
+```{r}
+suppressMessages(library(corrplot))
+```
+
+Once you have loaded the library, we need to create a correlation matrix, and then plot it. 
+
+```{r, eval= FALSE}
+# Create the correlation matrix
+M <- cor(penguins[,-c(1:2,7)])
+# Create the plot
+corrplot(M, method = "number", type = "upper")
+```
+
+:::{.question}
+#### Question 1 
+
+Why did we need to remove columns 1, 2 and 7 before building a correlation matrix? 
+:::
+
+Let's also check the shape of the relationship between bill depth and body mass. 
+
+:::{.question}
+#### Question 2
+
+Make a scatter plot exploring the relationship between X = bill depth and Y = body mass. Color the dots by species. 
+:::
+
+Do we notice in the picture that there are two defined groups in this graph? The Gentoo penguins seem to have a different group of points from the Adelie and Chinstrap penguins. 
+
+This grouping structure within the data, as well as the correlation among our potential X variables, indicates that these data might benefit from a type of model called a **regression tree**. 
+
+# What is a Regresstion Tree? 
+
+A regression tree is a type of model we can build for a numeric Y variable. We can use numeric or categorical X variables to help model Y. 
+
+We start building a tree by looking at all the possible X variables are considering, just like we did in BSS. However, we don't start building a linear model. Instead, we divide the data into two groups using one X variable. For instance, we might divide the data into male penguins and female penguins, or we might divide the group into penguins with bill length less than 20 mm and penguins with bill length greater than or equal to 20 mm. 
+
+How do we decide how to divide the data into these two groups? We choose the division (called a split in trees!) that gives us the smallest residual sum of squares (RSS or SSE). Just like in regular LSLR regression, our job is to minimize the residual sum of squares.
+
+Once we have found the first split that minimizes the RSS, we then try to add a second split. Can we make the RSS even smaller if we split our male penguins into those with bill depth greater than 5 mm and those with bill depth less than or equal to 5mm? And so on. We continue the process of dividing the data into groups into we no longer see a meaningful decrease in RSS (typically at least a 1% decrease).
+
+Okay, that is the idea. Trees are really easiest to understand through an example, so let's try one. 
+
+# Building a Tree
+
+Now that we have the idea of what we want to do, let's build the tree! To build trees in R, there are two packages you need. The first allows you to actually build the tree. The second allows us to visualize the tree once we are done. 
+
+```{r}
+suppressMessages(library(rpart))
+suppressMessages(library(rattle))
+```
+
+To build a tree in R, the function you need is `rpart`. Let's stay I want to build a tree using island, species, bill length, and bill depth. The code I need for that is: 
+
+```{r}
+tree1 <- rpart(body_mass_g ~ island + species + 
+                 bill_length_mm + bill_depth_mm, 
+               data = penguins)
+```
+
+To visualize the tree, use: 
+
+```{r}
+fancyRpartPlot(tree1, caption = "Tree 1")
+```
+
+Now, what information does this give us???
+
+# Reading a Tree
+
+You will notice that a a tree is built in layers. Each of the little boxes on the tree are called **nodes**. The very first node, labeled with a 1 in a square box, is called the **root**. This is where we start, with all n = 333 penguins in one group all together. Then, we split the penguins into two groups based on the value of one variable. 
+
+Let's focus on this single split more clearly. To do this, we are going to build a tree with only one split. This allows us to focus on just the split we want to see in the image. 
+
+```{r, eval = FALSE}
+treeSplit1 <- rpart(body_mass_g ~ island + species + bill_length_mm +
+                      bill_depth_mm, 
+                    maxdepth = 1, 
+                    data = penguins)
+
+fancyRpartPlot(treeSplit1, caption = "Tree 1: First Split Only")
+```
+
+You will notice that in the code used to build the tree, we have specified ` maxdepth = 1`. This tells R that we only want to see the first split. If we want to see the first two splits, we use `maxdepth = 2`, and so on. 
+
+Let's look at this first split. You will notice that right under the root you will see "species = Adelie, Chinstrap". This means that this is the variable used to determine the first split! If "yes", you are an Adelie or Chinstrap penguin, you are moved into the left node on the second level. If you are not an Adelie or Chinstrap (meaning you are a Gentoo), you are moved into the right node on the second level. 
+
+If we look at the left hand node on the second level, you will notice 3 numbers. 
+
+- `n = 214` tells us how many penguins are in this node (i.e., how many Chinstrap and Adelie penguins we have).
+- `64%` tells us what percent of the penguins are in this node (i.e., 64% of the penguins are Chinstrap or Adelie).
+- 3715 tells us the average body mass in grams of all the penguins in that node (i.e., the average weight of all Chinstrap or Adelie penguins).
+
+The 3715 is important. In trees, we use this number (the average body mass for the penguins in the node) as our predicted body mass for any Adelie or Chinstrap penguin. This is how we make predictions in trees. We move data into groups in a way that minimizes the RSS. To make predictions for a new penguin, we would figure out which node the penguin belongs to, and then assign $\hat{Y}$ = the average body mass of the penguins in that node. 
+
+:::{.question}
+#### Question 3
+Based on the tree, how many Gentoo penguins are in the data? What percent of the data is that, and what is the average weight of the Gentoo penguins? What weight would we predict for a new Gentoo penguin? 
+:::
+
+We recall that this first split was chosen to make the residual sum of squares as small as possible. Can we determine what the RSS is for this tree? Sure. 
+
+RSS is the sum of the predicted body minus the actual penguin body mass, squared. 
+
+```{r, eval = FALSE}
+# Make predictions 
+predictions_tree <- predict(treeSplit1, data = penguins)
+# Obtain the RSS
+sum( (predictions_tree - penguins$body_mass_g)^2)
+```
+
+:::{.question}
+#### Question 4
+
+What is the $R^2$ value for this tree? Hint: Remember that $R^2 = 1 - RSS/TSS$, where RSS is the residual sum of squares and TSS is the total sum of squares.  
+:::
+
+:::{.question}
+#### Question 5
+
+What is the $R^2_{adj}$ value for this tree? Hint: Remember that $R^2_{adj} = 1 - (\frac{RSS}{TSS} \times \frac{n - 1}{n-p-1})$, where p is the number of splits in the tree and n is the number of rows in the data.  
+:::
+
+## Adding more layers 
+
+Now, let's add on another level to our tree. 
+
+:::{.question}
+#### Question 6
+
+Create a tree called `treeSplit2` that has the first three level of Tree 1. Plot the tree and add a caption that says Tree 1: First and Second Split. 
+:::
+
+Now, this new level actually shows us 2 new splits. We split (1) the Adelie and Chinstrap penguin node, and we split (2) the Chinstrap penguin node. 
+
+:::{.question}
+#### Question 7
+
+What variable did we use to split both of these nodes? 
+:::
+
+:::{.question}
+#### Question 8
+
+Based on your tree, what are the characteristics that define penguins in node 6? In Node 7? Hint: This means describe the penguins that are in each nodes. 
+:::
+
+:::{.question}
+#### Question 9
+
+What body mass would you predict for an Adelie penguin with a bill depth of 22 mm? 
+:::
+
+:::{.question}
+#### Question 10
+
+What are the residual sum of squares and $R^2_{adj}$ for this tree? 
+:::
+
+# Exploring the Whole Tree
+
+Now that we have explored the basic structure of how a tree works, let's see the entire tree. 
+
+```{r}
+tree1 <- rpart(body_mass_g ~ island + species + 
+                 bill_length_mm + bill_depth_mm, 
+               data = penguins)
+```
+
+```{r, eval = FALSE}
+fancyRpartPlot(tree1, caption = "Tree 1")
+```
+
+
+:::{.question}
+#### Question 11
+
+What body mass would you predict for an Adelie penguin with a bill depth of 22 mm and a bill length of 30 mm? How many penguins are in this node?  
+:::
+
+If your task is prediction, we have seen that we can use the tree to help us predict body mass. However, what if our goal is association? In other words, what if we are trying to understand the relationships in the data? 
+
+:::{.question}
+#### Question 12
+
+Based on your tree, what characteristics are associated with the heaviest penguin? With the lightest? Ask if you get stuck!  
+:::
+
+:::{.question}
+#### Question 13
+
+What is the $R^2_{adj}$ for your tree? 
+:::
+
+:::{.question}
+#### Question 14
+
+Did the tree use all the variables we allowed it to use? In other words, are island, species,  bill length, and  bill depth all in our tree? 
+:::
+
+If your tree does not use all the possible X variables that you gave it, this means that adding more splits to the tree was no longer decreasing the residual sum of squares enough for that reduction to be meaningful. Once splitting no longer helps improve the residual sum of squares, we stop growing the tree. 
+
+# Try it! 
+
+:::{.question}
+#### Question 15
+
+Try building a tree using all possible X variables in the data set. Which Xs are used in the tree? Which are not? What is the $R^2_{adj}$ of this tree? 
+:::
+
+:::{.question}
+#### Question 16
+
+Pretend you are at DataFest and you were asked to explain to a client what this tree tells you about the relationships between the X variables and body mass for these penguins. How would you explain this to them? 
+:::

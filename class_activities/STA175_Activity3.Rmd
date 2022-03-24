@@ -1,0 +1,126 @@
+---
+title: "STA 175 DataFest Activity 3"
+output: 
+  rmdformats::robobook:
+    css: "homework.css"
+    highlight: pygments
+link-citations: yes
+---
+
+# The Goal
+
+So far, we have explored how to create graphs using ggplot2 and how to use tidyR to wrangle the data (which means using code to get the data ready for us to work with). However, our activities so far have been rather guided. When we get a data set at DataFest, we don't have steps helping us decide what do to first, second, etc. 
+
+Today, you are going to be working with the energy efficiency data (the same data set we have been working with) as though we were in a competition. If you need a refresher on plotting, look back at Activity 1. If you need a refresher on data wrangling, you can look at [the slides](https://sta175-s22.github.io/slides/data_wrangling.html) we covered last time.
+
+# Setup
+
+For this activity you will need the `dplyr`, `ggplot2`, and `tidyr` packages. Create a chunk and load these into R by using  `library(tidyverse)` and `library(ggplot2)`.
+
+**Note: This first step (loading the libraries) is something you should do before starting any analysis for this course, and at DataFest. 
+
+We will continue using the energy efficiency data from last week. Load the `train.csv` dataset into R (see [Activity 1](https://sta175-s22.github.io/class_activities/ca_1.html) for full instructions).
+
+# Activity
+
+At DataFest, you will be given a prompt from a client. For today, we have a client who is interested in determining what features (explanatory variables) in the data set are related to high energy use for residential buildings with at least 6000 sq feet of floor area. Recall that energy use is included in the eui variable in the data set. 
+
+The client asks you to create visualizations and/or use a model to explore this. The goal is to identify features related to high energy use so the client can explore ways to help buildings make changes and reduce energy consumption. They ask you specifically to look at the age of the building, but want you to examine other features as well. 
+
+## Getting Started - Data Wrangling 
+
+:::{.question}
+#### Question 1
+
+With your team, make a list of any data wrangling steps that you need to perform to take your current data and focus in on just the rows of data that are of interest to your client. Right now, write the steps out in words, not in code. 
+:::
+
+:::{.question}
+#### Question 2
+
+Now, perform the data wrangling steps from the previous question. Make sure to annotate your steps (which means adding comments to your code so that another person can follow your steps). To make comments in R, we use a # in front of the comment. This tells R to ignore anything you write on this line.  
+:::
+
+If you get stuck, let us know!! 
+
+## Next Steps - Considering Age 
+
+Let's start with the variable the client asked us specifically to include - age. Take a look at your data set. Do we have a column that indicates buildign age? Nope, though we have a column that can help us figure it out! 
+
+:::{.question}
+#### Question 3
+
+Using the `mutate` function, create a new column which records the (current) age of each building.
+:::
+
+Now that we've made a column for building age, we can explore this new variable.
+
+:::{.question}
+#### Question 4
+
+How many buildings in the data have a missing value for age? *(Hint: check out the `is.na` function in the table of logical operators by Question 3).*
+:::
+
+:::{.question}
+#### Question 5
+
+Do the residential buildings with missing age tend to belong to a specific facility type?
+:::
+
+Now, let's take a look at what the client asked for - how does age relate to the energy use of the building. 
+
+:::{.question}
+#### Question 6
+
+Fill in the code below to create a scatterplot showing the relationship between age and energy efficiency. Change the color and shape of the points to reflect facility type. Add good labels, a title, and a caption. Feel free to change the theme too.
+
+```r
+train_residential %>%
+  ggplot(aes(x = ...,
+             y = ...,
+             color = ...,
+             shape = ...)) +
+  geom_...() +
+  labs(x = "...",
+       y = "...",
+       color = "...",
+       shape = "...",
+       title = "...",
+       caption = "...") +
+  theme_bw()
+```
+:::
+
+
+:::{.question}
+#### Question 7
+
+Based on the plot you have created,  Note: It is totally fine if you explore a variable and then decide it does not relate to the response variable. The client has asked us to explore...and this means that not every variable will have a relationship. 
+:::
+
+:::{.question}
+#### Question 8
+
+When calculating the age of each building, we compared the year in which it was built to 2022. While we don't know in which year the buildings were inspected, this is fine as long as all buildings were measured in the same year. However, the buildings in this dataset were actually measured across seven different years. How would you handle this when analyzing building age?
+
+## Next Steps - Choosing Other Variables  
+
+Now, we have a ton of variables in this data set. Our client wants to know which of them is associated with high energy usage. Does this means we have to look at all 60+ at once??? Nope. If you are familiar with variable selection techniques and want to try that, go for it. However, it is also totally reasonable to start exploring just a few variables. 
+
+:::{.question}
+#### Question 9
+
+Have each member of your team choose one feature (explanatory variable) that they want to explore. 
+:::
+
+:::{.question}
+#### Question 10
+
+Use appropriate graphs or summaries to explore the relationship between your chosen feature and EUI. 
+:::
+
+:::{.question}
+#### Question 10
+
+Based on your work, what patterns do you see between age and energy usage? Have you identified any features that might be associated with high EUI?
+:::

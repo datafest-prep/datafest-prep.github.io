@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Data Wrangling</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.10/header-attrs.js"></script>
+    <link rel="stylesheet" href="lab-slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Data Wrangling
+
+---
+
+
+
+
+### Goal
+
+.large[
+.question[
+Learn/review some functions for manipulating and summarizing data in R.
+]
+]
+
+---
+
+### Penguins data
+
+.large[
+Data on 344 penguins near Palmer Station, Antarctica.
+]
+
+.center[
+&lt;img src="penguin_art.png" width="600"&gt;
+]
+
+.footnote[
+Artwork by @allison_horst
+]
+
+---
+
+### Penguins data
+
+.large[
+Data on 344 penguins near Palmer Station, Antarctica. Variables include:
+
+* `species`: penguin's species (Adelie, Chinstrap, Gentoo)
+* `island`: island where penguin measured (Biscoe, Dream, Torgersen)
+* `bill_length_mm`: penguin's bill length (mm)
+* `bill_depth_mm`: penguin's bill depth (mm)
+* `flipper_length_mm`: penguin's flipper length (mm)
+* `body_mass_g`: penguin's body mass (g)
+* `sex`: penguin's sex (female, male)
+* `year`: year when data recorded (2007, 2008, 2009)
+]
+
+--
+
+.large[
+.question[
+We get this data set -- where do we start?
+]
+]
+
+---
+
+### Starting points for data analysis
+
+.large[
+* Work with a smaller, manageable subset of the data
+* Plots, summary statistics, and missing data
+* Create new variables
+
+.question[
+**Data wrangling:** Manipulating, summarizing, and transforming data.
+]
+]
+
+---
+
+### Tools for data wrangling
+
+.large[
+.pull-left[
+.center[
+&lt;img src="dplyr_logo.png" width = "200px"&gt;
+]
+]
+
+.pull-right[
+* part of the tidyverse
+* provides a "grammar of data manipulation": useful verbs (functions) for manipulating data
+* we will cover a few key `dplyr` functions
+]
+]
+
+---
+
+### Making a subset of the data
+
+.large[
+.question[
+We have three species of penguin (Adelie, Chinstrap, Gentoo). Let's make a subset with just the Chinstrap penguins.
+]
+]
+
+--
+
+.large[
+**Step 1:** What data do I start with?
+
+
+```r
+penguins
+```
+
+```
+## # A tibble: 344 × 8
+##    species   island    bill_length_mm bill_depth_mm flipper_length_… body_mass_g
+##    &lt;fct&gt;     &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt;       &lt;int&gt;
+##  1 Adelie    Dream               38.8          20                190        3950
+##  2 Gentoo    Biscoe              47.5          15                218        4950
+##  3 Adelie    Dream               36.2          17.3              187        3300
+##  4 Gentoo    Biscoe              45.1          14.5              207        5050
+##  5 Chinstrap Dream               45.2          16.6              191        3250
+##  6 Adelie    Torgersen           36.2          17.2              187        3150
+##  7 Gentoo    Biscoe              49.3          15.7              217        5850
+##  8 Adelie    Biscoe              41.1          18.2              192        4050
+##  9 Adelie    Torgersen           44.1          18                210        4000
+## 10 Chinstrap Dream               52            20.7              210        4800
+## # … with 334 more rows, and 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;
+```
+]
+
+---
+
+### Making a subset of the data
+
+.large[
+.question[
+We have three species of penguin (Adelie, Chinstrap, Gentoo). Let's make a subset with just the Chinstrap penguins.
+]
+
+**Step 2:** What do I do to that data?
+
+
+
+```r
+penguins %&gt;%
+  filter(species == "Chinstrap")
+```
+]
+
+
+```
+## # A tibble: 68 × 8
+##    species   island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##    &lt;fct&gt;     &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+##  1 Chinstrap Dream            45.2          16.6               191        3250
+##  2 Chinstrap Dream            52            20.7               210        4800
+##  3 Chinstrap Dream            54.2          20.8               201        4300
+##  4 Chinstrap Dream            42.5          17.3               187        3350
+##  5 Chinstrap Dream            45.5          17                 196        3500
+##  6 Chinstrap Dream            50.2          18.8               202        3800
+##  7 Chinstrap Dream            50.8          18.5               201        4450
+##  8 Chinstrap Dream            50.5          18.4               200        3400
+##  9 Chinstrap Dream            50.5          19.6               201        4050
+## 10 Chinstrap Dream            46.5          17.9               192        3500
+## # … with 58 more rows, and 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;
+```
+
+---
+
+### Making a subset of the data
+
+.large[
+.question[
+We have three species of penguin (Adelie, Chinstrap, Gentoo). Let's make a subset with just the Chinstrap penguins.
+]
+
+**Step 2:** What do I do to that data?
+
+
+```r
+penguins %&gt;%
+  filter(species == "Chinstrap")
+```
+
+* `%&gt;%` is called the *pipe*. It means "take `&lt;this&gt;`, THEN do `&lt;that&gt;`"
+* `filter` keeps only the rows which satisfy a specific condition
+]
+
+---
+
+### Making a subset of the data
+
+.large[
+.question[
+We have three species of penguin (Adelie, Chinstrap, Gentoo). Let's make a subset with just the Chinstrap penguins.
+]
+
+**Step 3:** What do I do with the result?
+
+
+```r
+chinstrap_penguins &lt;- penguins %&gt;% 
+  filter(species == "Chinstrap")
+```
+
+* `&lt;-` is the *assignment* operator. It means "save the result in R"
+  * Here we create a new data frame called `chinstrap_penguins` that contains just the Chinstraps
+]
+  
+---
+
+### Making a subset of the data
+
+.large[
+.question[
+We have three species of penguin (Adelie, Chinstrap, Gentoo). Let's make a subset with just the Chinstrap penguins.
+]
+
+
+```r
+chinstrap_penguins &lt;- penguins %&gt;% 
+  filter(species == "Chinstrap")
+
+chinstrap_penguins
+```
+
+]
+
+
+```
+## # A tibble: 68 × 8
+##    species   island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##    &lt;fct&gt;     &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+##  1 Chinstrap Dream            45.2          16.6               191        3250
+##  2 Chinstrap Dream            52            20.7               210        4800
+##  3 Chinstrap Dream            54.2          20.8               201        4300
+##  4 Chinstrap Dream            42.5          17.3               187        3350
+##  5 Chinstrap Dream            45.5          17                 196        3500
+##  6 Chinstrap Dream            50.2          18.8               202        3800
+##  7 Chinstrap Dream            50.8          18.5               201        4450
+##  8 Chinstrap Dream            50.5          18.4               200        3400
+##  9 Chinstrap Dream            50.5          19.6               201        4050
+## 10 Chinstrap Dream            46.5          17.9               192        3500
+## # … with 58 more rows, and 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;
+```
+
+---
+
+### Starting points for data analysis
+
+.large[
+* Work with a smaller, manageable subset of the data
+* Plots, summary statistics, and missing data
+* Create new variables
+]
+
+---
+
+### Calculating summary statistics
+
+.large[
+.question[
+What is the average body mass for Chinstrap penguins?
+]
+]
+
+--
+
+.large[
+**Step 1:** What data do I start with?
+
+
+```r
+chinstrap_penguins
+```
+
+```
+## # A tibble: 68 × 8
+##    species   island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##    &lt;fct&gt;     &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+##  1 Chinstrap Dream            45.2          16.6               191        3250
+##  2 Chinstrap Dream            52            20.7               210        4800
+##  3 Chinstrap Dream            54.2          20.8               201        4300
+##  4 Chinstrap Dream            42.5          17.3               187        3350
+##  5 Chinstrap Dream            45.5          17                 196        3500
+##  6 Chinstrap Dream            50.2          18.8               202        3800
+##  7 Chinstrap Dream            50.8          18.5               201        4450
+##  8 Chinstrap Dream            50.5          18.4               200        3400
+##  9 Chinstrap Dream            50.5          19.6               201        4050
+## 10 Chinstrap Dream            46.5          17.9               192        3500
+## # … with 58 more rows, and 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;
+```
+]
+
+---
+
+### Calculating summary statistics
+
+.large[
+.question[
+What is the average body mass for Chinstrap penguins?
+]
+
+**Step 2:** What do I do to that data?
+
+
+
+```r
+chinstrap_penguins %&gt;%
+  summarize(avg_mass = mean(body_mass_g))
+```
+]
+
+
+```
+## # A tibble: 1 × 1
+##   avg_mass
+##      &lt;dbl&gt;
+## 1    3733.
+```
+
+.large[
+* `%&gt;%` is called the *pipe*. It means "take `&lt;this&gt;`, THEN do `&lt;that&gt;`"
+* `summarize` is used to calculate summary statistics
+]
+---
+
+### Calculating summary statistics
+
+.large[
+.question[
+What is the average body mass for Chinstrap penguins?
+]
+
+**Step 3:** (optional) Do I want to save the result?
+
+
+```r
+chinstrap_summary &lt;- chinstrap_penguins %&gt;%
+  summarize(avg_mass = mean(body_mass_g))
+```
+]
+
+---
+
+### Chaining pipes together
+
+.large[
+If we don't care about the intermediate results, we can chain pipes (`%&gt;%`) together. These two chunks calculate the same summary statistics.
+
+
+**Option 1:**
+
+
+```r
+chinstrap_penguins &lt;- penguins %&gt;%
+  filter(species == "Chinstrap")
+
+chinstrap_penguins %&gt;%
+  summarize(avg_mass = mean(body_mass_g))
+```
+
+
+**Option 2:**
+
+
+```r
+penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+  summarize(avg_mass = mean(body_mass_g))
+```
+]
+
+---
+
+### Calculating summary statistics
+
+.large[
+.question[
+What if I want the average body mass for Adelie penguins?
+]
+
+
+```r
+penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+  summarize(avg_mass = mean(body_mass_g))
+```
+]
+
+---
+
+### Calculating summary statistics
+
+.large[
+.question[
+What if I want the average body mass for Adelie penguins?
+]
+
+
+```r
+penguins %&gt;%
+  filter(species == "Adelie") %&gt;%
+  summarize(avg_mass = mean(body_mass_g))
+```
+]
+
+---
+
+### Calculating summary statistics
+
+.large[
+.question[
+What is the average body mass for Adelie penguins?
+]
+
+
+```r
+penguins %&gt;%
+  filter(species == "Adelie") %&gt;%
+  summarize(avg_mass = mean(body_mass_g))
+```
+]
+
+
+```
+## # A tibble: 1 × 1
+##   avg_mass
+##      &lt;dbl&gt;
+## 1       NA
+```
+
+.large[
+.question[
+What does a result of `NA` mean?
+]
+]
+
+--
+
+.large[
+* `NA` means "Not Available"
+* We get `NA` when there are missing values
+]
+
+---
+
+### Handling missing values
+
+.large[
+.question[
+What is the average body mass for Adelie penguins?
+]
+
+**Option 1:**
+
+
+```r
+penguins %&gt;%
+  filter(species == "Adelie") %&gt;%
+  summarize(avg_mass = mean(body_mass_g,
+                            na.rm=TRUE))
+```
+]
+
+
+```
+## # A tibble: 1 × 1
+##   avg_mass
+##      &lt;dbl&gt;
+## 1    3701.
+```
+
+.large[
+* Use `filter` to focus only on Adelie penguins
+* `summarize` is used to calculate summary statistics
+* `na.rm=TRUE` means "ignore missing values"
+]
+---
+
+### Handling missing values
+
+.large[
+.question[
+What is the average body mass for Adelie penguins?
+]
+
+**Option 2:**
+
+
+```r
+penguins %&gt;%
+  filter(species == "Adelie") %&gt;%
+  drop_na() %&gt;%
+  summarize(avg_mass = mean(body_mass_g))
+```
+]
+
+
+```
+## # A tibble: 1 × 1
+##   avg_mass
+##      &lt;dbl&gt;
+## 1    3706.
+```
+
+.large[
+* `drop_na` means "remove any rows with missing values in any columns"
+]
+---
+
+### Handling missing values
+
+.large[
+
+```r
+penguins %&gt;%
+  filter(species == "Adelie") %&gt;%
+  summarize(avg_mass = mean(body_mass_g, na.rm=TRUE))
+```
+
+`3701.`
+
+
+```r
+penguins %&gt;%
+  filter(species == "Adelie") %&gt;%
+  drop_na() %&gt;%
+  summarize(avg_mass = mean(body_mass_g))
+```
+
+`3706.`
+
+.question[
+Why do these chunks give different numbers?
+]
+]
+
+---
+
+### Handling missing values
+
+.large[
+* `drop_na` removes *all* rows with missing values (not just missing values in `body_mass_g`)
+* Reasonable if this is a small number of rows
+* When you have missing values, check how much data is missing
+]
+---
+
+### Calculating summary statistics
+
+.large[
+.question[
+What is the average body mass for *each* species of penguin?
+]
+]
+
+--
+
+.large[
+
+```r
+penguins %&gt;%
+  group_by(species) %&gt;%
+  summarize(avg_mass = mean(body_mass_g,
+                            na.rm=T))
+```
+
+```
+## # A tibble: 3 × 2
+##   species   avg_mass
+##   &lt;fct&gt;        &lt;dbl&gt;
+## 1 Adelie       3701.
+## 2 Chinstrap    3733.
+## 3 Gentoo       5076.
+```
+]
+
+--
+
+.large[
+* `group_by` is used to group rows together
+* We often use `group_by` before `summarize`
+]
+---
+
+### Calculating summary statistics
+
+.large[
+.question[
+What is the mean and standard deviation of body mass, for each species and sex?
+]
+]
+
+.large[
+
+```r
+penguins %&gt;%
+  group_by(species, sex) %&gt;%
+  summarize(avg_mass = mean(body_mass_g, na.rm=T),
+            sd_mass = sd(body_mass_g, na.rm=T))
+```
+
+```
+## `summarise()` has grouped output by 'species'. You can override using the `.groups` argument.
+```
+
+```
+## # A tibble: 8 × 4
+## # Groups:   species [3]
+##   species   sex    avg_mass sd_mass
+##   &lt;fct&gt;     &lt;fct&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+## 1 Adelie    female    3369.    269.
+## 2 Adelie    male      4043.    347.
+## 3 Adelie    &lt;NA&gt;      3540     477.
+## 4 Chinstrap female    3527.    285.
+## 5 Chinstrap male      3939.    362.
+## 6 Gentoo    female    4680.    282.
+## 7 Gentoo    male      5485.    313.
+## 8 Gentoo    &lt;NA&gt;      4588.    338.
+```
+]
+
+---
+
+### Calculating summary statistics
+
+.large[
+.question[
+How many penguins of each species and sex are there?
+]
+]
+
+.large[
+
+```r
+penguins %&gt;%
+  count(species, sex)
+```
+
+```
+## # A tibble: 8 × 3
+##   species   sex        n
+##   &lt;fct&gt;     &lt;fct&gt;  &lt;int&gt;
+## 1 Adelie    female    73
+## 2 Adelie    male      73
+## 3 Adelie    &lt;NA&gt;       6
+## 4 Chinstrap female    34
+## 5 Chinstrap male      34
+## 6 Gentoo    female    58
+## 7 Gentoo    male      61
+## 8 Gentoo    &lt;NA&gt;       5
+```
+]
+
+---
+
+### Starting points for data analysis
+
+.large[
+* Work with a smaller, manageable subset of the data
+* Plots, summary statistics, and missing data
+* Create new variables
+]
+
+---
+
+### Creating new variables
+
+.large[
+.question[
+What's the distribution of the ratio of body mass to flipper length?
+]
+]
+
+--
+
+.large[
+**Step 1:** Create a new variable
+
+
+```r
+penguins %&gt;%
+  mutate(bf_ratio = body_mass_g/flipper_length_mm)
+```
+]
+
+.large[
+
+```
+...
+##    species   island    body_mass_g flipper_length_mm bf_ratio
+##    &lt;fct&gt;     &lt;fct&gt;           &lt;int&gt;             &lt;int&gt;    &lt;dbl&gt;
+##  1 Adelie    Dream            3950               190     20.8
+##  2 Gentoo    Biscoe           4950               218     22.7
+##  3 Adelie    Dream            3300               187     17.6
+##  4 Gentoo    Biscoe           5050               207     24.4
+##  5 Chinstrap Dream            3250               191     17.0
+##  6 Adelie    Torgersen        3150               187     16.8
+##  7 Gentoo    Biscoe           5850               217     27.0
+...
+```
+]
+
+---
+
+### Creating new variables
+
+.large[
+.question[
+What's the distribution of the ratio of body mass to flipper length?
+]
+
+**Step 1:** Create a new variable
+
+
+```r
+penguins %&gt;%
+  mutate(bf_ratio = body_mass_g/flipper_length_mm)
+```
+
+* `mutate` creates a new column in your dataset
+]
+
+---
+
+### Creating new variables
+
+.large[
+.question[
+What's the distribution of the ratio of body mass to flipper length?
+]
+
+**Step 2:** Save the data with the new column
+
+
+```r
+penguins_new &lt;- penguins %&gt;%
+  mutate(bf_ratio = body_mass_g/flipper_length_mm)
+```
+]
+
+---
+
+### Creating new variables
+
+.large[
+.question[
+What's the distribution of the ratio of body mass to flipper length?
+]
+
+**Step 3:** Exploratory data analysis
+]
+
+.large[
+
+```r
+penguins_new &lt;- penguins %&gt;%
+  mutate(bf_ratio = body_mass_g/flipper_length_mm)
+
+penguins_new %&gt;%
+  group_by(species) %&gt;%
+  summarize(mean_ratio = mean(bf_ratio, 
+                              na.rm=T))
+```
+
+```
+## # A tibble: 3 × 2
+##   species   mean_ratio
+##   &lt;fct&gt;          &lt;dbl&gt;
+## 1 Adelie          19.5
+## 2 Chinstrap       19.0
+## 3 Gentoo          23.3
+```
+]
+
+---
+
+### Starting points for data analysis
+
+.large[
+* Work with a smaller, manageable subset of the data
+  * `filter`
+* Plots, summary statistics, and missing data
+  * `summarize`, `group_by`, `count`, `drop_na`
+* Create new variables
+  * `mutate`
+
+.question[
+**Activity:** practice with data wrangling functions on the building energy efficiency data.
+]
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,0 +1,198 @@
+---
+title: "STA 175 DataFest Activity 6"
+output: 
+  rmdformats::robobook:
+    css: "homework.css"
+    highlight: pygments
+link-citations: yes
+---
+
+## The Goal
+
+Last time, you started to explore multiple linear regression models to describe the relationship between variables in your data. Today we will investigate model selection tools (best subset selection and stepwise selection) as a way to build models when there are a lot of variables in the data. You will continue collaborating in RStudio Pro with your teammates. 
+
+## Setup
+
+Log in to RStudio Pro, and set your working directory to 
+
+`/deac/sta/classes/sta175-sp-2022/your_username`
+
+where `your_username` should be replaced with your actual username.
+
+Now open the group project your team created last time:
+
+* Click on File at the top of their screen.
+* Choose Open Project.
+* Choose the project you or a teammate created last week.
+
+Finally, have one person in the team create a new file called `Master_Activity6`. This should be an R script or a Markdown file where you will all put your final code. The person who creates the file should create a section with each team members name by using `## Name Here`. This helps show everyone where it is safe to type.
+
+Each team member will work on a separate part of the analysis, and add their results to the master file.
+
+## Exploring Variable Selection
+
+### Recall: The Client
+
+We have a client who is interested in determining what features (explanatory variables) in the data set are related to high energy use for residential buildings with at least 6000 sq feet of floor area. Recall that energy use is included in the EUI variable in the data set.
+
+Since the client is particularly interested in large residential buildings, make a subset of your data called `large_residential`, which contains only residential buildings with at least 6000 sq feet of floor area.
+
+Your goal is to identify features related to high energy use so the client can explore ways to help buildings make changes and reduce energy consumption. They ask you specifically to look at the age of the building, but want you to examine other features as well.
+
+:::{.question}
+#### Question 1
+
+Since the client is particularly interested in large residential buildings, make a subset of your data called `large_residential`, which contains only residential buildings with at least 6000 sq feet of floor area.
+:::
+
+Last time, we looked at a few variables individually to build models. But there are 63 potential explanatory variables in this data -- we can't inspect them all by hand, let alone try different model combinations! Fortunately, there are automatic variable selection techniques which try to choose the "best" model from the available variables. Variable selection is a good choice when:
+
+* You have a lot of variables, and you are interested in which are the "most important" for explaining the response
+* You have a lot of variables, and you want to quickly build a model that does a good job predicting the response
+
+Variable selection consists of two parts:
+
+* A way of searching through different models
+* A way of measuring model performance
+
+Let's start with best subset selection.
+
+### Best subset selection
+
+Best subset selection searches through different models by simply considering every possible combination of the available variables. We then choose the model which optimizes some performance criterion. We'll start with $R^2_{adj}$ as our model performance criterion, so we want to choose the combination of explanatory variables that maximizes $R^2_{adj}$ when predicting site EUI.
+
+Best subset selection can be run with the `regsubsets` function in the `leaps` package. The following code runs best subset selection over models with up to 3 explanatory variables (`nvmax = 3`).
+
+```r
+model_select <- regsubsets(site_eui ~ ., data = large_residential, 
+                           nvmax = 3, method="exhaustive")
+```
+
+:::{.question}
+#### Question 2
+
+Run the code above. 
+
+You should get an error message that says `contrasts can be applied only to factors with 2 or more levels`. This means that one of the variables in our `large_residential` data has the same value for all buildings. Identify this variable, and remove it from the `large_residential` data.
+:::
+
+:::{.question}
+#### Question 2
+
+Run the best subset code again, after removing the problematic variable. 
+
+This time you should get a warning: `40  linear dependencies found`. This means there is very high multicollinearity for some variables in your dataset, which can be a problem when fitting the model. Which variables do you think are the problem here? Remember that multicollinearity occurs when one explanatory variable is strongly related to a combination of other explanatory variables.
+:::
+
+:::{.question}
+#### Question 3
+
+Select a subset of columns from `large_residential`, such as energy start rating, floor area, and average temperature, that avoid the multicollinearity issue but still capture relevant information about each building.
+:::
+
+:::{.question}
+#### Question 4
+
+Using only the variables from Question 3, run the best subset code again. This time, set `nvmax` to be larger than 3.
+:::
+
+Once we've run best subset selection, we can look at the results.
+
+* To get the number of variables in the model which maximizes $R^2_{adj}$, run 
+
+```r
+which.max(summary(model_select)$adjr2)
+```
+
+* To plot $R^2_{adj}$ against the number of parameters in the model, run
+
+```r
+plot(summary(model_select)$adjr2)
+```
+
+* To see which variables are included in the model which maximizes $R^2_{adj}$, run
+
+```r
+summary(model_select)$which[which.max(summary(model_select)$adjr2),]
+```
+
+* Best subset selection considers all models with up to `nvmax` variables. To visualize which variables are included in the best model of each size, run
+
+```r
+plot(model_select, scale="adjr2")
+```
+
+In this plot, $R^2_{adj}$ is shown on the y-axis, and each variable included at that $R^2_{adj}$ is shaded black.
+
+:::{.question}
+#### Question 5
+
+How many variables are in the model which maximized $R^2_{adj}$? Which variables seem to be the most important for predicting site EUI?
+:::
+
+:::{.question}
+#### Question 6
+
+If you included energy star rating as a variable in Question 3, it was probably selected by best subset selection. Do a quick google search on how energy star rating is calculated -- is it reasonable to include energy star rating as a *predictor* for site EUI?
+:::
+
+:::{.question}
+#### Question 7
+
+Recall that the client is interested in building age. Is building age included in the "best" model?
+:::
+
+If our client is specifically interested in building age, we need to make sure it is included in the model. We can ensure a variable is included with the `force.in` argument in the `regsubsets` function. For example, if `age` is the 2nd *explanatory* variable listed in my dataset, then I would do something like
+
+```r
+model_select <- regsubsets(site_eui ~ ., data = large_residential, 
+                           nvmax = 10, force.in = 2, method="exhaustive")
+```
+
+### Different optimality criteria
+
+Instead of maximizing $R^2_{adj}$, we can optimize other performance criteria. Two common metrics are Mallows' $C_p$ and the Bayesian Information Criterion (BIC). Like $R^2_{adj}$, both metrics penalize the sum of squared residuals to account for the number of parameters in the model. The difference is in how the penalty term is defined.
+
+**Mallows' $C_p$:** If we have $p$ parameters in the model (including the intercept) and $n$ observations, then
+
+$$C_p = \dfrac{SSE_p}{MSE} - n + 2p$$
+
+where $SSE_p$ is the sum of squared residuals for the model with $p$ parameters, and $MSE$ is the mean squared error for the model with all possible variables.
+
+**BIC:** If we have $p$ parameters in the model (including the intercept) and $n$ observations, then
+
+$$BIC = n \log (SSE_p/n) + p \log(n)$$
+
+Instead of maximizing $R^2_{adj}$, we could choose to minimize $C_p$ or BIC. For example, the number of parameters in the model which minimizes $C_p$ is `which.min(summary(model_select)$cp)`, while for minimizing BIC it is `which.min(summary(model_select)$bic)`.
+
+### Stepwise selection
+
+Considering all possible variable combinations is computationally expensive when we have many observations and variables. An alternative to best subset selection is *stepwise selection*, in which we consider adding or removing one variable at a time. *Backward* stepwise selection starts with a full model and removes variables, whereas *forward* stepwise selection starts with an empty model and adds variables.
+
+In R, we can run forward stepwise selection with
+
+```r
+model_select <- regsubsets(site_eui ~ ., data = large_residential, 
+                           nvmax = 10, method="forward")
+```
+
+and backward stepwise selection with
+
+```r
+model_select <- regsubsets(site_eui ~ ., data = large_residential, 
+                           nvmax = 10, method="backward")
+```
+
+:::{.question}
+#### Question 8
+
+Have each team member pick a different selection method and optimality criterion, and run variable selection.
+
+Compare your resulting models. Do they agree on which variables should be included? Do they agree on the "best" number of variables?
+:::
+
+:::{.question}
+#### Question 9
+
+Think about your client's original question -- what would your answer be for the features most related to energy use?
+:::

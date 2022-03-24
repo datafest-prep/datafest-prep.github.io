@@ -1,0 +1,242 @@
+---
+title: "STA 175 DataFest Activity 8: Practice Starter"
+output: 
+  rmdformats::robobook:
+    css: "homework.css"
+    highlight: pygments
+link-citations: yes
+---
+
+## The Goal
+
+So far, we have covered exploratory data analysis and data wrangling, linear regression, model selection, and trees. So you have a lot of tools to work with for the competition! But when you get a new dataset, it can be daunting to plan out your analysis. That's ok! The purpose of today's activity is to give you practice working with a new dataset and planning how you will use the tools we have learned to start analyzing it.
+
+## The Data
+
+Getting a loan can be difficult for small businesses, as banks are often wary of lending money to businesses with a high risk of defaulting. To help small businesses get loans, the United States Small Business Administration (SBA) runs a loan guarantee program that will guarantee a portion of the loan in case of default: if the business goes bankrupt and can't pay the loan, the SBA will pay part of it to the bank.
+
+This dataset contains 899,164 loans completely or partially guaranteed by the SBA between 1987 and 2014. The loans come from different states and a wide range of industries. The data has the following variables:
+
+* `LoanNr_ChkDgt`: 	Loan ID number that uniquely identifies each loan
+* `Name`: 	Name of business receiving the loan
+* `City`: 	City the business is based in
+* `State`: 	State the business is based in (two-letter abbreviation)
+* `Zip`: 	ZIP code the business is based in
+* `Bank`: 	Name of bank making the loan
+* `BankState`: 	State of the bank making the loan (two-letter abbreviation)
+* `NAICS`: 	North American Industry Classification System code identifying the industry of the business receiving the loan. See [here](https://www.naics.com/search/) for information on the different codes.
+* `ApprovalDate`: 	Date of approval (YYYY-MM-DD) of the loan
+* `ApprovalFY`: 	Fiscal year of approval of the loan
+* `Term`: 	Length of the loan term (months)
+* `NoEmp`: 	Number of employees of the business
+* `NewExist`: 	1 if business already existed, 2 if business is new
+* `CreateJob`: 	Number of jobs created by the business using the loan money
+* `RetainedJob`: 	Number of jobs retained by the business because they received the loan
+* `FranchiseCode`: 	For businesses that are franchises, a unique five-digit code identifying which brand they are a franchise of. 0 or 1 if the business is not a franchise.
+* `UrbanRural`: 	1 if business is in urban area, 2 if business is in rural area
+* `RevLineCr`: 	Y if this is a revolving line of credit, N if not
+* `LowDoc`: 	Y if loan was issued under the 'LowDoc Loan' program, which allows loans under $150,000 to be processed with a short one-page application. N if loan is issued with a standard application, which is much longer
+* `ChgOffDate`: 	The date (YYYY-MM-DD) the loan was declared to be in default, if the borrower stopped paying it back
+* `DisbursementDate`: 	Date (YYYY-MM-DD) the loan money was disbursed to the business
+* `DisbursementGross`:	The amount of money disbursed (loaned), in dollars
+* `BalanceGross`: 	The amount of money remaining to be paid back, in dollars
+* `MIS_Status`: 	Current loan status. CHGOFF = charged off, P I F = paid in full.
+* `ChgOffPrinGr`: 	Amount of money charged off, if the borrower defaulted, in dollars
+* `GrAppv`: 	Gross amount of loan approved by the bank, in dollars
+* `SBA_Appv`: 	Amount of the loan guaranteed by the SBA, in dollars 
+
+### Downloading the data
+
+You can download the data at [this google drive link](https://drive.google.com/file/d/1wfDtMhTCQo_coPXttOhq7R9AIEBXwuZ0/view?usp=sharing)
+
+You will need to save the data to your computer, upload it to RStudio Pro, then load it into R with `read.csv` or `read_csv`.
+
+### Research questions
+
+Suppose you are consulting for a small business that is planning to apply for a loan. The business is interested in the fraction of the loan that will be guaranteed by the SBA (the higher the fraction guaranteed by the SBA, the more likely the bank will grant them the loan). They ask you the following questions:
+
+* How well can you predict the fraction of the loan guaranteed by the SBA?
+* Does the fraction guaranteed vary between different industries?
+* Which types of loans have the highest fraction guaranteed by the SBA?
+
+# Getting started
+
+When you first start working with your data, there are three things you should look at:
+
+* Variables: which variables in the data are most relevant for the research questions?
+* Structure: is there any structure (e.g., groups) in the data that we need to account for in our model?
+* Missingness: is there any missing data that will cause problems for statistical models?
+
+The questions below will walk you through these steps, and give you some strategies for dealing with issues that can arise. Fortunately, the three steps (Variables, Structure, and Missingness) can be done in parallel. Divide the three steps between your team members, then discuss your results as a group.
+
+## Variables
+
+This step involves exploring the response variable, and potential explanatory variables, that you will use to answer the research question(s). I recommend a couple team members work on this step. Have one team member work with the response variable, and one team member work with potential explanatory variables.
+
+:::{.question}
+#### Question 1
+
+What is the response variable that we want to model to answer the research question(s)?
+:::
+
+:::{.question}
+#### Question 2
+
+Is the response variable directly available in the data, or will you have to create it from other variables? If you have to create it, describe how to calculate the response as a function of other variables.
+:::
+
+:::{.question}
+#### Question 3
+
+What kind of variable is the response (categorical or quantitative)? 
+:::
+
+:::{.question}
+#### Question 4
+
+Visualize and summarize the distribution of the response variable.
+:::
+
+:::{.question}
+#### Question 5
+
+Based on the research question(s), are there any explanatory variables you will definitely need to include?  
+:::
+
+:::{.question}
+#### Question 6
+
+Visualize and summarize the distribution of these explanatory variables.
+:::
+
+### Why is this step useful?
+
+* If your response is quantitative, you can use linear regression, or regression trees
+* If your response is binary, you will need to use something like logistic regression
+* If your response is highly skewed, you may need a transformation before fitting a model
+* Sometimes we need to transform highly skewed predictors too
+
+:::{.question}
+#### Question 7
+
+Based on your exploration of the variables, which kind of model is suitable for answering the research question(s)?
+:::
+
+:::{.question}
+#### Question 8
+
+Do you think you will need to transform any variables?
+:::
+
+
+## Structure
+
+Two common sources of structure are *grouping* and *time dependence*.
+
+* *Grouping* occurs when there are natural groups in the data. For example, multiple observations from the same person, or from the same neighborhood, or from the same company, etc. Grouping is a problem because observations are no longer independent: we expect some correlation between observations from the same group.
+* *Time-dependent* data occurs when data are collected over time. This can cause changes over time, or seasonal effects (for example, observations may be different in winter vs. summer). Time dependence is another source of correlation between observations.
+
+:::{.question}
+#### Question 9
+
+Do any variables capture natural groups in the SBA data? If so, how many different groups are there, and how many observations are in each group?
+:::
+
+:::{.question}
+#### Question 10
+
+Is there any time dependence in the data? If so, which variables capture information about time?
+:::
+
+### Strategies for dealing with grouping
+
+* Focus only on one or two groups to start. This works particularly well if you have one or two large groups.
+* Include groups as variables in your model
+* If you have many groups, and only a few observations in each group: average observations within each group
+* Use a mixed effects model (ignore this if you are unfamiliar with mixed effects)
+
+### Strategies for dealing with time-dependent data
+
+* Ignore it (not a perfect solution, but sometimes reasonable)
+* Incorporate time as a quantitative predictor (still not perfect, but can be ok)
+* Use a time series model (ignore this if you are unfamiliar with time series)
+
+:::{.question}
+#### Question 11
+
+Based on these strategies, how would you handle grouping and/or time dependence in the SBA data?
+:::
+
+## Missingness
+
+Missing data is a problem because statistical methods, like regression, often assume that we don't have missing observations. R will often complain if there are missing values in your data.
+
+:::{.question}
+#### Question 12
+
+Are there any missing values in your data? If so, which variables have the most missing values?
+:::
+
+:::{.question}
+#### Question 13
+
+Are the variables with missing values crucial to answering the research question(s), or can you ignore these variables for now?
+:::
+
+### Strategies for dealing with missing data
+
+* If only a few rows have missing observations: 
+  * it may be reasonable to remove them
+* If many rows have missing observations: 
+  * Check whether the missing values appear in many variables, or just a few variables
+  * If missing values appear in many variables, you may need to remove the rows with missing data
+  * If missing values appear in only a few variables, you may be able to ignore those variables
+* If there are natural groups to the data, it may help to focus on a group with little missing data
+
+:::{.question}
+#### Question 14
+
+Based on these strategies, how would you handle missing values in the SBA data?
+:::
+
+## Putting it together
+
+Now discuss your results with your team members, and make a plan for your initial analysis.
+
+:::{.question}
+#### Question 15
+
+With your team members, answer the following questions:
+
+* Which variables will you look at first?
+* Which kinds of models can you fit with these variables?
+* Do you think you might need to transform any variables?
+* Will you look at all the data, or a subset (for example, focusing only on one group, or removing missing data)?
+:::
+
+# Choosing a model
+
+By now you know what rows and variables you want to start with, and the kinds of models you can use with that data. Next, you will start planning how to fit a model.
+
+Here are some things to think about when building a model:
+
+* What is your goal? Common goals include
+  * Prediction: you want to build a model that does a good job predicting the response
+  * Inference: you want to test hypotheses about the relationship between one or more variables and the response
+  * Model selection: you want to know which variables are most useful for predicting the response
+* How will you achieve that goal?
+  * Prediction: you will need to summarize your predictive ability (e.g., with a metric like $R^2_{adj}$ or BIC). Model selection (BSS or stepwise selection, or trees) can be valuable for choosing a good predictive model
+  * Inference: you will need to translate your research question(s) into null and alternative hypotheses about one or more model parameters
+  * Model selection: you will need to use a model selection procedure, and see which variables get selected
+  
+:::{.question}
+#### Question 16
+
+Which goal(s) correspond to the research question(s)?
+:::
+
+:::{.question}
+#### Question 17
+
+What tools will you use to answer the research questions? (Hypothesis testing, model selection, visualizations, etc.) Describe in detail how you will use these tools (e.g., write down the hypotheses you will test, describe how you will interpret the results of model selection, etc.)
+:::

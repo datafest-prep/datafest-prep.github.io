@@ -1,0 +1,674 @@
+---
+title: Data Wrangling 
+output:
+  xaringan::moon_reader:
+    css: "lab-slides.css"
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r include=F}
+library(tidyverse)
+library(palmerpenguins)
+library(knitr)
+penguins <- penguins %>%
+  slice_sample(n = nrow(penguins),
+               replace=F)
+
+hook_output <- knit_hooks$get("output")
+knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+```
+
+### Goal
+
+.large[
+.question[
+Learn/review some functions for manipulating and summarizing data in R.
+]
+]
+
+---
+
+### Penguins data
+
+.large[
+Data on 344 penguins near Palmer Station, Antarctica.
+]
+
+.center[
+<img src="penguin_art.png" width="600">
+]
+
+.footnote[
+Artwork by @allison_horst
+]
+
+---
+
+### Penguins data
+
+.large[
+Data on 344 penguins near Palmer Station, Antarctica. Variables include:
+
+* `species`: penguin's species (Adelie, Chinstrap, Gentoo)
+* `island`: island where penguin measured (Biscoe, Dream, Torgersen)
+* `bill_length_mm`: penguin's bill length (mm)
+* `bill_depth_mm`: penguin's bill depth (mm)
+* `flipper_length_mm`: penguin's flipper length (mm)
+* `body_mass_g`: penguin's body mass (g)
+* `sex`: penguin's sex (female, male)
+* `year`: year when data recorded (2007, 2008, 2009)
+]
+
+--
+
+.large[
+.question[
+We get this data set -- where do we start?
+]
+]
+
+---
+
+### Starting points for data analysis
+
+.large[
+* Work with a smaller, manageable subset of the data
+* Plots, summary statistics, and missing data
+* Create new variables
+
+.question[
+**Data wrangling:** Manipulating, summarizing, and transforming data.
+]
+]
+
+---
+
+### Tools for data wrangling
+
+.large[
+.pull-left[
+.center[
+<img src="dplyr_logo.png" width = "200px">
+]
+]
+
+.pull-right[
+* part of the tidyverse
+* provides a "grammar of data manipulation": useful verbs (functions) for manipulating data
+* we will cover a few key `dplyr` functions
+]
+]
+
+---
+
+### Making a subset of the data
+
+.large[
+.question[
+We have three species of penguin (Adelie, Chinstrap, Gentoo). Let's make a subset with just the Chinstrap penguins.
+]
+]
+
+--
+
+.large[
+**Step 1:** What data do I start with?
+
+```{r}
+penguins
+```
+]
+
+---
+
+### Making a subset of the data
+
+.large[
+.question[
+We have three species of penguin (Adelie, Chinstrap, Gentoo). Let's make a subset with just the Chinstrap penguins.
+]
+
+**Step 2:** What do I do to that data?
+
+
+```{r, eval=F}
+penguins %>%
+  filter(species == "Chinstrap")
+```
+]
+
+```{r, echo=F}
+penguins %>%
+  filter(species == "Chinstrap")
+```
+
+---
+
+### Making a subset of the data
+
+.large[
+.question[
+We have three species of penguin (Adelie, Chinstrap, Gentoo). Let's make a subset with just the Chinstrap penguins.
+]
+
+**Step 2:** What do I do to that data?
+
+```{r, eval=F}
+penguins %>%
+  filter(species == "Chinstrap")
+```
+
+* `%>%` is called the *pipe*. It means "take `<this>`, THEN do `<that>`"
+* `filter` keeps only the rows which satisfy a specific condition
+]
+
+---
+
+### Making a subset of the data
+
+.large[
+.question[
+We have three species of penguin (Adelie, Chinstrap, Gentoo). Let's make a subset with just the Chinstrap penguins.
+]
+
+**Step 3:** What do I do with the result?
+
+```{r, eval = F}
+chinstrap_penguins <- penguins %>% 
+  filter(species == "Chinstrap")
+```
+
+* `<-` is the *assignment* operator. It means "save the result in R"
+  * Here we create a new data frame called `chinstrap_penguins` that contains just the Chinstraps
+]
+  
+---
+
+### Making a subset of the data
+
+.large[
+.question[
+We have three species of penguin (Adelie, Chinstrap, Gentoo). Let's make a subset with just the Chinstrap penguins.
+]
+
+```{r, eval=F}
+chinstrap_penguins <- penguins %>% 
+  filter(species == "Chinstrap")
+
+chinstrap_penguins
+```
+
+]
+
+```{r, echo=F}
+chinstrap_penguins <- penguins %>% 
+  filter(species == "Chinstrap")
+
+chinstrap_penguins
+```
+
+---
+
+### Starting points for data analysis
+
+.large[
+* Work with a smaller, manageable subset of the data
+* Plots, summary statistics, and missing data
+* Create new variables
+]
+
+---
+
+### Calculating summary statistics
+
+.large[
+.question[
+What is the average body mass for Chinstrap penguins?
+]
+]
+
+--
+
+.large[
+**Step 1:** What data do I start with?
+
+```{r}
+chinstrap_penguins
+```
+]
+
+---
+
+### Calculating summary statistics
+
+.large[
+.question[
+What is the average body mass for Chinstrap penguins?
+]
+
+**Step 2:** What do I do to that data?
+
+
+```{r, eval=F}
+chinstrap_penguins %>%
+  summarize(avg_mass = mean(body_mass_g))
+```
+]
+
+```{r, echo=F}
+chinstrap_penguins %>%
+  summarize(avg_mass = mean(body_mass_g))
+```
+
+.large[
+* `%>%` is called the *pipe*. It means "take `<this>`, THEN do `<that>`"
+* `summarize` is used to calculate summary statistics
+]
+---
+
+### Calculating summary statistics
+
+.large[
+.question[
+What is the average body mass for Chinstrap penguins?
+]
+
+**Step 3:** (optional) Do I want to save the result?
+
+```{r, eval=F}
+chinstrap_summary <- chinstrap_penguins %>%
+  summarize(avg_mass = mean(body_mass_g))
+```
+]
+
+---
+
+### Chaining pipes together
+
+.large[
+If we don't care about the intermediate results, we can chain pipes (`%>%`) together. These two chunks calculate the same summary statistics.
+
+
+**Option 1:**
+
+```{r, eval=F}
+chinstrap_penguins <- penguins %>%
+  filter(species == "Chinstrap")
+
+chinstrap_penguins %>%
+  summarize(avg_mass = mean(body_mass_g))
+```
+
+
+**Option 2:**
+
+```{r, eval=F}
+penguins %>%
+  filter(species == "Chinstrap") %>%
+  summarize(avg_mass = mean(body_mass_g))
+```
+]
+
+---
+
+### Calculating summary statistics
+
+.large[
+.question[
+What if I want the average body mass for Adelie penguins?
+]
+
+```{r, eval=F}
+penguins %>%
+  filter(species == "Chinstrap") %>%
+  summarize(avg_mass = mean(body_mass_g))
+```
+]
+
+---
+
+### Calculating summary statistics
+
+.large[
+.question[
+What if I want the average body mass for Adelie penguins?
+]
+
+```{r, eval=F}
+penguins %>%
+  filter(species == "Adelie") %>%
+  summarize(avg_mass = mean(body_mass_g))
+```
+]
+
+---
+
+### Calculating summary statistics
+
+.large[
+.question[
+What is the average body mass for Adelie penguins?
+]
+
+```{r, eval=F}
+penguins %>%
+  filter(species == "Adelie") %>%
+  summarize(avg_mass = mean(body_mass_g))
+```
+]
+
+```{r, echo=F}
+penguins %>%
+  filter(species == "Adelie") %>%
+  summarize(avg_mass = mean(body_mass_g))
+```
+
+.large[
+.question[
+What does a result of `NA` mean?
+]
+]
+
+--
+
+.large[
+* `NA` means "Not Available"
+* We get `NA` when there are missing values
+]
+
+---
+
+### Handling missing values
+
+.large[
+.question[
+What is the average body mass for Adelie penguins?
+]
+
+**Option 1:**
+
+```{r, eval=F}
+penguins %>%
+  filter(species == "Adelie") %>%
+  summarize(avg_mass = mean(body_mass_g,
+                            na.rm=TRUE))
+```
+]
+
+```{r, echo=F}
+penguins %>%
+  filter(species == "Adelie") %>%
+  summarize(avg_mass = mean(body_mass_g,
+                            na.rm=TRUE))
+```
+
+.large[
+* Use `filter` to focus only on Adelie penguins
+* `summarize` is used to calculate summary statistics
+* `na.rm=TRUE` means "ignore missing values"
+]
+---
+
+### Handling missing values
+
+.large[
+.question[
+What is the average body mass for Adelie penguins?
+]
+
+**Option 2:**
+
+```{r, eval=F}
+penguins %>%
+  filter(species == "Adelie") %>%
+  drop_na() %>%
+  summarize(avg_mass = mean(body_mass_g))
+```
+]
+
+```{r, echo=F}
+penguins %>%
+  filter(species == "Adelie") %>%
+  drop_na() %>%
+  summarize(avg_mass = mean(body_mass_g))
+```
+
+.large[
+* `drop_na` means "remove any rows with missing values in any columns"
+]
+---
+
+### Handling missing values
+
+.large[
+```{r, eval=F}
+penguins %>%
+  filter(species == "Adelie") %>%
+  summarize(avg_mass = mean(body_mass_g, na.rm=TRUE))
+```
+
+`3701.`
+
+```{r, eval=F}
+penguins %>%
+  filter(species == "Adelie") %>%
+  drop_na() %>%
+  summarize(avg_mass = mean(body_mass_g))
+```
+
+`3706.`
+
+.question[
+Why do these chunks give different numbers?
+]
+]
+
+---
+
+### Handling missing values
+
+.large[
+* `drop_na` removes *all* rows with missing values (not just missing values in `body_mass_g`)
+* Reasonable if this is a small number of rows
+* When you have missing values, check how much data is missing
+]
+---
+
+### Calculating summary statistics
+
+.large[
+.question[
+What is the average body mass for *each* species of penguin?
+]
+]
+
+--
+
+.large[
+```{r}
+penguins %>%
+  group_by(species) %>%
+  summarize(avg_mass = mean(body_mass_g,
+                            na.rm=T))
+```
+]
+
+--
+
+.large[
+* `group_by` is used to group rows together
+* We often use `group_by` before `summarize`
+]
+---
+
+### Calculating summary statistics
+
+.large[
+.question[
+What is the mean and standard deviation of body mass, for each species and sex?
+]
+]
+
+.large[
+```{r}
+penguins %>%
+  group_by(species, sex) %>%
+  summarize(avg_mass = mean(body_mass_g, na.rm=T),
+            sd_mass = sd(body_mass_g, na.rm=T))
+```
+]
+
+---
+
+### Calculating summary statistics
+
+.large[
+.question[
+How many penguins of each species and sex are there?
+]
+]
+
+.large[
+```{r}
+penguins %>%
+  count(species, sex)
+```
+]
+
+---
+
+### Starting points for data analysis
+
+.large[
+* Work with a smaller, manageable subset of the data
+* Plots, summary statistics, and missing data
+* Create new variables
+]
+
+---
+
+### Creating new variables
+
+.large[
+.question[
+What's the distribution of the ratio of body mass to flipper length?
+]
+]
+
+--
+
+.large[
+**Step 1:** Create a new variable
+
+```{r, eval=F}
+penguins %>%
+  mutate(bf_ratio = body_mass_g/flipper_length_mm)
+```
+]
+
+.large[
+```{r, output.lines=2:10, echo=F, message=F, warning=F}
+penguins %>%
+  mutate(bf_ratio = body_mass_g/flipper_length_mm) %>%
+  select(species, island, body_mass_g, flipper_length_mm, bf_ratio)
+```
+]
+
+---
+
+### Creating new variables
+
+.large[
+.question[
+What's the distribution of the ratio of body mass to flipper length?
+]
+
+**Step 1:** Create a new variable
+
+```{r, eval=F}
+penguins %>%
+  mutate(bf_ratio = body_mass_g/flipper_length_mm)
+```
+
+* `mutate` creates a new column in your dataset
+]
+
+---
+
+### Creating new variables
+
+.large[
+.question[
+What's the distribution of the ratio of body mass to flipper length?
+]
+
+**Step 2:** Save the data with the new column
+
+```{r, eval=F}
+penguins_new <- penguins %>%
+  mutate(bf_ratio = body_mass_g/flipper_length_mm)
+```
+]
+
+---
+
+### Creating new variables
+
+.large[
+.question[
+What's the distribution of the ratio of body mass to flipper length?
+]
+
+**Step 3:** Exploratory data analysis
+]
+
+.large[
+```{r}
+penguins_new <- penguins %>%
+  mutate(bf_ratio = body_mass_g/flipper_length_mm)
+
+penguins_new %>%
+  group_by(species) %>%
+  summarize(mean_ratio = mean(bf_ratio, 
+                              na.rm=T))
+```
+]
+
+---
+
+### Starting points for data analysis
+
+.large[
+* Work with a smaller, manageable subset of the data
+  * `filter`
+* Plots, summary statistics, and missing data
+  * `summarize`, `group_by`, `count`, `drop_na`
+* Create new variables
+  * `mutate`
+
+.question[
+**Activity:** practice with data wrangling functions on the building energy efficiency data.
+]
+]

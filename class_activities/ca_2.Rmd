@@ -1,0 +1,195 @@
+---
+title: "STA 175 DataFest Activity 2"
+output: 
+  rmdformats::robobook:
+    css: "homework.css"
+    highlight: pygments
+link-citations: yes
+---
+
+# The Goal
+
+Where do you start when you get a dataset? We generally begin by exploring basic characteristics of the data: how large is the data, what types of observations are recorded, are there any missing data, etc. We can also do some summaries and visualizations of variables we know or expect to be important.
+
+Doing this kind of data exploration requires some data wrangling tools. In [the slides](https://sta175-s22.github.io/slides/data_wrangling.html) we covered some useful data wrangling functions from the `dplyr` package. In this activity, you will practice using these functions to explore the energy efficiency data we started work on last time.
+
+# Setup
+
+### R packages
+
+For this activity you will need the `dplyr`, `ggplot2`, and `tidyr` packages. Each of these packages is part of the tidyverse. If you don't have `tidyverse` installed, go to your R console and install it first with `install.packages("tidyverse")` (remember you only need to do this once).
+
+Once the `tidyverse` package is installed, load it into R with `library(tidyverse)`.
+
+### Data
+
+We will continue using the energy efficiency data from last week. Load the `train.csv` dataset into R (see [Activity 1](https://sta175-s22.github.io/class_activities/ca_1.html) for full instructions).
+
+### R Markdown
+
+A useful way to organize your code and analysis is with an R Markdown document. This isn't required, but I strongly encourage it. If you're unfamiliar with R Markdown, I have provided a starter template: [ca_02_template.Rmd](https://sta175-s22.github.io/class_activities/ca_02_template.Rmd). See the [R Markdown instructions](https://sta175-s22.github.io/class_activities/rmarkdown_instructions/) for more information.
+
+# Activity
+
+The first part of the activity contains some guided practice with the `dplyr` functions discussed on the slides, as well as some more visualizations with `ggplot`. The second part is more open-ended. If you feel very comfortable with data wrangling functions, you can start with Part II.
+
+## Part I
+
+There are two main groups of buildings in the data (specified by the `building_class` variable): Commercial buildings and Residential buildings. There is much more variety to commercial buildings than residential buildings, so let's make the problem more manageable by focusing on the residential buildings to start.
+
+:::{.question}
+#### Question 1
+
+Create a subset of the data called `train_residential`, which only contains the residential buildings.
+
+:::
+
+In addition to the `building_class` variable, the `facility_type` variable gives more detailed information about building type. Let's see what different facility types are included, and how common they are.
+
+:::{.question}
+#### Question 2
+
+Fill in the `...` in the code below to use the `count` function to determine how many residential buildings belong to each facility type.
+
+```r
+train_residential %>%
+  count(...)
+```
+
+What's the least common type?
+:::
+
+One facility type has only 9 residential buildings in the data. If we think facility type is an important variable, this may be too few. One option is to remove residential buildings of that facility type.
+
+:::{.question}
+#### Question 3
+
+Fill in the `...` in the code below to change `train_residential` so we exclude the facility type with only 9 observations.
+
+```r
+train_residential <- train_residential %>%
+  filter(facility_type ...)
+```
+:::
+
+*Hint: in Question 1, you used the logical operator `==` in your filter. For Question 3 we can use a different logical operator -- pick the appropriate one from the table below:*
+
+
+| operator | definition | operator | definition |
+| --- | --- | --- | --- |
+| `<`         | less than | `x | y` | `x` OR `y` |
+| `<= ` | less than or equal to | `is.na(x)` | test if `x` is `NA` |
+| `>` | greater than | `!is.na(x)` |  test if `x` is not `NA` |
+| `>=` | greater than or equal to | `x %in% y` | test if `x` is in `y` |
+| `==` | exactly equal to | `!(x %in% y)`| test if `x` is not in `y`|
+| `!=` | not equal to | `!x` | not `x` |
+| `x & y` | `x` AND `y` | | |
+
+
+Of course, we're not interested in building types for their own sake. In this data, we care about `site_eui`, the energy efficiency of the building. The building type could be important if energy efficiency differs across building types.
+
+:::{.question}
+#### Question 4
+
+Let's start by plotting the distribution of `site_eui` for each facility type for residential buildings. Fill in the code below to create a boxplot of `site_eui` for each facility type, and add appropriate labels, a title, and a caption.
+
+```r
+train_residential %>%
+  ggplot(aes(x = ..., y = ...)) +
+  geom_...() +
+  labs(x = "...", 
+       y = "...",
+       title = "...",
+       caption = "...") +
+  theme_bw()
+```
+
+Does it look like energy efficiency differs for different facility types?
+:::
+
+We can also use summary statistics to quantify what we see visually in the plot.
+
+:::{.question}
+#### Question 5
+
+Fill in the code below to calculate a measure of center and spread for `site_eui` in each residential building type. Choose appropriate measures of center and spread based on the boxplots you made in Question 4.
+
+```r
+train_residential %>%
+  group_by(...) %>%
+  summarize(... = ...(site_eui),
+            ... = ...(side_eui))
+```
+:::
+
+We can make this table of summary statistics look nicer. If we're knitting to R Markdown, the `kable` function makes the knitted table pretty: 
+
+```r
+train_residential %>%
+  group_by(...) %>%
+  summarize(... = ...(site_eui),
+            ... = ...(side_eui)) %>%
+  knitr::kable(col.names = c("Residential building type", 
+                             "Median energy efficiency",
+                             "IQR energy efficiency"))
+```
+
+## Part II
+
+Building type is one variable that might be associated with energy efficiency. Another important variable is building *age*: we probably expect that older buildings will be less efficient than newer buildings. However, we don't have a column for building age in the data.
+
+:::{.question}
+#### Question 6
+
+Using the `mutate` function, create a new column which records the (current) age of each building.
+:::
+
+Now that we've made a column for building age, we can explore this new variable.
+
+:::{.question}
+#### Question 7
+
+How many buildings in the data have a missing value for age? *(Hint: check out the `is.na` function in the table of logical operators by Question 3).*
+:::
+
+:::{.question}
+#### Question 8
+
+Do the residential buildings with missing age tend to belong to a specific facility type?
+:::
+
+Let's look at the relationship between residential building age, facility type, and energy efficiency.
+
+:::{.question}
+#### Question 9
+
+Fill in the code below to create a scatterplot showing the relationship between age and energy efficiency. Change the color and shape of the points to reflect facility type. Add good labels, a title, and a caption. Feel free to change the theme too.
+
+```r
+train_residential %>%
+  ggplot(aes(x = ...,
+             y = ...,
+             color = ...,
+             shape = ...)) +
+  geom_...() +
+  labs(x = "...",
+       y = "...",
+       color = "...",
+       shape = "...",
+       title = "...",
+       caption = "...") +
+  theme_bw()
+```
+:::
+
+:::{.question}
+#### Question 10
+
+Now calculate the correlation between age and energy efficiency for each residential facility type. Think carefully about how you will handle missing data. *Note: look at the documentation for the `cor` function in R (`?cor`) to see the options for handling missing values.*
+:::
+
+:::{.question}
+#### Question 11
+
+When calculating the age of each building, we compared the year in which it was built to 2022. While we don't know in which year the buildings were inspected, this is fine as long as all buildings were measured in the same year. However, the buildings in this dataset were actually measured across seven different years. How would you handle this when analyzing building age?
+:::
