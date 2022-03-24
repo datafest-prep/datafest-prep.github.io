@@ -4,7 +4,7 @@ title: DataFest Prep
 nav_exclude: true
 seo:
   type: Course
-  name: STA 175
+  name: ASA DataFest Prep
 ---
 
 # {{ site.tagline }}
@@ -13,8 +13,7 @@ seo:
 {: .fs-6 .fw-300 }
 
 
-Welcome to the course website for STA 175!
+Welcome! This site contains information and activities to help you prepare for competing in ASA DataFest! 
 
 * Slides, handouts, and activities can be found in the [Course Calendar](https://sta175-s22.github.io/calendar/)
 
-* The [Syllabus](https://sta175-s22.github.io/about/) contains information about course policies
