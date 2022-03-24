@@ -1,6 +1,6 @@
 ---
 layout: home
-title: STA 175
+title: DataFest Prep
 nav_exclude: true
 seo:
   type: Course
