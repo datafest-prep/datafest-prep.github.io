@@ -1,5 +1,5 @@
 ---
-title: "Activity 3"
+title: "Activity 1 Part 2: Getting Started with the Data"
 output: 
   rmdformats::robobook:
     css: "homework.css"
@@ -83,15 +83,17 @@ Our data today is provided by a client who is interested in exploring how existi
 
 <p>There are other types of goals, like establishing causal relationships, but generally with DataFest we have either prediction or association.</p>
 
-<ol start="3" style="list-style-type: decimal">
-<li>Based on what we have seen so far, is this a prediction or an association task?</li>
-</ol>
+:::{.question}
+#### Question 1
 
-<p>Why does this matter? Well, if our goal is only prediction, we can use really complicated models, and as long as they predict well, we are probably fine with that. However, if our goal is association, we have to choose a model that allows us to actually interpret the relationships going on in the data. Really complex models may not allow this. This means we need to be aware of the goal of the analysis from the very start.</p>
+Based on what we have seen so far, is this a prediction or an association task?
+:::
 
-<p>Now that we know the goal, the next step is to start digging in to the data. Characteristics of the data themselves (yes, data is a plural term!) can also help us decide on modeling techniques. In the real competition, this is a good time to split up the features you might want to visualize among your team - it's more efficient to split up the work.</p>
+Why does this matter? Well, if our goal is only prediction, we can use really complicated models, and as long as they predict well, we are probably fine with that. However, if our goal is association, we have to choose a model that allows us to actually interpret the relationships going on in the data. Really complex models may not allow this. This means we need to be aware of the goal of the analysis from the very start.
 
-<p>To make visualizations, we will be working with a group of functions in the ggplot2 package in R. If you have already installed ggplot2, skip the next section.</p>
+Now that we know the goal, the next step is to start digging in to the data. Characteristics of the data themselves (yes, data is a plural term!) can also help us decide on modeling techniques. In the real competition, this is a good time to split up the features you might want to visualize among your team - it's more efficient to split up the work.
+
+To make visualizations, we will be working with a group of functions in the ggplot2 package in R. If you have already installed ggplot2, skip the next section.
 
 <h2>Installing ggplot2</h2>
 
@@ -117,9 +119,12 @@ Our data today is provided by a client who is interested in exploring how existi
 
 <p>To start off with, let's create a visual to explore the distribution the response variable, site EUI. What are we looking for? Things like modality, outliers, spread, etc.</p>
 
-<ol start="3" style="list-style-type: decimal">
-<li>What types of variable is site EUI, and based on that, what kinds of plots could we create to explore it? List at least two.</li>
-</ol>
+:::{.question}
+#### Question 2
+
+What types of variable is site EUI, and based on that, what kinds of plots could we create to explore it? List at least two.
+:::
+
 
 <p>We are going to start off with a histogram.To create the histogram of site EUI, paste the following code in a chunk and hit play.</p>
 
@@ -137,9 +142,12 @@ Our data today is provided by a client who is interested in exploring how existi
 
 <p>Let's try it.</p>
 
-<ol start="3" style="list-style-type: decimal">
-<li>Create a histogram of average temperatures in March, using 15 bins. Make the bars of the histogram cyan and outline them in white. Show your result.</li>
-</ol>
+:::{.question}
+#### Question 3
+
+Create a histogram of average temperatures in March, using 15 bins. Make the bars of the histogram cyan and outline them in white. Show your result.
+:::
+
 
 <h3>First Rule of Graphs: Labels and Titles</h3>
 
@@ -157,20 +165,33 @@ Our data today is provided by a client who is interested in exploring how existi
 
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(train, aes(x=site_eui)) + <span class="kw">geom_histogram</span>(fill='blue', col = 'black', bins = 20) + <span class="kw">labs</span>(title="Figure 1:", x = "Site EUI", y = "Frequency", caption = "A histogram of site EUI.")</code></pre>
 
-<ol start="3" style="list-style-type: decimal">
-<li>Copy the code you used to make the graph from Question 3. Now, add the title "Figure 2:" and add appropriate labels to the x and y axis, and add a caption.</li>
+:::{.question}
+#### Question 4
+
+Copy the code you used to make the graph from Question 3. Now, add the title "Figure 2:" and add appropriate labels to the x and y axis, and add a caption.
+:::
+
 
 <p>One VERY important thing to remember when we make plots is to make sure the axes are easily interpretable by your reader. You do not want to use default variable names, like "march_avg_temp". Instead, we want clear labels like "March Average Temperature". This is important for any plots you make in statistics - label your axes appropriately and title your graphs.</p>
 
 <p>Now let's try a new plot: a box plot.</p>
 
-<ol start="3" style="list-style-type: decimal">
-<li>Create a box plot of site EUI. Fill the plot in gold and outline it in black. Title your plot Figure 3, and label the x axis "Site EUI". The y axis does not matter in this box plot (it literally gives us no information), so we want a blank axis label " " . Hint: Instead of a <code>geom_bar</code>, we want <code>geom_boxplot</code>, and box plots do not have bins.</li>
+:::{.question}
+#### Question 5
+
+Create a box plot of site EUI. Fill the plot in gold and outline it in black. Title your plot Figure 3, and label the x axis "Site EUI". The y axis does not matter in this box plot (it literally gives us no information), so we want a blank axis label " " . Hint: Instead of a <code>geom_bar</code>, we want <code>geom_boxplot</code>, and box plots do not have bins.
+:::
+
+
 
 <p>Now that we have our graphs, let's think about what information they yield.</p>
 
-<ol start="3" style="list-style-type: decimal">
-<li>Based on Figure 1 and Figure 3, describe the distribution of site EUI. Do you see any outliers? Does the distribution seem unimodal or multimodal? Symmetric or skewed? Etc.</li>
+
+:::{.question}
+#### Question 6
+
+Based on Figure 1 and Figure 3, describe the distribution of site EUI. Do you see any outliers? Does the distribution seem unimodal or multimodal? Symmetric or skewed? Etc.
+:::
 
 <p>All of these questions can help us determine the type of model we might want to consider.</p>
 
@@ -184,8 +205,11 @@ Our data today is provided by a client who is interested in exploring how existi
 
 <p>Just as before, we have two layers. The first draws the background and the second adds on the graph. Here, in the first layer, we specify both the x and y axis of the graph, as we have two variables that we are working with.</p>
 
-<ol start="3" style="list-style-type: decimal">
-<li> Start with the code above to create a scatter plot for the year the building was constructed (X) vs site EUI (Y). Color the dots purple.(Hint: This time we are not specifying a <code>fill</code>, but a <code>color</code>). Title your plot Figure 4, and label the x axis and the y axis.</li>
+:::{.question}
+#### Question 7
+
+Start with the code above to create a scatter plot for the year the building was constructed (X) vs site EUI (Y). Color the dots purple.(Hint: This time we are not specifying a <code>fill</code>, but a <code>color</code>). Title your plot Figure 4, and label the x axis and the y axis.
+:::
 
 <p>In the figure you have just constructed, you should notice something unusual. There are 5 buildings which were built in year 0!</p>
 
@@ -193,8 +217,11 @@ Our data today is provided by a client who is interested in exploring how existi
 
 <p>This is part of why we do EDA when we work with real data. We can see data quality issues, like missing or incorrect data.</p>
 
-<ol start="3" style="list-style-type: decimal">
-<li>What do you think a 0 for year built is supposed to indicate? And how would you suggest dealing with these 5 buildings? Explain your choice.</li>
+:::{.question}
+#### Question 8
+
+What do you think a 0 for year built is supposed to indicate? And how would you suggest dealing with these 5 buildings? Explain your choice.
+:::
 
 <h2>Stacking Graphs</h2>
 
@@ -217,9 +244,12 @@ Our data today is provided by a client who is interested in exploring how existi
 
 <p>To create the 1 by 2 grid, we feed the computer our two graphs, and then tell it we want the figures in 2 columns (next to each other) by specifying <code>ncol = 2</code>. In other words, the number of columns we want is 2!</p>
 
-<ol start="8" style="list-style-type: decimal">
-<li><p>Create a (1) box plot for site EUI, (2) histogram for site EUI, (3) box plot for the average temperature in March and (4) histogram for the average temperature in March. Stack 4 graphs in a 2 x 2 grid (2 rows and 2 columns). You have already made some of the graphs you need!</p></li>
-</ol>
+:::{.question}
+#### Question 9
+
+Create a (1) box plot for site EUI, (2) histogram for site EUI, (3) box plot for the average temperature in March and (4) histogram for the average temperature in March. Stack 4 graphs in a 2 x 2 grid (2 rows and 2 columns). You have already made some of the graphs you need!
+:::
+
 
 <h2>Changing Themes</h2>
 
@@ -239,14 +269,18 @@ Our data today is provided by a client who is interested in exploring how existi
 
 <p>Take a look and, as a team, decide what you like!</p>
 
-<h2> Making Tables </h2>
+# Making Tables
 
-<p>While we are thinking about EDA, we don't only focus on numeric variables. What if we have categories? With categorical variables, we can make tables or bar plots. We make bar plots just like we made histograms, except there are no bins and we use <code>geom_bar</code> instead of <code>geom_histogram</code>.</p>
+While we are thinking about EDA, we don't only focus on numeric variables. What if we have categories? With categorical variables, we can make tables or bar plots. We make bar plots just like we made histograms, except there are no bins and we use <code>geom_bar</code> instead of <code>geom_histogram</code>.
 
-<ol start="3" style="list-style-type: decimal">
-<li>Make a bar plot to display the building class. Make sure you title your graphs appropriately!</li>
+:::{.question}
+#### Question 10
 
-<p>There are several ways to make tables in R, but we will discuss two. The first is very direct. We tell R we want to use the <code>train</code> data set and the variable <code>building_class</code>, by using the code <code>train$building_class</code> (dataset$variable). Then, we use the <code>table(whatWeWantToMakeATableWith)</code> command to actually make the table.</p>
+Make a bar plot to display the building class. Make sure you title your graphs appropriately!
+:::
+
+
+There are several ways to make tables in R, but we will discuss two. The first is very direct. We tell R we want to use the <code>train</code> data set and the variable <code>building_class</code>, by using the code `train$building_class` (`dataset$variable`). Then, we use the `table(whatWeWantToMakeATableWith)` command to actually make the table.
 
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(train$building_class)</code></pre>
 
@@ -258,28 +292,29 @@ Our data today is provided by a client who is interested in exploring how existi
 
 <p>Luckily, you only have to adapt a few things in this code to make different tables. You need need to specify what you want to make a table of (<code>train$building_class</code>) and you need to change the column names accordingly ("Building Type").</p>
 
-<ol start="3" style="list-style-type: decimal">
-<li>Create a table, using the second way to make a table, for the facility type. Make sure your columns are labelled Facility Type and Count. (Hint: The <code>col.names</code> part of the code above will help with that.)</li>
+:::{.question}
+#### Question 11
 
-<h2>Next Steps</h2>
+Create a table, using the second way to make a table, for the facility type. Make sure your columns are labelled Facility Type and Count. (Hint: The <code>col.names</code> part of the code above will help with that.)
+:::
 
-<p>Now that we know some basics of visualization, think about if this was the real DataFest. What would you do now?</p>
+# Next Steps
 
-<ol start="3" style="list-style-type: decimal">
-<li>Discuss as a team how you would proceed with exploring and visualizing this data set. This is called making a plan, and is critical to success in applied statistics/data science work.</li>
+Now that we know some basics of visualization, think about if this was the real DataFest. What would you do now?
 
-<ol start="3" style="list-style-type: decimal">
-<li>Take a look at the variables (features) you are given. Are there any that you think it would not make sense to graph? If so, explain why.</li>
+:::{.question}
+#### Question 12
 
-<p>We will keep working with this data set for future activities.</p>
+Discuss as a team how you would proceed with exploring and visualizing this data set. This is called making a plan, and is critical to success in applied statistics/data science work.
+:::
 
-<div id="instructions">
-  The <a href="https://www.kaggle.com/c/widsdatathon2022">data</a> referenced in this lab was retrieved from the <a href="https://www.kaggle.com/c/widsdatathon2022">here</a> on January 10, 2022.
-</div>
+:::{.question}
+#### Question 13
 
-<div id="instructions">
-  The <a href="https://raw.githubusercontent.com/mine-cetinkaya-rundel/sta101-s16/master/Labs/lab.css">css file</a> used to format this lab was retrieved from the <a href="https://github.com/mine-cetinkaya-rundel/sta101-s16/blob/master/Labs/lab.css">GitHub of Mine Ãetinkaya-Rundel</a>, version 2016 Jan 13.
-</div>
+Take a look at the variables (features) you are given. Are there any that you think it would not make sense to graph? If so, explain why.
+:::
+
+We will keep working with this data set for future activities.
 
 <div id="license">
 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work was created by Nicole Dalzell is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>. Last updated 2021 January 12.
