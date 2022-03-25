@@ -18,6 +18,6 @@ Welcome! This site contains information and activities to help you prepare for c
 You are welcome to use any coding language you like at DataFest, but this site focuses on using R for DataFest. 
 
 * If you are new to R, start on 
-* If you are new to RMarkdown, start here. 
+* If you are new to RMarkdown, start on the [RMarkdown](https://datafest-prep.github.io//class_activities/rmarkdown_instructions/) page. Note that using RMarkdown is optional, but it is a nice tool!
 * Once you have the all the softaware ready to go, the activities can be found in the [Course Calendar](https://datafest-prep.github.io//calendar/)
 
