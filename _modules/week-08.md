@@ -1,7 +1,6 @@
 ---
-title: Practice Starter
+title: Activity 8 
 ---
 
-March 16th 
-: Practice Starter
-  : [Link to RStudio Pro: rstudio.deac.wfu.edu](https://rstudio.deac.wfu.edu/), [Class Activity](https://sta175-s22.github.io/class_activities/ca_8.html)
+Activity 
+  :  [Practice: Getting started with DataFest Data](https://datafest-prep.github.io/class_activities/ca_8.html)
