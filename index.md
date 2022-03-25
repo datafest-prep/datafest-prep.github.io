@@ -20,7 +20,7 @@ Welcome! This site contains information and activities to help you prepare for c
 You are welcome to use any coding language you like at DataFest, but this site focuses on using R for DataFest. 
 
 If you are new to R or Rtudio, you have two choices to gain access to the software. Both are free!
-* Option 1: You can [follow this link](https://datafest-prep.github.io//slides/RStudioCloud/) to learn how to access RStudio online. 
+* Option 1: You can [follow this link](https://datafest-prep.github.io//slides/RStudioCloud.html) to learn how to access RStudio online. 
 * Option 2: You can [follow this link](https://datafest-prep.github.io//software_installation/) to learn how to download the software you need. 
 
 If you are new to RMarkdown, start on the [RMarkdown](https://datafest-prep.github.io//class_activities/rmarkdown_instructions/) page. Note that using RMarkdown is optional, but it is a nice tool!
