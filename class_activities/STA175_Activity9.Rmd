@@ -1,0 +1,223 @@
+---
+title: "STA 175 DataFest Activity 9"
+output: 
+  rmdformats::robobook:
+    css: "homework.css"
+    highlight: pygments
+link-citations: yes
+---
+
+# The Goal
+
+Last time, we talked about three different steps  (Variables, Structure, and Missingness) that are the first things we look at when we start working with data:
+
+- **Variables**: which variables in the data are most relevant for the research questions?
+- **Structure**: is there any structure (e.g., groups) in the data that we need to account for in our model?
+- **Missingness**: is there any missing data that will cause problems for statistical models?
+
+Today, we are going to shift our focus from the beginning of the analysis to the end. Once we have conducted our analysis and come to our conclusions, how do we present our results to our client? This is a key part of DataFest...you can't win without it. 
+
+
+# DataFest - Presenting to the Judges 
+
+On Sunday morning April 3rd at DataFest, each of your teams will be presenting your results to a panel of judges. You will have about 7-9 minutes to present your results, and we will have a timer. Now, this isn't very much time, but it is actually fairly reflective of the time you might have in a meeting in industry to summarize your results to a client.  
+
+Even if you have an incredible analysis or visualization or insight...you cannot win if you do not present your results to the judges in a clear and compelling way. 
+
+So, how do you do that?? The answer involves three components: 
+
+- **Content** - is your content clearly explained and does it respond to the client's research question(s)? 
+- **Slides** - are your slides clear and easy to read? 
+- **Presentation** - was your presentation clear and easy to follow? 
+
+We will discuss each of these today and will practice applying them to create a presentation. 
+
+# Content 
+
+To plan out the content of your presentation, the best place to start is with the client's research questions. For DataFest, you will be provided with some questions that the client wants you to explore. These research questions should drive the content of your presentation. 
+
+To see an example, let's return to the penguin data set we worked with in Activity 7 (when we did trees). Recall that this data set contains information on n = 333 penguins from three different species. To load the data, you need to use the following three lines of code: 
+
+```{r}
+library(palmerpenguins)
+data(penguins)
+penguins <- na.omit(penguins)
+```
+
+We have a client who is interested in the following: What is the relationship between the explanatory variable X = flipper length (in mm) and the response variable Y = the body mass of a penguin (in grams) ? 
+
+In order to respond to your client's research question, there are three items you need to include your presentation. 
+
+- **(1) What method / model / tools did you use?** Note: This can be a visualization, you don't always have to build models.
+- **(2) Why is that method/ model/ tool appropriate?**
+- **(3) Based on this method/ model / tool, how you can you respond to the research question?**
+
+:::{.question}
+#### Question 1 
+Consider the client's research question. With your team, discuss the answer to the three content items above. If you get stuck, ask!! 
+:::
+
+Remember, there are multiple ways of approaching any research question. Your task is to choose an approach that is appropriate and effective, but it is actually a good thing if different members of your team propose different ideas! That is why we work in teams. Let each individual explore their idea, and then come together and decide on which approach you want to propose to the client. 
+
+:::{.question}
+#### Question 2 
+Now the client wants to know if the ratio of bill length to bill depth (meaning bill length/bill depth) differs by penguins species. With your team, respond to the three content items for this new research question. 
+:::
+
+## Content - What NOT to Include 
+
+There are a few things that we do NOT include in formal presentations to a client. These include
+
+- **R Code of any kind**
+- **Descriptions of code or coding steps**
+
+Now, this may not seem intuitive. We do a lot of code to perform our analysis. Why don't we want to see it?? 
+
+The client is interested in the process and the results, not in the code used to get there. This means you should not talk about nor show about packages, codes, etc., in your presentation. 
+
+For example, we removed missing data in the penguin data set when we loaded it. Do we need to tell the client that we did that? Yes. Do we tell them we used `na.omit()`? Nope. 
+
+- **Use this**: We removed 11 rows containing missing data, leaving us with 333 rows for analysis. 
+- **Do NOT use this**: We used `na.omit()` to remove rows with missing data and created a data frame called `penguinsClean` with no missing data. 
+
+The first option above tells the client what you did and why, as well as what the result was. The second will not make any sense to a client who does not know R. **Hint: Some of our judges do not use R.**
+
+## Content - Describing the Data
+
+For DataFest, another thing you do not have to do is describe the data. We are all working with the same data set, and the judges will have some idea of the size of the data and the types of features. You **do** want to describe the research question you are working on, as there are likely multiple questions and different teams will want to choose different ones. 
+
+# Building Slides
+
+Once we have decided on the content we want to present, we need to create slides to display that content to our client. Every team will need to submit slides prior to the presentation, but how you create them is up to you. You can use PowerPoint, or Google Slides, Beamer, or any other method of building slides that works for you. 
+
+It turns out we can also create slides in RMarkdown. You don't have to do this during DataFest, but since it is a useful tool, let's explore it. 
+
+:::{.question}
+#### Question 3
+
+Go to "File" at the top of your RStudio screen and choose New File and then RMarkdown. On the left hand side of the screen that pops up, you will see
+
+- Document
+- Presentation
+- Shiny 
+- From Template
+
+Choose Presentation, and then select the bubble for HTML (ioslides) or HTML (Slidy). Either works! Title the document as you would a normal Markdown file.
+:::
+
+When you go through these steps, you should see something very familiar. This looks like a Markdown file, and indeed it is. Go ahead and knit your document. 
+
+What you will see is that knitting this Markdown file creates a set of slides. Right now, this is just the template. Let's change it to reflect our penguin data. 
+
+## The First Slide 
+
+Recall that client's first research question: *What is the relationship between X = flipper length (in mm) and Y = the body mass of a penguin (in grams)?* On our first slide, we want to clearly state this research question for the client, and potentially state some techniques we are going to use to approach this research question. How do we do that? 
+
+:::{.question}
+#### Question 4 
+On your RMarkdown slides, delete everything after the first chunk. This creates a blank presentation (aside from the title slide). Knit to check your work! 
+:::
+
+Now that we have a blank canvas, let's add a slide. To make a slide on Markdown, you just need to use two hashtags (##), a space, and then a title for your slide. For example, 
+
+`## Slide 1`
+
+will create a slide called Slide 1. This goes in the white space of your Markdown, not in a chunk. 
+
+Once you have created your slide title, hit enter twice to move to a line below your title. Here, you can put content just like you can in any other Markdown file. This means you can type things, insert a code chunk, etc. 
+
+:::{.question}
+#### Question 5 
+Change the title of the first slide to "Research Question 1." On the first slide, put a statement describing your client's research question. Knit your slides and check your work! 
+:::
+
+:::{.question}
+#### Question 6 
+Create a second slide and title it "Visualization". Add a chunk on the second slide and use it to create an appropriate graph to explore the client's research question. Make sure to (1) title your plot Figure 1 and (2) label your axes clearly. Knit and check your work! 
+:::
+
+## Mathematical Notation in Markdown
+
+So, we can put graphs on a slide. What if I want to add the equation for an LSLR line to a slide? Can we do it on our Markdown slides? Yes, indeed.
+
+There are three types of things you can type into a Markdown document: regular text, R code, and mathematical notation. Anything in the white space is read just as text, like what you would type into Word. Anything in an R chunk is read as R code. 
+
+If you want to write mathematical notation, we need to tell Markdown, "Hey, we're going to make a math symbol!" To do that, you use dollar signs. For instance, to make $\hat{\beta}_1$, you simply put `$\hat{\beta}_1$` into **the white space (not a chunk)** in your Markdown. Go ahead and do that. See how the dollar signs change colors? Also note that if you hover your mouse over what you just pasted, the mathematical symbol we want will appear.
+
+The same type of structure can be used for other mathematical symbols. Let's say I want to write out the LSLR model. We then type 
+
+`$Body Mass = \beta_0 + \beta_1 FlipperLength + \epsilon$` 
+
+into the white space on a slide.
+
+What if I want the LSLR line (the fitted model)? We then type 
+
+`$\widehat{Body Mass} = \hat{\beta}_0 + \hat{\beta_1} FlipperLength$`
+
+into the white space on a slide. 
+
+We'll notice that we used `\hat` for the <span class="math">\(\hat{\beta}_1\)</span> but `\widehat` over <code>BodyMass</code>. Why? Because <code>BodyMass</code> is a longer word than  <span class="math">\(\hat{\beta}_1\)</span> and hence needs a bigger (wider) hat.</p>
+
+:::{.question}
+#### Question 7 
+Build an LSLR model to explore the client's research question. Write down both the LSLR model and the fitted LSLR line (meaning include numeric values for $\hat{\beta}_0$ and $\hat{\beta}_1$) on Slide 3 of your presentation. 
+:::
+
+## Slides - Adding Bullets
+
+Now we have shown a graph and shown our LSLR line. We now need to create a slide that responds to our client's research question. This likely involves text in addition to an equation or a graph.
+
+To create bullets on a Markdown slide, you just use dashes( - ). For instance, 
+
+`- Bullet 1`
+
+`- Bullet 2`
+
+:::{.question}
+#### Question 8 
+Based on your graph and LSLR model, respond to the client's research question.   
+:::
+
+:::{.question}
+#### Question 9
+Now consider the client's second research question: *Does the ratio of bill length to bill depth (meaning bill length/bill depth) differs by penguins species?* With your team, add slides to your presentation to respond to the three content items for this new research question. 
+:::
+
+## Slides - General Tips
+
+Now that we can make a few slides in Markdown, let's think critically about what goes on these slides. There are a few things to think about: 
+
+### Tip 1: Size / Readability 
+
+When you create slides, it is very important that everything on it can be easily read. To check this, answer the following questions. 
+
+- Can everything be easily read? If you have to squint, it's too small!! 
+- Is there so much on a slide that it is hard to follow? If so, split the content over two slides. 
+- Are the colors that you used easy to see? Hint: Don't use yellow or pale pink. They are very hard to see!
+
+### Tip 2: Clarity 
+
+When you create slides, it is also very important that someone looking at your slides can clearly follow your content. To check this, answer the following questions. 
+
+- Are your axes clearly labelled on a graph?
+- Is it clear what each equation or graph or output on the slide refers to? 
+- Is it easy to look at the slide and find the key pieces of information? 
+
+# Presentation
+
+We now have (1)decided  what content we need to include in our presentation and (2) created the slides we are going to use. What is left? 
+
+The final step is to discuss the actual presentation with your team. You need to know: 
+
+- **Who is going to discuss each slide?**: During DataFest, every team member MUST speak during the presentation, so everyone should have at least one slide that they talk about. 
+- **How are we going to move from person to person?**: When you have a team presenting, we don't want long pauses as the team tries to figure out who is speaking next. Make sure you practice going through the whole presentation. 
+- **Volume**:  We will seat the judges in the front, but make sure they can hear you! 
+- **Use Eye Contact**: Presentations are more engaging if you look at the judges or audience while you present. In more general terms, talk to the people rather than the screen. 
+- **Don't read the slides**: We can all see the slides. Make sure you do not simply read off them during your presentation! 
+
+Your presentation will go much more smoothly if you discuss all of these things in advance and if you practice. Remember, you only have a few minutes! Practice will help you figure out what you have time to say. 
+
+# Get Ready! 
+
+DataFest is next week!!
+
