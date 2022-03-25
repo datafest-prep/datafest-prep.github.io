@@ -7,7 +7,7 @@ description: >-
 
 # What is this site for?
 
-This site provided activities to help us prepare for the American Statistical Association (ASA) DataFest Competition. 
+This site provided activities to help you prepare for the American Statistical Association (ASA) DataFest Competition. 
 
 DataFest is a competition that takes place across the nation each spring for undergraduate and graduate students. Competitors will work in teams to analyze a large real world data set, and then present their results to a panel of judges. 
 
@@ -19,16 +19,15 @@ You will be competing in teams of 2-5 students.
 
 # Course Topics 
 
-We will be covering topics like these:
+The activities cover topics like: 
 
 - Visualizations with ggplot2
-- TidyR vs Base R
-- GitHub and Collaborative Coding
-- Data Visualization and Data Cleaning
-- Advanced Visualization and Interactive Graphics
-- Creating a Plan, Addressing Client Needs, and Advanced Data Prep
+- Introduction to TidyR 
+- Data Wrangling and Data Cleaning
+- Working on projects as a team
+- Creating a Plan and Addressing Client Needs
 - Regression Reviews and How to Choose a Model
-- Decision Trees : All about it!
+- Introduction to Decision Trees 
 - Practice Competition (focus on data cleaning / prep and making a plan)
 - How to give an effective presentation? All what to do (and not to do)
 
