@@ -1,0 +1,53 @@
+---
+title: "Using RStudio Cloud"
+output: 
+  rmdformats::robobook:
+    css: "homework.css"
+    highlight: pygments
+link-citations: yes
+---
+
+# The Goal
+
+In order to compete in DataFest, we need to use some sort of statistical computing. This allows us to make visualizations, explore the data set, create summaries, build models, and so on. 
+
+This page will help you get started using RStudio on RStudio Cloud. 
+
+- The advantages? Using RStudio Cloud means you do not have to install anything on your computer. 
+- The disadvantages? There is a time limit (25 hours) for how long you can use RStudio Cloud for free. After that, there is a small fee. If you want an entirely free option, [go here to explore installing RStudio on your computer instead](https://datafest-prep.github.io//software_installation/). 
+
+# Getting Started 
+
+**Step 1**
+
+Navigate to [RStudioCloud](https://rstudio.cloud/) and choose "Get Started for Free". 
+
+**Step 2**
+
+Scroll down to the bottom of [the page](https://rstudio.cloud/plans/free) and choose "Sign Up".
+
+**Step 3**
+
+After you go through the sign up process, RStudio Cloud should launch! This will likely take 30 - 90 seconds, so be patient! 
+
+**Step 4**
+
+Look at the upper right hand corner and choose "New Project". Click on "New RStudio Project". This will likely take 30 - 90 seconds, so be patient!  
+
+# Starting a Markdown File
+
+We encourage folks to try using RMarkdown, especially if you are new to R. 
+
+**Step 1** 
+
+Look at the top of your screen and find "File". Choose "New File" and then RMarkdown. 
+
+**Step 2**
+
+The computer will need to load some packages, so a prompt will appear asking you if packages can be installed. Click "Install". A lot of red text will show up on your screen. Just ignore it and wait. 
+
+**Step 3**
+
+A prompt will appear asking you to provide some details about your document. Title your document "Activity 1", and add your name. Then hit "Okay". 
+
+And that's it! Your RMarkdown file is open and you are ready to start the first activity. 
