@@ -15,6 +15,8 @@ seo:
 
 Welcome! This site contains information and activities to help you prepare for competing in [ASA DataFest](https://ww2.amstat.org/education/datafest/).
 
+# Software 
+
 You are welcome to use any coding language you like at DataFest, but this site focuses on using R for DataFest. 
 
 If you are new to R or Rtudio, you have two choices to gain access to the software. 
@@ -22,6 +24,8 @@ If you are new to R or Rtudio, you have two choices to gain access to the softwa
 * Option 2: You can start here to access RStudio Cloud online. 
 
 If you are new to RMarkdown, start on the [RMarkdown](https://datafest-prep.github.io//class_activities/rmarkdown_instructions/) page. Note that using RMarkdown is optional, but it is a nice tool!
+
+# Getting Started 
 
 Once you have the all the softaware ready to go, head to the [Activities and Resources page](https://datafest-prep.github.io//calendar/) to get started!
 
