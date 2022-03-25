@@ -4,9 +4,9 @@ title: Activities and Resources
 description: Listing of course modules and topics.
 ---
 
-# Calendar
+# Activities
 
-*Note: future dates on this schedule are approximate and subject to change.*
+*Note: The activities are designed to be completed in order, but feel free to skip around if you have some experience with R!*
 
 {% for module in site.modules %}
 {{ module }}
