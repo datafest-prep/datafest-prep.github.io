@@ -2,9 +2,6 @@
 title: Activity 1
 ---
 
-Before you Begin:
-  : [Access R and RStudio](https://datafest-prep.github.io//software_installation/), [Introduction to RMarkdown](https://datafest-prep.github.io//class_activities/rmarkdown_instructions/)
-
 Part 1
   : [Downloading the Data](https://datafest-prep.github.io//slides/loadingData.html)
   
