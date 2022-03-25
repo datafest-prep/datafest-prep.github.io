@@ -104,9 +104,7 @@ suppressMessages(library(rattle))
 To build a tree in R, the function you need is `rpart`. Let's stay I want to build a tree using island, species, bill length, and bill depth. The code I need for that is: 
 
 ```{r}
-tree1 <- rpart(body_mass_g ~ island + species + 
-                 bill_length_mm + bill_depth_mm, 
-               data = penguins)
+tree1 <- rpart(body_mass_g ~ island + species + bill_length_mm + bill_depth_mm, data = penguins)
 ```
 
 To visualize the tree, use: 
@@ -124,10 +122,7 @@ You will notice that a a tree is built in layers. Each of the little boxes on th
 Let's focus on this single split more clearly. To do this, we are going to build a tree with only one split. This allows us to focus on just the split we want to see in the image. 
 
 ```{r, eval = FALSE}
-treeSplit1 <- rpart(body_mass_g ~ island + species + bill_length_mm +
-                      bill_depth_mm, 
-                    maxdepth = 1, 
-                    data = penguins)
+treeSplit1 <- rpart(body_mass_g ~ island + species + bill_length_mm + bill_depth_mm, maxdepth = 1, data = penguins)
 
 fancyRpartPlot(treeSplit1, caption = "Tree 1: First Split Only")
 ```
@@ -169,7 +164,7 @@ What is the $R^2$ value for this tree? Hint: Remember that $R^2 = 1 - RSS/TSS$, 
 :::{.question}
 #### Question 5
 
-What is the $R^2_{adj}$ value for this tree? Hint: Remember that $R^2_{adj} = 1 - (\frac{RSS}{TSS} \times \frac{n - 1}{n-p-1})$, where p is the number of splits in the tree and n is the number of rows in the data.  
+What is the $R^2_{adj}$ value for this tree? Hint: Remember that $R^2 = 1 - (\frac{RSS}{TSS} \times \frac{n - 1}{n-p-1})$, where p is the number of splits in the tree and n is the number of rows in the data.  
 :::
 
 ## Adding more layers 
@@ -213,9 +208,7 @@ What are the residual sum of squares and $R^2_{adj}$ for this tree?
 Now that we have explored the basic structure of how a tree works, let's see the entire tree. 
 
 ```{r}
-tree1 <- rpart(body_mass_g ~ island + species + 
-                 bill_length_mm + bill_depth_mm, 
-               data = penguins)
+tree1 <- rpart(body_mass_g ~ island + species + bill_length_mm + bill_depth_mm, data = penguins)
 ```
 
 ```{r, eval = FALSE}
