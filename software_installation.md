@@ -10,8 +10,8 @@ The resources on this site use R and RStudio for data analysis, visualization, a
 
 If you are new to R or RStudio, you have two choices to gain access to the software.
 
-     Option 1: You can access RStudio Cloud online.
-     Option 2: You can start download the software you need.
+- **Option 1**: You can access RStudio Cloud online.
+- **Option 2**: You can start download the software you need.
      
 Both options are free! We discuss both, and provide you the resources you need to install what you need, below. 
 
