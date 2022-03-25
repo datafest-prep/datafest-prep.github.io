@@ -1,10 +1,10 @@
 ---
 layout: page
-title: R and RStudio installation instructions
+title: Getting Started with R
 nav_exclude: false
 ---
 
-# Software 
+# Getting Started with Software: R and RStudio 
 
 The resources on this site use R and RStudio for data analysis, visualization, and reports. R is the statistical software, while RStudio is an environment that makes it easy to manage and use that software. 
 
