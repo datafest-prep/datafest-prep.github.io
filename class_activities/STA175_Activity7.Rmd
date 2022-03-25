@@ -1,5 +1,5 @@
 ---
-title: "STA 175 DataFest Activity 7"
+title: "Activity 7"
 output: 
   rmdformats::robobook:
     css: "homework.css"
