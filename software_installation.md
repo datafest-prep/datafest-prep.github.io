@@ -4,7 +4,9 @@ title: R and RStudio installation instructions
 nav_exclude: false
 ---
 
-In this class, we will use R and RStudio for data analysis, visualization, and reports. R is the statistical software, while RStudio is an environment that makes it easy to manage and use that software. Below are instructions for installing R and RStudio (steps 1--5). Please email me if you have any questions or issues!
+# Software 
+
+The resources on this site use R and RStudio for data analysis, visualization, and reports. R is the statistical software, while RStudio is an environment that makes it easy to manage and use that software. Below are instructions for installing R and RStudio (steps 1--5). 
 
 1. Install R: go to [this link](https://mirror.las.iastate.edu/CRAN/), and choose the download option for your operating system.
     a. Windows: Click **Download R for Windows**, then click the **install R for the first time** button.
