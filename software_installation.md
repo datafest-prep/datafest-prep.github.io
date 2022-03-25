@@ -6,14 +6,14 @@ nav_exclude: false
 
 # Software 
 
-The resources on this site use R and RStudio for data analysis, visualization, and reports. R is the statistical software, while RStudio is an environment that makes it easy to manage and use that software. Below are instructions for installing R and RStudio (steps 1--5). 
+The resources on this site use R and RStudio for data analysis, visualization, and reports. R is the statistical software, while RStudio is an environment that makes it easy to manage and use that software. 
 
-If you are new to R or RStudio, you have two choices to gain access to the software.
+If you are new to R or RStudio, you have two choices to gain access to the software. Both options are free. 
 
 - **Option 1**: You can access RStudio Cloud online.
 - **Option 2**: You can start download the software you need.
      
-Both options are free! We discuss both, and provide you the resources you need to install what you need, below. 
+We discuss both, and provide you the resources you need to install what you need, below. 
 
 # Option 1: RStudio Cloud
 
