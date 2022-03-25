@@ -20,7 +20,7 @@ We discuss both, and provide you the resources you need to install what you need
 To learn how to get started on RStudio Cloud, [follow this link](https://datafest-prep.github.io//slides/RStudioCloud.html). 
 
 - Advantages: Using RStudio Cloud means you do not have to install anything on your computer! 
-- Disadvantages: There is a time limit (25 hours) for how long you can use RStudio Cloud for free. After that, there is a small fee.
+- Disadvantages: There is a time limit (25 hours of active use) for how long you can use RStudio Cloud for free. After that, there is a small fee ($5). 
 
 # Option 2: Downloading R and RStudio onto your computer
 
