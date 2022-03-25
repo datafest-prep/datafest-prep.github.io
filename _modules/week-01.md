@@ -1,9 +1,9 @@
 ---
-title: Introduction
+title: Activity 1
 ---
 
-January 12
-: Welcome to STA 175!
+Activity 1 
+: Downloading Data in R
   : [Downloading the Data](https://sta175-s22.github.io/slides/loadingData.html), [Class Activity](https://sta175-s22.github.io/class_activities/ca_1.html)
   
 : EDA and R refresher
