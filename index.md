@@ -4,7 +4,7 @@ title: DataFest Prep
 nav_exclude: true
 seo:
   type: Course
-  name: ASA DataFest Prep
+  name: DataFest 
 ---
 
 # {{ site.tagline }}
