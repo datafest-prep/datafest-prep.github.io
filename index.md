@@ -23,5 +23,5 @@ If you are new to R or Rtudio, you have two choices to gain access to the softwa
 
 If you are new to RMarkdown, start on the [RMarkdown](https://datafest-prep.github.io//class_activities/rmarkdown_instructions/) page. Note that using RMarkdown is optional, but it is a nice tool!
 
-Once you have the all the softaware ready to go, the activities can be found in the [Course Calendar](https://datafest-prep.github.io//calendar/)
+Once you have the all the softaware ready to go, the activities can be found on the [Activities and Resources page](https://datafest-prep.github.io//calendar/)
 
