@@ -15,7 +15,7 @@
 # in the templates via {{ site.myvariable }}.
 title: Preparing for ASA DataFest 
 tagline: DataFest Prep
-description: Course materials
+description: Activties and Tips for Participating in ASA DataFest
 author: Dr. Nicole Dalzell and Dr. Ciaran Evans, Wake Forest University
 baseurl: # the subpath of your site, e.g. /blog
 url: 'https://datafest-prep.github.io/' # the base hostname & protocol for your site, e.g. http://example.com
@@ -27,9 +27,6 @@ color_scheme: light
 search_enabled: true
 heading_anchors: true
 permalink: pretty
-aux_links:
-  Ciaran Evans:
-    - 'https://ciaran-evans.github.io/'
 footer_content:
 
 # Collections for website data
