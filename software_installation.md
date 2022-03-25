@@ -1,7 +1,7 @@
 ---
 layout: page
 title: R and RStudio installation instructions
-nav_exclude: true
+nav_exclude: false
 ---
 
 In this class, we will use R and RStudio for data analysis, visualization, and reports. R is the statistical software, while RStudio is an environment that makes it easy to manage and use that software. Below are instructions for installing R and RStudio (steps 1--5). Please email me if you have any questions or issues!
