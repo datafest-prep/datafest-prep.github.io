@@ -1,5 +1,5 @@
 ---
-title: "STA 175 DataFest Activity 3"
+title: "Activity 3"
 output: 
   rmdformats::robobook:
     css: "homework.css"
@@ -11,7 +11,7 @@ link-citations: yes
 
 So far, we have explored how to create graphs using ggplot2 and how to use tidyR to wrangle the data (which means using code to get the data ready for us to work with). However, our activities so far have been rather guided. When we get a data set at DataFest, we don't have steps helping us decide what do to first, second, etc. All of that is up to us. 
 
-Today, you are going to be working with the energy efficiency data (the same data set we have been working with) as though we were in a competition. If you need a refresher on plotting, look back at Activity 1. If you need a refresher on data wrangling, you can look at [the slides](https://sta175-s22.github.io/slides/data_wrangling.html) we covered last time.
+Today, you are going to be working with the energy efficiency data (the same data set we have been working with) as though we were in a competition. If you need a refresher on plotting, look back at Activity 1. If you need a refresher on data wrangling, you can look at [the slides](https://https://datafest-prep.github.io/slides/data_wrangling.html) we covered last time.
 
 We are also going to start our discussion of **collaborative coding** today. What does that mean? Well, during DataFest, everyone on your team will be coding on their own computers, but you will all be working together to complete the project. How can you do this efficiently? We will talk about some tips for this as we move through the semester. Today, we will start with practicing **reproducible coding**. 
 
