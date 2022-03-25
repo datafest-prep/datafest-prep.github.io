@@ -25,8 +25,9 @@ Because the data is so large, it is housed in a ZIP file. Download the ZIP file,
 
 The data was created by Climate Change AI (CCAI) and Lawrence Berkeley National Laboratory (Berkeley Lab). This is a large data set and was use in March 2022 for  the 5th Annual Women in Data Science (WiDS) <a href="https://www.kaggle.com/c/widsdatathon2022">Datathon</a>.</p>
 
-# Client Request 
+*Climate Change AI (CCAI) and Lawrence Berkeley National Laboratory (Berkeley Lab). (2022 January). WiDS Datathon 2022, Version 1. Retrieved January 10, 2022  from https://www.kaggle.com/competitions/widsdatathon2022/overview.*
 
+# Client Request 
 
 Our data today is provided by a client who is interested in exploring how existing buildings can be updated to improve their energy efficiency and reduce their carbon foot print. They are interested in identifying traits associated with high energy usage, and recommendations on how buildings can improve their energy efficiency.They have provided us with information on over 70,000 buildings.
 
@@ -95,7 +96,7 @@ Now that we know the goal, the next step is to start digging in to the data. Cha
 
 To make visualizations, we will be working with a group of functions in the ggplot2 package in R. If you have already installed ggplot2, skip the next section.
 
-<h2>Installing ggplot2</h2>
+# Installing ggplot2
 
 <p>The package ggplot2 is a powerful collection of R functions for creating flexible, professional graphics. A <strong>package</strong> is collection of R codes that relate to one another. When you load a package into R, you give R access to all of the functions within the package. We will be using several packages as we move through this course.</p>
 
@@ -103,13 +104,17 @@ To make visualizations, we will be working with a group of functions in the ggpl
 
 <p>Now, some of you may see an error about language parsing, or an error involving <code>rlang</code>. If you do, go ahead and install the <code>rlang</code> package. Then, copy and paste the following into a chunk and hit play. Nothing will seem to happen, and that's okay.</p>
 
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rlang)</code></pre>
+```r
+library(rlang)
+```
 
 <p><strong>Note that this process of installing a package is one you need to do only once.</strong> Think of this as teaching R a new set of skills. Once it knows the skills, you don't have to teach it again.</p>
 
 <p>Once you have installed the ggplot2 package, you need to tell R that you would like to begin using the function by <strong>loading the library</strong>. Remember that we said installing a package is like teaching R a skill? <strong>Loading a library</strong> is how we tell we R we want it to use those skills. To do this, create a chunk in your RMarkdown and copy and paste the following, and hit play.</p>
 
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">suppressMessages(library</span>(ggplot2)</code>)</pre>
+```r
+suppressMessages(library(ggplot2)
+```
 
 <p><strong>Note that this process of loading a library is one you have to do ONCE each time we start a lab or project</strong>.This tells R "Hey, remember those skills we taught you? Use them."</p>
 
@@ -128,7 +133,9 @@ What types of variable is site EUI, and based on that, what kinds of plots could
 
 <p>We are going to start off with a histogram.To create the histogram of site EUI, paste the following code in a chunk and hit play.</p>
 
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(train, aes(x=site_eui)) + <span class="kw">geom_histogram</span>(bins = 20, fill='blue', col = 'black')</code></pre>
+```r
+ggplot(train, aes(x=site_eui)) +geom_histogram(bins = 20, fill='blue', col = 'black')
+```
 
 <p>The creation of plots in ggplot2 requires building the plot in layers. First, we build the background, the grid on which we will be building our graph. This is the job of the <code><span class="kw">ggplot()</span></code> part of the code. Once we have built the background, we are ready to plot our data. The command we will use for this depends upon the data type we are working with. In this case, we want a histogram. The command we use to build a histogram is <code><span class="kw">geom_histogram()</span></code>. In this same layer, we specify that we want the bars to be filled (<code>'fill'</code>) in blue and we want them outlined (<code>'col'</code>) in black. The only other part of the command is <code>bins=20</code>. We need this because for histograms, we have to specify how many bins we want.</p>
 
@@ -157,13 +164,17 @@ Create a histogram of average temperatures in March, using 15 bins. Make the bar
 
 <p>The command <code><span class="kw">labs</span></code>, which stands for labels, is used for this.</p>
 
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(train, aes(x=site_eui)) + <span class="kw">geom_histogram</span>(fill='blue', col = 'black', bins = 20) + <span class="kw">labs</span>(title="Figure 1:", x = "Site EUI", y = "Frequency")</code></pre>
+```r
+ggplot(train, aes(x=site_eui)) + geom_histogram(fill='blue', col = 'black', bins = 20) + labs(title="Figure 1:", x = "Site EUI", y = "Frequency")
+```
 
 <p>This ggplot syntax actually mimics the ways humans would draw a graph by hand. First, you draw the axes. Then, you add on your data. Finally, you add a label. Thinking through the steps in this manner will help you understand the syntax of this package.</p>
 
 <p>You can also add captions to the bottom of graphs:</p>
 
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(train, aes(x=site_eui)) + <span class="kw">geom_histogram</span>(fill='blue', col = 'black', bins = 20) + <span class="kw">labs</span>(title="Figure 1:", x = "Site EUI", y = "Frequency", caption = "A histogram of site EUI.")</code></pre>
+```r
+ggplot(train, aes(x=site_eui)) + geom_histogram(fill='blue', col = 'black', bins = 20) + labs(title="Figure 1:", x = "Site EUI", y = "Frequency", caption = "A histogram of site EUI.")
+```
 
 :::{.question}
 #### Question 4
@@ -201,7 +212,9 @@ Based on Figure 1 and Figure 3, describe the distribution of site EUI. Do you se
 
 <p>Let's start with the amount of square feet in the building. This means we have two numeric variables, so we need a scatter plot. We could create the necessary plot using the following code:</p>
 
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(train, aes(x=floor_area, y = site_eui)) + <span class="kw">geom_point</span>()</code></pre>
+```r
+ggplot(train, aes(x=floor_area, y = site_eui)) + geom_point()
+```
 
 <p>Just as before, we have two layers. The first draws the background and the second adds on the graph. Here, in the first layer, we specify both the x and y axis of the graph, as we have two variables that we are working with.</p>
 
@@ -213,7 +226,9 @@ Start with the code above to create a scatter plot for the year the building was
 
 <p>In the figure you have just constructed, you should notice something unusual. There are 5 buildings which were built in year 0!</p>
 
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">which</span>(train$year_built ==0)</code></pre>
+```r
+which(train$year_built ==0)
+```
 
 <p>This is part of why we do EDA when we work with real data. We can see data quality issues, like missing or incorrect data.</p>
 
@@ -229,14 +244,17 @@ What do you think a 0 for year built is supposed to indicate? And how would you 
 
 <p>Suppose I want to make a histogram of site EUI (as we have already done). The code I need for that is:</p>
 
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(train, aes(x=site_eui)) + <span class="kw">geom_histogram</span>(fill='blue', col = 'black', bins = 20) + <span class="kw">labs</span>(title="Figure 1:", x = "Site EUI", y = "Frequency")</code></pre>
+```r
+ggplot(train, aes(x=site_eui)) + geom_histogram(fill='blue', col = 'black', bins = 20) + labs(title="Figure 1:", x = "Site EUI", y = "Frequency")
+```
 
 <p>If I put that in a chunk and press play, one histogram will appear on my screen. Let's suppose I want to show a box plot along with this histogram. I can create both graphs and have them both print out separately in my knit document. However, I can also tell the computer to print more than one graph at once to save space. Try the following:</p>
 
-<pre class="sourceCode r"><code class="sourceCode r">g1 <- <span class="kw">ggplot</span>(train, aes(x=site_eui)) + <span class="kw">geom_histogram</span>(fill='blue', col = 'black', bins = 20) + <span class="kw">labs</span>(title="Figure 1:", x = "Site EUI", y = "Frequency")</code>
-<code class="sourceCode r">g2 <- <span class="kw">ggplot</span>(train, aes(x=site_eui)) + <span class="kw">geom_boxplot</span>(fill='gold') + <span class="kw">labs</span>(title="Figure 2:", x = "Site EUI", y = "")</code>
-<code class="sourceCode r"><span class="kw">gridExtra::grid.arrange</span>(g1,g2, ncol = 2)</code>
-</pre>
+```r
+ggplot(train, aes(x=site_eui)) + geom_histogram(fill='blue', col = 'black', bins = 20) + labs(title="Figure 1:", x = "Site EUI", y = "Frequency")
+g2 <- ggplot(train, aes(x=site_eui)) + geom_boxplot(fill='gold') + labs(title="Figure 2:", x = "Site EUI", y = "")
+gridExtra::grid.arrange(g1,g2, ncol = 2)
+```
 
 <p>If you get a warning message about not having <code>gridExtra</code>, this means you will need to install the package using the same steps we did above to install <code>ggplot2</code>. We have to install packages all the time with R, depending on the version of R you have and your computer system.</p>
 
@@ -257,15 +275,21 @@ Create a (1) box plot for site EUI, (2) histogram for site EUI, (3) box plot for
 
 <p><strong>The Light Theme</strong></p>
 
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(train, aes(x=site_eui)) + <span class="kw">geom_histogram</span>(fill='blue', col = 'black', bins = 20) + <span class="kw">labs</span>(title="Figure 1:", x = "Site EUI", y = "Frequency", caption = "A histogram of site EUI.") + theme_light()</code></pre>
+```r
+ggplot(train, aes(x=site_eui)) + geom_histogram(fill='blue', col = 'black', bins = 20) + labs(title="Figure 1:", x = "Site EUI", y = "Frequency", caption = "A histogram of site EUI.") + theme_light()
+```
 
 <p><strong>The BW Theme</strong></p>
 
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(train, aes(x=site_eui)) + <span class="kw">geom_histogram</span>(fill='blue', col = 'black', bins = 20) + <span class="kw">labs</span>(title="Figure 1:", x = "Site EUI", y = "Frequency", caption = "A histogram of site EUI.") + theme_bw()</code></pre>
+```r
+ggplot(train, aes(x=site_eui)) + geom_histogram(fill='blue', col = 'black', bins = 20) + labs(title="Figure 1:", x = "Site EUI", y = "Frequency", caption = "A histogram of site EUI.") + theme_bw()
+```
 
 <p><strong>The Minimal Theme</strong></p>
 
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(train, aes(x=site_eui)) + <span class="kw">geom_histogram</span>(fill='blue', col = 'black', bins = 20) + <span class="kw">labs</span>(title="Figure 1:", x = "Site EUI", y = "Frequency", caption = "A histogram of site EUI.") + theme_minimal()</code></pre>
+```r
+ggplot(train, aes(x=site_eui)) + geom_histogram(fill='blue', col = 'black', bins = 20) + labs(title="Figure 1:", x = "Site EUI", y = "Frequency", caption = "A histogram of site EUI.") + theme_minimal()
+```
 
 <p>Take a look and, as a team, decide what you like!</p>
 
@@ -286,7 +310,9 @@ There are several ways to make tables in R, but we will discuss two. The first i
 
 <p>However, this makes a table that is not particularly pretty or professional when you knit. A second option that does create professional tables is:</p>
 
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">knitr::kable</span>(<span class="kw">table</span>(train$building_class), <span class="kw">col.names</span>=c("Building Type", "Count") )</code></pre>
+```r
+`knitr::kable(table(train$building_class), col.names=c("Building Type", "Count") )
+```
 
 <p>The code is more complex, but the heart of it is the same table. This table will not look very pretty when you press play, but go ahead and knit. See how nicely the table gets formatted?</p>
 
