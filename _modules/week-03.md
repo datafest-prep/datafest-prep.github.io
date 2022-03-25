@@ -1,9 +1,9 @@
 ---
-title: Introduction to Collaborative Coding
+title: Activity 3 
 ---
 
-January 26
-: Tips for Starting with Large Data and Introduction to Coding in Teams
-  : [Slides](https://sta175-s22.github.io/slides/data_wrangling.html), [Class Activity](https://sta175-s22.github.io/class_activities/STA175_Activity3.html)
-  
-: [dplyr cheat sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-transformation.pdf)
+Activity
+  : [Working with Large Data Sets and Coding in Teams](https://sta175-s22.github.io/class_activities/STA175_Activity3.html)
+
+Resources 
+: [dplyr cheat sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-transformation.pdf), [Data Wrangling](https://sta175-s22.github.io/slides/data_wrangling.html)
