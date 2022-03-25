@@ -9,25 +9,27 @@ link-citations: yes
 
 # The Goal
 
-So far, we have explored how to create graphs using ggplot2 and how to use tidyR to wrangle the data (which means using code to get the data ready for us to work with). However, our activities so far have been rather guided. When we get a data set at DataFest, we don't have steps helping us decide what do to first, second, etc. 
+So far, we have explored how to create graphs using ggplot2 and how to use tidyR to wrangle the data (which means using code to get the data ready for us to work with). However, our activities so far have been rather guided. When we get a data set at DataFest, we don't have steps helping us decide what do to first, second, etc. All of that is up to us. 
 
 Today, you are going to be working with the energy efficiency data (the same data set we have been working with) as though we were in a competition. If you need a refresher on plotting, look back at Activity 1. If you need a refresher on data wrangling, you can look at [the slides](https://sta175-s22.github.io/slides/data_wrangling.html) we covered last time.
+
+We are also going to start our discussion of **collaborative coding** today. What does that mean? Well, during DataFest, everyone on your team will be coding on their own computers, but you will all be working together to complete the project. How can you do this efficiently? We will talk about some tips for this as we move through the semester. Today, we will start with practicing **reproducible coding**. 
 
 # Setup
 
 For this activity you will need the `dplyr`, `ggplot2`, and `tidyr` packages. Create a chunk and load these into R by using  `library(tidyverse)` and `library(ggplot2)`.
 
-**Note: This first step (loading the libraries) is something you should do before starting any analysis for this course, and at DataFest. 
+**Note: This first step (loading the libraries) is something you should do before starting any analysis for this course. This is also something you should do before starting your work at DataFest.** 
 
-We will continue using the energy efficiency data from last week. Load the `train.csv` dataset into R (see [Activity 1](https://sta175-s22.github.io/class_activities/ca_1.html) for full instructions).
+We will continue using the energy efficiency data from last week. Load the `train.csv` data set into R. The easiest way to do this is just to copy the chunk that you used to load the data in Activity 2 and paste that into your Markdown file for this activity. You can also see [Activity 1](https://sta175-s22.github.io/class_activities/ca_1.html) for full instructions.
 
-# Activity
+# The Client
 
-At DataFest, you will be given a prompt from a client. For today, we have a client who is interested in determining what features (explanatory variables) in the data set are related to high energy use for residential buildings with at least 6000 sq feet of floor area. Recall that energy use is included in the eui variable in the data set. 
+At DataFest, you will be given a set of research questions from a client. These research questions will drive your work. For today, we have a client who is interested in determining what features (explanatory variables) in the data set are related to high energy use for residential buildings with at least 6000 sq feet of floor area. Recall that energy use is included in the EUI variable in the data set. 
 
 The client asks you to create visualizations and/or use a model to explore this. The goal is to identify features related to high energy use so the client can explore ways to help buildings make changes and reduce energy consumption. They ask you specifically to look at the age of the building, but want you to examine other features as well. 
 
-## Getting Started - Data Wrangling 
+## Data Wrangling when working in Teams  
 
 :::{.question}
 #### Question 1
@@ -35,20 +37,50 @@ The client asks you to create visualizations and/or use a model to explore this.
 With your team, make a list of any data wrangling steps that you need to perform to take your current data and focus in on just the rows of data that are of interest to your client. Right now, write the steps out in words, not in code. 
 :::
 
+Now, data wrangling is a step that everyone on your team will need to do. If, for instance, you choose to handle missing data a certain way, or include only rows from a certain year, etc., everyone on your team needs to make the same choices before working with their data. Otherwise, you may end up fitting models to different data sets!! 
+
+Because of this, it is very important to **annotate** your code, which means putting short notes in your code that allow your teammates to know what steps you have taken. To do this in RMarkdown you just put a # in a chunk. Anything you put in the line with the # will be ignored when running the chunk, so you can put notes to yourself or your colleagues. 
+
+For example, in the following chunk, the only line of code the computer will run is the second one (`library(ggplot2)`). The first line (green, and in italics) will be treated as a comment and ignored.  
+
+```r
+# Load the ggplot2 package
+library(ggplot2)
+```
+
+Note: The same thing works in R scripts. # marks at the start of the line tell the computer to treat the line as a comment rather than as code.   
+
 :::{.question}
 #### Question 2
 
-Now, perform the data wrangling steps from the previous question. Make sure to annotate your steps (which means adding comments to your code so that another person can follow your steps). To make comments in R, we use a # in front of the comment. This tells R to ignore anything you write on this line.  
+Perform the data wrangling steps your listed in Question 1 to create a new data set called **trainNew**. This new data set should contain only the rows of data that you need based on the client's request. Make sure to annotate your steps so your teammates can follow it.  
 :::
 
-If you get stuck, let us know!! 
+Okay, so everyone on your team has now done the same steps. Is there a way to do this if only one person is coding? Yes! One way to handle this sort of data wrangling when working with teammates is to have one person perform the wrangling and then that person send the new data set to the rest of the group, along with the code used to create it. 
 
-## Next Steps - Considering Age 
+To take a data set from R and send it to another person, you need to be able to **export** a data set that you create. For us, this typically means turning a data set in R into a .csv file that you can send to a teammate. Do to this in R, we use the `write.csv` function. 
+```r
+write.csv(trainNew, "trainNew.csv", row.names = FALSE)
+```
 
-Let's start with the variable the client asked us specifically to include - age. Take a look at your data set. Do we have a column that indicates buildign age? Nope, though we have a column that can help us figure it out! 
+The first input (`trainNew`) is the name of the data set you want to send to your teammates. The second input (`trainNew.csv`) is the name of the file you will be storing the data set in. The third input (`row.names = FALSE`) just keeps the computer from adding in a column of 1, 2, 3, etc. to the beginning of your file. 
 
 :::{.question}
 #### Question 3
+
+Using the code above, create a file called `trainNew` containing the data you created in Question 2. Check to make sure you or a teammate can load the data into R, and that it looks correct!
+:::
+
+If you get stuck with any of this, let us know!! Collaborative coding takes practice, and we'll build up our skills gradually in this area. You will also find that different teams have different preferences when it comes to working together. This is a chance for you to figure out what works for your group. 
+
+## Considering Age 
+
+Now that we have the data ready, let's start with the variable the client asked us specifically to include - age. 
+
+Take a look at your data set (`trainNew`). Do we have a column that indicates building age in the data set? It turns out that no, we do not. This is common in data analysis work - sometimes the variable we need is not present, but we have the columns we need to create it in the data set. That is the case for us today. 
+
+:::{.question}
+#### Question 4
 
 Using the `mutate` function, create a new column which records the (current) age of each building.
 :::
@@ -56,13 +88,23 @@ Using the `mutate` function, create a new column which records the (current) age
 Now that we've made a column for building age, we can explore this new variable.
 
 :::{.question}
-#### Question 4
+#### Question 5
 
-How many buildings in the data have a missing value for age? *(Hint: check out the `is.na` function in the table of logical operators by Question 3).*
+How many buildings in the data have a missing value for age? *(Hint: check out the `is.na` function in the table of logical operators below).* The `summary` function can also be helpful for this. 
 :::
 
+| operator | definition | operator | definition |
+| --- | --- | --- | --- |
+| `<`         | less than | `x | y` | `x` OR `y` |
+| `<= ` | less than or equal to | `is.na(x)` | test if `x` is `NA` |
+| `>` | greater than | `!is.na(x)` |  test if `x` is not `NA` |
+| `>=` | greater than or equal to | `x %in% y` | test if `x` is in `y` |
+| `==` | exactly equal to | `!(x %in% y)`| test if `x` is not in `y`|
+| `!=` | not equal to | `!x` | not `x` |
+| `x & y` | `x` AND `y` | | |
+
 :::{.question}
-#### Question 5
+#### Question 6
 
 Do the residential buildings with missing age tend to belong to a specific facility type?
 :::
@@ -70,13 +112,12 @@ Do the residential buildings with missing age tend to belong to a specific facil
 Now, let's take a look at what the client asked for - how does age relate to the energy use of the building. 
 
 :::{.question}
-#### Question 6
+#### Question 7
 
-Fill in the code below to create a scatterplot showing the relationship between age and energy efficiency. Change the color and shape of the points to reflect facility type. Add good labels, a title, and a caption. Feel free to change the theme too.
+Fill in the code below to create a scatter plot showing the relationship between age and energy efficiency. Change the color and shape of the points to reflect facility type. Add good labels, a title, and a caption. Feel free to change the theme too.
 
 ```r
-train_residential %>%
-  ggplot(aes(x = ...,
+ggplot(trainNew, aes(x = ...,
              y = ...,
              color = ...,
              shape = ...)) +
@@ -93,34 +134,47 @@ train_residential %>%
 
 
 :::{.question}
-#### Question 7
-
-Based on the plot you have created,  Note: It is totally fine if you explore a variable and then decide it does not relate to the response variable. The client has asked us to explore...and this means that not every variable will have a relationship. 
-:::
-
-:::{.question}
 #### Question 8
 
-When calculating the age of each building, we compared the year in which it was built to 2022. While we don't know in which year the buildings were inspected, this is fine as long as all buildings were measured in the same year. However, the buildings in this dataset were actually measured across seven different years. How would you handle this when analyzing building age?
-
-## Next Steps - Choosing Other Variables  
-
-Now, we have a ton of variables in this data set. Our client wants to know which of them is associated with high energy usage. Does this means we have to look at all 60+ at once??? Nope. If you are familiar with variable selection techniques and want to try that, go for it. However, it is also totally reasonable to start exploring just a few variables. 
+Based on your work, what patterns do you see between age and energy usage? Note: It is totally fine if you explore a variable and then decide it does not relate to the response variable. The client has asked us to explore...and this means that not every variable will prove to have a strong relationship or indeed any relationship with the response variable.  
+:::
 
 :::{.question}
 #### Question 9
 
-Have each member of your team choose one feature (explanatory variable) that they want to explore. 
+When calculating the age of each building, we compared the year in which it was built to 2022. While we don't know in which year the buildings were inspected, this is fine as long as all buildings were measured in the same year. However, the buildings in this data set were actually measured across seven different years. How would you handle this when analyzing building age?
 :::
+
+## Choosing Other Variables  
+
+Now, we have a ton of variables in this data set. Our client wants to know which of them is associated with high energy usage. Does this means we have to look at all 60+ at once??? Nope. If you are familiar with variable selection techniques and want to try that, go for it. However, it is also totally reasonable to start exploring just a few variables. 
+
+As you are working in a team, it is also likely that each person will explore a feature on their own and then share their findings with the group. Let's practice that. 
 
 :::{.question}
 #### Question 10
 
-Use appropriate graphs or summaries to explore the relationship between your chosen feature and EUI. 
+Have each member of your team choose one feature (explanatory variable) that they want to explore. Each team member should use appropriate graphs or summaries to explore the relationship between their chosen feature and EUI. 
 :::
 
 :::{.question}
-#### Question 10
+#### Question 11
 
-Based on your work, what patterns do you see between age and energy usage? Have you identified any features that might be associated with high EUI?
+Come back together as a team. Share with one another what each of you has found. Based on this work, what patterns do you see between the features and energy usage? Have you identified any features that might be associated with high EUI? How might this help you respond to your client's research question? 
 :::
+
+## Time Permitting 
+
+If your team is feeling comfortable with the EDA you have done so far, start thinking about how you would handle the remaining features.
+
+:::{.question}
+#### Question 12
+
+What techniques do you know that could help you decide which features to explore? Are there any features that might prove difficult to use? Why? Talk through these concepts with your group - this is a great way to learn about each others skills, and to practice allocating tasks like we would need to do at DataFest. 
+:::
+
+## Next Steps
+
+EDA and data wrangling can take a while - don't be surprised if you spend a lot of time at the competition working on these skills! 
+
+Once you are comfortable with the data, you will likely start focusing on modeling. Do you want to try to build a model to explore what is related to higher EUI? What kind of model might be appropriate? And how do you build it?? We'll work on these skills as our next steps. 
