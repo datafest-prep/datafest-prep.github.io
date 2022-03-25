@@ -13,7 +13,7 @@ seo:
 {: .fs-6 .fw-300 }
 
 
-Welcome! This site contains information and activities to help you prepare for competing in ASA DataFest.
+Welcome! This site contains information and activities to help you prepare for competing in [ASA DataFest](https://ww2.amstat.org/education/datafest/).
 
 You are welcome to use any coding language you like at DataFest, but this site focuses on using R for DataFest. 
 
