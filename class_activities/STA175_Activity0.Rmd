@@ -1,0 +1,218 @@
+---
+title: "Activity 1 Part 2: Essentials"
+output: 
+  rmdformats::robobook:
+    css: "homework.css"
+    highlight: pygments
+link-citations: yes
+---
+
+# The Goal
+
+Now that we have opened our data set, let's explore it a little. At DataFest, it is very important to take your time looking at the data and really understanding its structure. Doing so will help you make decisions about how best to approach the challenge! 
+
+# The Data and the client 
+
+Our data today is provided by a client who is interested in exploring how existing buildings can be updated to improve their energy efficiency and reduce their carbon foot print. They are interested in identifying traits associated with high energy usage, and recommendations on how buildings can improve their energy efficiency.They have provided us with information on over 70,000 buildings.
+
+<p>Our response variable (outcome variable) is:</p>
+
+<div>
+<ul>
+<li><code>site_eui</code> - Site Energy Usage Intensity (Site EUI). This is the amount of heat and electricity consumed by a building. This is recorded from utility bills for the building over the last year. It has no units.</li>
+</ul>
+</div>
+
+<p>There are other columns in the data set. These represent identifying information about the building and possible <strong>features</strong> that we can use to help us build a model for Site EUI.</p>
+
+<div>
+<ul>
+<li><code>id</code> - building id.</li>
+<li><code>Year_Factor</code> -   anonymized year in which the weather and energy usage factors were observed. </li>
+<li><code>State_Factor</code> -  anonymized state in which the building is located.</li>
+<li><code>building_class</code> - building classification.</li>
+<li><code>facility_type</code>- building usage type.</li>
+<li><code>floor_area</code> -  floor area (in square feet) of the building.</li>
+<li><code>year_built</code> -  year in which the building was constructed.</li>
+<li><code>energy_star_rating</code> -  the energy star rating of the building.</li>
+<li><code>ELEVATION</code> -  elevation of the building location.</li>
+<li><code>january_min_temp</code> - minimum temperature in January (in Fahrenheit) at the location of the building. NOTE: The data contain information for additional months, such as <code>february_min_temp</code>.</li>
+<li><code>january_avg_temp</code> - average temperature in January (in Fahrenheit) at the location of the building. NOTE: The data contain information for additional months, such as <code>february_avg_temp</code>.</li>
+<li><code>january_max_temp</code> - maximum temperature in January (in Fahrenheit) at the location of the building. NOTE: The data contain information for additional months, such as <code>february_max_temp</code>.</li>
+<li><code>cooling_degree_days</code> - cooling degree day for a given day is the number of degrees where the daily average temperature exceeds 65 degrees Fahrenheit. Each month is summed to produce an annual total at the location of the building.</li>
+<li><code>heating_degree_days</code> - heating degree day for a given day is the number of degrees where the daily average temperature falls under 65 degrees Fahrenheit. Each month is summed to produce an annual total at the location of the building.</li>
+<li><code>precipitation_inches</code> - annual precipitation in inches at the location of the building.</li>
+<li><code>snowfall_inches</code> - annual snowfall in inches at the location of the building.</li>
+<li><code>snowdepth_inches</code> - annual snow depth in inches at the location of the building.</li>
+<li><code>avg_temp</code> - average temperature over a year at the location of the building.</li>
+<li><code>days_below_30F</code> - total number of days below 30 degrees Fahrenheit at the location of the building.</li>
+<li><code>days_below_20F</code> - total number of days below 20 degrees Fahrenheit at the location of the building.</li>
+<li><code>days_below_10F</code> - total number of days below 10 degrees Fahrenheit at the location of the building.</li>
+<li><code>days_below_0F</code> - total number of days below 0 degrees Fahrenheit at the location of the building.</li>
+<li><code>days_above_80F</code> - total number of days above 80 degrees Fahrenheit at the location of the building.</li>
+<li><code>days_above_90F</code> - total number of days above 90 degrees Fahrenheit at the location of the building.</li>
+<li><code>days_above_100F</code> - total number of days above 100 degrees Fahrenheit at the location of the building.</li>
+<li><code>days_above_110F</code> - total number of days above 110 degrees Fahrenheit at the location of the building.</li>
+<li><code>direction_max_wind_speed</code> - wind direction for maximum wind speed at the location of the building. Given in 360-degree compass point directions (e.g. 360 = north, 180 = south, etc.).</li>
+<li><code>direction_peak_wind_speed</code> - wind direction for peak wind gust speed at the location of the building. Given in 360-degree compass point directions (e.g. 360 = north, 180 = south, etc.).</li>
+<li><code>max_wind_speed</code> - maximum wind speed at the location of the building.</li>
+<li><code>days_with_fog</code> - number of days with fog at the location of the building.</li>
+</ul>
+</div>
+
+# Data Structure
+
+To open your data set, look in the upper right hand corner of your RStudio screen. You should see `train` listed in that quadrant of your screen. To open the data, just click on the word `train` (not the blue arrow next to it!)
+
+You will also notice that some additional information is provided in this quadrant of your screen. 
+
+:::{.question}
+#### Question 1
+
+Based on the information in this quadrant, how many rows are in the data set? How many columns (variables)? 
+:::
+
+Data at DataFest is generally large. This can mean that the data set has a lot of rows, a lot of columns, or both. The data can even come in more than one data set that you might have to merge with other data sets before your analysis can begin. 
+
+Because the data is so large, it is important to learn how to focus on individual pieces of the data. For instance, suppose I only want to look at the third column in the data set. To do this, we create a chunk in our Markdown file and run the following: 
+
+```r
+train[,1]
+```
+
+The third column in the data set is called `building_class`, and it tells us whether each building is commercial (for business) or residential (for living in). This means we can also look at the third column by using 
+
+```r
+train$building_class
+```
+
+Now, both of these codes produce a VERY large amount of output; 75757 pieces of output to be exact!! This is too much for us to really look at. Instead, what we want to do is look at a table that summarizes what is in the  column. 
+
+```r
+table(train$building_class)
+```
+
+:::{.question}
+#### Question 2
+
+How many commercial buildings are in this data set? How many residential? 
+:::
+
+Why is this an important skill? Well, at DataFest, you may be asked to look at only the commercial buildings, or only the residential. Using a table allows you to see how much data you have in any particular category. 
+
+:::{.question}
+#### Question 3
+
+How many buildings in this data set are colleges or universities? Hint: That information is contained in the `facility_type` variable in the data set. 
+:::
+
+Tables are a really powerful tool for **categorical** data, but what about numeric? Our response variable (Y) of interest in this data is: 
+
+- `site_eui` - Site Energy Usage Intensity (Site EUI). This is the amount of heat and electricity consumed by a building. This is recorded from utility bills for the building over the last year. 
+
+This is not a categorical variable; it's numeric. This means that making a table is not a great plan for exploring this variable. Why? There are too many unique value of site EUI! This means we would get a really big table. 
+
+Instead of using a table, for numeric variables we use a summary.
+
+```r
+summary(train$site_eui)
+```
+
+This produces 6 numbers. 
+
+-`Min`: The smallest value of variable.
+- `1st Qu.`: The first quartile of the variable. 25% of the values for site EUI are below this value. 
+- `Median`: The median/second quartile of the variable. 50% of the values for site EUI are below this value. 
+- `Mean`: The average value of site EUI. 
+- `3rd Qu.`: The third quartile of the variable. 75% of the values for site EUI are below this value. 
+- `Max`: The largest value of site EUI. 
+
+In addition to the values above, the summary can also help us see things in the data that are unusual. 
+
+:::{.question}
+#### Question 4
+
+Take a look at the maximum value of site EUI versus all the other numbers. Based on this, do you think there are (A) some unusually small values in the site EUI, (B) some unusually large values of site EUI, (C) no unusual values of site EUI?   
+:::
+
+To confirm your theory, you can make a boxplot of site EUI: 
+
+```r
+boxplot(train$site_eui, horizontal = TRUE)
+```
+
+:::{.question}
+#### Question 5
+
+Was your answer to Question 4 correct?  
+:::
+
+Looking at data summaries can help us identify unusual features of the data, including skew or very large/very small values. We can also find missing data and other things that will be important for when modeling. 
+
+The bottom line: Spending the time to look at summaries of the variables you are interested in can make a big difference in your ability to answer the client's questions at DataFest. 
+
+However...there are 64 variables in this data set! It would be a lot of work for one person to explore them all. That's why we work in teams for DataFest. 
+
+:::{.question}
+#### Question 6
+
+Have each member of your team explore 2 different variables in this data set. When you are done, show your results to your teammates and discuss what you have noticed about your chosen variables. 
+:::
+
+# Singling Out Unusual Points
+
+Let's explore the year that the buildings in the data were built (`year_built`). 
+
+:::{.question}
+#### Question 7
+
+Make an appropriate summary to explore the `year_built` variable. 
+:::
+
+When you do this, you will notice that the minimum value for year built is 0, and there are 1837 vales that are recorded as NA. 
+
+NA stands for "not available", and this means that we do not have information on the year 1837 of our buildings were built. We'll come back to this later. 
+
+For now, let's think about that house that was built in year 0. This seems...highly unlikely. What if I want to look at just that one rows in the data and see what is going on? Can I do that? 
+
+To find the rows in the data that has the smallest value of year, we use 
+
+```r
+which.min(train$year_built)
+```
+
+This returns 354, which tells us the 354th building in our data set has year recorded as 0. 
+
+:::{.question}
+#### Question 8
+
+Which building in the data set has the largest value of site EUI? Hint: In the code above, we were looking for a minimum (min). Now, we are looking for a maximum (max). 
+:::
+
+Now that we know we want to look at the 354th building, how do we do that? 
+
+```r
+train[354,]
+```
+
+This provides a lot of information about this building!! The rest of the variables in this data set look okay, so we then consider this 0 again. What does this mean? Well, it could mean the building was built this year, and so someone recorded building age rather than building year. It could also mean the building year was not known, ans someone used a 0 to record that. We just don't know. 
+
+This is a reality of real data! It can be messy, and we will encounter things like this at DataFest. 
+
+One common way to handle things like this is to replace the 0 with NA. In other words, since we don't know the year, let's replace it with something that actually means "we don't know." 
+
+```r
+train$year_built[354] <- "NA"
+```
+
+This code combines working with rows and columns. We choose our column (`train$year_built`) and we look at a specific building (`[354]`). We then replace the 354th year built with NA. 
+
+# Next Steps
+
+This may seem like a lot of code right now, but remember, you don't have to memorize it!! Part of the point of these activities is for you to have them to refer back to during DataFest. The key right now is to start to see what kinds of things you can do with data in R and why those things might be useful. 
+
+In the next part of this activity, we will add on to this exploration of the data with some visualizations. 
+
+<div id="license">
+<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work was created by Nicole Dalzell is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>. Last updated 2022 March 25.
+</div>
