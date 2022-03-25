@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Syllabus
+title: About this Site
 description: >-
     Course policies and information.
 ---
