@@ -1,5 +1,5 @@
 ---
-title: "Activity 1 Part 2: Getting Started with the Data"
+title: "Activity 1 Part 3: Data Visualization"
 output: 
   rmdformats::robobook:
     css: "homework.css"
@@ -11,88 +11,27 @@ link-citations: yes
 
 At the start of DataFest in April, you will be given a data set and provided with the research questions your client would like you to explore - and that's it! How you approach the problem, what model you choose...everything is completely up to you.
 
-Throughout this course, we are going to practice some of the skills that will help you tackle these sorts of open ended problems. For today, we are going to start with exploring how to visualize data in R. We will also see some best practices for visualizations (like adding appropriate labels and titles to graphs) that your team should use for DataFest and indeed any formal report or presentation!  
+In the last part of this activity, we learned that one way to start to explore a data set involves using tables and summaries. In this part of the activity, we are going to visualize data in R. We will also see some best practices for visualizations (like adding appropriate labels and titles to graphs) that your team should use for DataFest and indeed any formal report or presentation!  
 
-As you work through this activity, feel free to use RMarkdown, R scripts, or whatever you prefer. We strongly recommend storing your work in a folder you can find later, so you can refer to it during DataFest!
+## First Steps: The Type of Task
 
-# The Data
+We met the data in the last part of the activity. We have a lot of rows, and a LOT of possible features in this data set. The data at DataFest may be even bigger. Sometimes the hardest part is figuring out how to get started, so let's talk about that.
 
-For our first activity, the data is contained in a Google Drive file <a href="https://drive.google.com/file/d/1hM08da1DH21P5I126FyEoKJ0OwIElFUo">linked here</a>. It is very common during DataFest for data to be shared in this way, so it is good to get some practice downloading data from Google Drive. If the link does not work, you can copy and paste the following into your browser: https://drive.google.com/file/d/1hM08da1DH21P5I126FyEoKJ0OwIElFUo
+<p>The first question to ask yourselves: What is the goal? Are we building a model to help predict something? If so, then our goal is <strong>prediction</strong>. Is our goal to understand relationships among some of the features (explanatory variables) and our response? If so, then our goal is <strong>association</strong>.
 
-Because the data is so large, it is housed in a ZIP file. Download the ZIP file, and then extract the file that is inside of it, which should be called <code>train.csv</code>. For instructions on how to load this data in R, look <a href="https://sta175-s22.github.io/slides/loadingData.html">here</a>.
+There are other types of goals, like establishing causal relationships, but generally with DataFest we have either prediction or association.
 
-## Data Citation
-
-The data was created by Climate Change AI (CCAI) and Lawrence Berkeley National Laboratory (Berkeley Lab). This is a large data set and was use in March 2022 for  the 5th Annual Women in Data Science (WiDS) <a href="https://www.kaggle.com/c/widsdatathon2022">Datathon</a>.</p>
-
-*Climate Change AI (CCAI) and Lawrence Berkeley National Laboratory (Berkeley Lab). (2022 January). WiDS Datathon 2022, Version 1. Retrieved January 10, 2022  from https://www.kaggle.com/competitions/widsdatathon2022/overview.*
-
-# Client Request 
-
-Our data today is provided by a client who is interested in exploring how existing buildings can be updated to improve their energy efficiency and reduce their carbon foot print. They are interested in identifying traits associated with high energy usage, and recommendations on how buildings can improve their energy efficiency.They have provided us with information on over 70,000 buildings.
-
-<p>Our response variable (outcome variable) is:</p>
-
-<div>
-<ul>
-<li><code>site_eui</code> - Site Energy Usage Intensity (Site EUI). This is the amount of heat and electricity consumed by a building. This is recorded from utility bills for the building over the last year. It has no units.</li>
-</ul>
-</div>
-
-<p>There are other columns in the data set. These represent identifying information about the building and possible <strong>features</strong> that we can use to help us build a model for Site EUI.</p>
-
-<div>
-<ul>
-<li><code>id</code> - building id.</li>
-<li><code>Year_Factor</code> -   anonymized year in which the weather and energy usage factors were observed. </li>
-<li><code>State_Factor</code> -  anonymized state in which the building is located.</li>
-<li><code>building_class</code> - building classification.</li>
-<li><code>facility_type</code>- building usage type.</li>
-<li><code>floor_area</code> -  floor area (in square feet) of the building.</li>
-<li><code>year_built</code> -  year in which the building was constructed.</li>
-<li><code>energy_star_rating</code> -  the energy star rating of the building.</li>
-<li><code>ELEVATION</code> -  elevation of the building location.</li>
-<li><code>january_min_temp</code> - minimum temperature in January (in Fahrenheit) at the location of the building. NOTE: The data contain information for additional months, such as <code>february_min_temp</code>.</li>
-<li><code>january_avg_temp</code> - average temperature in January (in Fahrenheit) at the location of the building. NOTE: The data contain information for additional months, such as <code>february_avg_temp</code>.</li>
-<li><code>january_max_temp</code> - maximum temperature in January (in Fahrenheit) at the location of the building. NOTE: The data contain information for additional months, such as <code>february_max_temp</code>.</li>
-<li><code>cooling_degree_days</code> - cooling degree day for a given day is the number of degrees where the daily average temperature exceeds 65 degrees Fahrenheit. Each month is summed to produce an annual total at the location of the building.</li>
-<li><code>heating_degree_days</code> - heating degree day for a given day is the number of degrees where the daily average temperature falls under 65 degrees Fahrenheit. Each month is summed to produce an annual total at the location of the building.</li>
-<li><code>precipitation_inches</code> - annual precipitation in inches at the location of the building.</li>
-<li><code>snowfall_inches</code> - annual snowfall in inches at the location of the building.</li>
-<li><code>snowdepth_inches</code> - annual snow depth in inches at the location of the building.</li>
-<li><code>avg_temp</code> - average temperature over a year at the location of the building.</li>
-<li><code>days_below_30F</code> - total number of days below 30 degrees Fahrenheit at the location of the building.</li>
-<li><code>days_below_20F</code> - total number of days below 20 degrees Fahrenheit at the location of the building.</li>
-<li><code>days_below_10F</code> - total number of days below 10 degrees Fahrenheit at the location of the building.</li>
-<li><code>days_below_0F</code> - total number of days below 0 degrees Fahrenheit at the location of the building.</li>
-<li><code>days_above_80F</code> - total number of days above 80 degrees Fahrenheit at the location of the building.</li>
-<li><code>days_above_90F</code> - total number of days above 90 degrees Fahrenheit at the location of the building.</li>
-<li><code>days_above_100F</code> - total number of days above 100 degrees Fahrenheit at the location of the building.</li>
-<li><code>days_above_110F</code> - total number of days above 110 degrees Fahrenheit at the location of the building.</li>
-<li><code>direction_max_wind_speed</code> - wind direction for maximum wind speed at the location of the building. Given in 360-degree compass point directions (e.g. 360 = north, 180 = south, etc.).</li>
-<li><code>direction_peak_wind_speed</code> - wind direction for peak wind gust speed at the location of the building. Given in 360-degree compass point directions (e.g. 360 = north, 180 = south, etc.).</li>
-<li><code>max_wind_speed</code> - maximum wind speed at the location of the building.</li>
-<li><code>days_with_fog</code> - number of days with fog at the location of the building.</li>
-</ul>
-</div>
-
-<h2>First Steps: The Plan</h2>
-
-<p>Now, we have a lot of rows, and a LOT of possible features in this data set. The data at DataFest may be even bigger. Sometimes the hardest part is figuring out how to get started, so let's talk about that.</p>
-
-<p>The first question to ask yourselves: What is the goal? Are we building a model to help predict something? If so, then our goal is <strong>prediction</strong>. Is our goal to understand relationships among some of the features and our response? If so, then our goal is <strong>association</strong>.</p>
-
-<p>There are other types of goals, like establishing causal relationships, but generally with DataFest we have either prediction or association.</p>
+Our client is interested in exploring how existing buildings can be updated to improve their energy efficiency and reduce their carbon foot print. They are interested in identifying traits associated with high energy usage, and recommendations on how buildings can improve their energy efficiency.
 
 :::{.question}
 #### Question 1
 
-Based on what we have seen so far, is this a prediction or an association task?
+Based on this, is our challenge a prediction or an association task?
 :::
 
 Why does this matter? Well, if our goal is only prediction, we can use really complicated models, and as long as they predict well, we are probably fine with that. However, if our goal is association, we have to choose a model that allows us to actually interpret the relationships going on in the data. Really complex models may not allow this. This means we need to be aware of the goal of the analysis from the very start.
 
-Now that we know the goal, the next step is to start digging in to the data. Characteristics of the data themselves (yes, data is a plural term!) can also help us decide on modeling techniques. In the real competition, this is a good time to split up the features you might want to visualize among your team - it's more efficient to split up the work.
+Now that we know the goal, the next step is to start digging in to the data. Characteristics of the data themselves (yes, data is a plural term!) can also help us decide on modeling techniques. In the real competition, this is a good time to split up the features (explanatory variables) you might want to visualize among your team - it's more efficient to split up the work.
 
 To make visualizations, we will be working with a group of functions in the ggplot2 package in R. If you have already installed ggplot2, skip the next section.
 
@@ -107,8 +46,7 @@ To make visualizations, we will be working with a group of functions in the ggpl
 ```r
 library(rlang)
 ```
-
-<p><strong>Note that this process of installing a package is one you need to do only once.</strong> Think of this as teaching R a new set of skills. Once it knows the skills, you don't have to teach it again.</p>
+**Note that this process of installing a package is one you need to do only once.** Think of this as teaching R a new set of skills. Once it knows the skills, you don't have to teach it again.
 
 <p>Once you have installed the ggplot2 package, you need to tell R that you would like to begin using the function by <strong>loading the library</strong>. Remember that we said installing a package is like teaching R a skill? <strong>Loading a library</strong> is how we tell we R we want it to use those skills. To do this, create a chunk in your RMarkdown and copy and paste the following, and hit play.</p>
 
@@ -134,7 +72,8 @@ What types of variable is site EUI, and based on that, what kinds of plots could
 <p>We are going to start off with a histogram.To create the histogram of site EUI, paste the following code in a chunk and hit play.</p>
 
 ```r
-ggplot(train, aes(x=site_eui)) +geom_histogram(bins = 20, fill='blue', col = 'black')
+ggplot(train, aes(x=site_eui)) + 
+ geom_histogram(bins = 20, fill='blue', col = 'black')
 ```
 
 <p>The creation of plots in ggplot2 requires building the plot in layers. First, we build the background, the grid on which we will be building our graph. This is the job of the <code><span class="kw">ggplot()</span></code> part of the code. Once we have built the background, we are ready to plot our data. The command we will use for this depends upon the data type we are working with. In this case, we want a histogram. The command we use to build a histogram is <code><span class="kw">geom_histogram()</span></code>. In this same layer, we specify that we want the bars to be filled (<code>'fill'</code>) in blue and we want them outlined (<code>'col'</code>) in black. The only other part of the command is <code>bins=20</code>. We need this because for histograms, we have to specify how many bins we want.</p>
@@ -162,10 +101,13 @@ Create a histogram of average temperatures in March, using 15 bins. Make the bar
 
 <p>What does that mean? It means every graph you create needs a title (like Figure 1, Figure 2, etc.) and your axes need to be labelled in such a way that a person looking at your graph can tell what information is being displayed on each axis.</p>
 
-<p>The command <code><span class="kw">labs</span></code>, which stands for labels, is used for this.</p>
+The command `labs`, which stands for labels, is used for this.
 
 ```r
-ggplot(train, aes(x=site_eui)) + geom_histogram(fill='blue', col = 'black', bins = 20) + labs(title="Figure 1:", x = "Site EUI", y = "Frequency")
+ggplot(train, aes(x=site_eui)) + 
+  geom_histogram(fill='blue', col = 'black', bins = 20)+
+  labs(title="Figure 1:", x = "Site EUI", 
+       y =   "Frequency")
 ```
 
 <p>This ggplot syntax actually mimics the ways humans would draw a graph by hand. First, you draw the axes. Then, you add on your data. Finally, you add a label. Thinking through the steps in this manner will help you understand the syntax of this package.</p>
@@ -173,7 +115,10 @@ ggplot(train, aes(x=site_eui)) + geom_histogram(fill='blue', col = 'black', bins
 <p>You can also add captions to the bottom of graphs:</p>
 
 ```r
-ggplot(train, aes(x=site_eui)) + geom_histogram(fill='blue', col = 'black', bins = 20) + labs(title="Figure 1:", x = "Site EUI", y = "Frequency", caption = "A histogram of site EUI.")
+ggplot(train, aes(x=site_eui)) +
+geom_histogram(fill='blue', col = 'black', bins = 20) +
+labs(title="Figure 1:", x = "Site EUI", y = "Frequency",
+caption = "A histogram of site EUI.")
 ```
 
 :::{.question}
@@ -245,14 +190,19 @@ What do you think a 0 for year built is supposed to indicate? And how would you 
 <p>Suppose I want to make a histogram of site EUI (as we have already done). The code I need for that is:</p>
 
 ```r
-ggplot(train, aes(x=site_eui)) + geom_histogram(fill='blue', col = 'black', bins = 20) + labs(title="Figure 1:", x = "Site EUI", y = "Frequency")
+ggplot(train, aes(x=site_eui)) +
+geom_histogram(fill='blue', col = 'black', bins = 20) +
+labs(title="Figure 1:", x = "Site EUI", y = "Frequency")
 ```
 
 <p>If I put that in a chunk and press play, one histogram will appear on my screen. Let's suppose I want to show a box plot along with this histogram. I can create both graphs and have them both print out separately in my knit document. However, I can also tell the computer to print more than one graph at once to save space. Try the following:</p>
 
 ```r
-ggplot(train, aes(x=site_eui)) + geom_histogram(fill='blue', col = 'black', bins = 20) + labs(title="Figure 1:", x = "Site EUI", y = "Frequency")
-g2 <- ggplot(train, aes(x=site_eui)) + geom_boxplot(fill='gold') + labs(title="Figure 2:", x = "Site EUI", y = "")
+ggplot(train, aes(x=site_eui)) +
+geom_histogram(fill='blue', col = 'black', bins = 20) +
+labs(title="Figure 1:", x = "Site EUI", y = "Frequency")
+g2 <- ggplot(train, aes(x=site_eui)) +
+geom_boxplot(fill='gold') + labs(title="Figure 2:", x = "Site EUI", y = "")
 gridExtra::grid.arrange(g1,g2, ncol = 2)
 ```
 
@@ -276,19 +226,31 @@ Create a (1) box plot for site EUI, (2) histogram for site EUI, (3) box plot for
 <p><strong>The Light Theme</strong></p>
 
 ```r
-ggplot(train, aes(x=site_eui)) + geom_histogram(fill='blue', col = 'black', bins = 20) + labs(title="Figure 1:", x = "Site EUI", y = "Frequency", caption = "A histogram of site EUI.") + theme_light()
+ggplot(train, aes(x=site_eui)) +
+geom_histogram(fill='blue', col = 'black', bins = 20) +
+labs(title="Figure 1:", x = "Site EUI", y = "Frequency",
+caption = "A histogram of site EUI.") +
+theme_light()
 ```
 
 <p><strong>The BW Theme</strong></p>
 
 ```r
-ggplot(train, aes(x=site_eui)) + geom_histogram(fill='blue', col = 'black', bins = 20) + labs(title="Figure 1:", x = "Site EUI", y = "Frequency", caption = "A histogram of site EUI.") + theme_bw()
+ggplot(train, aes(x=site_eui)) +
+geom_histogram(fill='blue', col = 'black', bins = 20) +
+labs(title="Figure 1:", x = "Site EUI", y = "Frequency",
+caption = "A histogram of site EUI.") +
+theme_bw()
 ```
 
 <p><strong>The Minimal Theme</strong></p>
 
 ```r
-ggplot(train, aes(x=site_eui)) + geom_histogram(fill='blue', col = 'black', bins = 20) + labs(title="Figure 1:", x = "Site EUI", y = "Frequency", caption = "A histogram of site EUI.") + theme_minimal()
+ggplot(train, aes(x=site_eui)) +
+geom_histogram(fill='blue', col = 'black', bins = 20) +
+labs(title="Figure 1:", x = "Site EUI", y = "Frequency",
+caption = "A histogram of site EUI.") +
+theme_minimal()
 ```
 
 <p>Take a look and, as a team, decide what you like!</p>
@@ -343,5 +305,5 @@ Take a look at the variables (features) you are given. Are there any that you th
 We will keep working with this data set for future activities.
 
 <div id="license">
-<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work was created by Nicole Dalzell is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>. Last updated 2021 January 12.
+<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work was created by Nicole Dalzell is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>. Last updated 2022 January 22.
 </div>
