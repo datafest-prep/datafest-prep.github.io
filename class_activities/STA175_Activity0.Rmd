@@ -72,6 +72,25 @@ You will also notice that some additional information is provided in this quadra
 Based on the information in this quadrant, how many rows are in the data set? How many columns (variables)? 
 :::
 
+<SCRIPT>
+function ShowAndHide(divid) {
+    var x = document.getElementById(divid);
+    if (x.style.display == 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+    }
+}
+</SCRIPT>
+
+<BUTTON ONCLICK="ShowAndHide('q1_solution')">Solution</BUTTON>
+
+<DIV ID="q1_solution" STYLE="display:none">
+There are 75757 rows and 64 columns. 
+</DIV>
+
+</br>
+
 Data at DataFest is generally large. This can mean that the data set has a lot of rows, a lot of columns, or both. The data can even come in more than one data set that you might have to merge with other data sets before your analysis can begin. 
 
 Because the data is so large, it is important to learn how to focus on individual pieces of the data. For instance, suppose I only want to look at the third column in the data set. To do this, we create a chunk in our Markdown file and run the following: 
@@ -98,6 +117,17 @@ table(train$building_class)
 How many commercial buildings are in this data set? How many residential? 
 :::
 
+
+<BUTTON ONCLICK="ShowAndHide('q2_solution')">Solution</BUTTON>
+
+<DIV ID="q2_solution" STYLE="display:none">
+
+There are  32199 commercial buildings and 43558 residential buildings.  
+
+</DIV>
+
+</br>
+
 Why is this an important skill? Well, at DataFest, you may be asked to look at only the commercial buildings, or only the residential. Using a table allows you to see how much data you have in any particular category. 
 
 :::{.question}
@@ -105,6 +135,20 @@ Why is this an important skill? Well, at DataFest, you may be asked to look at o
 
 How many buildings in this data set are colleges or universities? Hint: That information is contained in the `facility_type` variable in the data set. 
 :::
+
+<BUTTON ONCLICK="ShowAndHide('q3_solution')">Solution</BUTTON>
+
+<DIV ID="q3_solution" STYLE="display:none">
+
+There are  1056 buildings labelled `Education_College_or_university`.  
+
+```{r eval = F}
+table(train$facility_type)
+```
+
+</DIV>
+
+</br>
 
 Tables are a really powerful tool for **categorical** data, but what about numeric? Our response variable (Y) of interest in this data is: 
 
@@ -134,6 +178,15 @@ In addition to the values above, the summary can also help us see things in the 
 
 Take a look at the maximum value of site EUI versus all the other numbers. Based on this, do you think there are (A) some unusually small values in the site EUI, (B) some unusually large values of site EUI, (C) no unusual values of site EUI?   
 :::
+
+<BUTTON ONCLICK="ShowAndHide('q4_solution')">Solution</BUTTON>
+
+<DIV ID="q4_solution" STYLE="display:none">
+
+Unusually large! 
+</DIV>
+
+</br>
 
 To confirm your theory, you can make a boxplot of site EUI: 
 
@@ -169,6 +222,18 @@ Let's explore the year that the buildings in the data were built (`year_built`).
 Make an appropriate summary to explore the `year_built` variable. 
 :::
 
+<BUTTON ONCLICK="ShowAndHide('q7_solution')">Solution</BUTTON>
+
+<DIV ID="q7_solution" STYLE="display:none">
+
+```{r eval = F}
+summary(train$year_built)
+```
+
+</DIV>
+
+</br>
+
 When you do this, you will notice that the minimum value for year built is 0, and there are 1837 vales that are recorded as NA. 
 
 NA stands for "not available", and this means that we do not have information on the year 1837 of our buildings were built. We'll come back to this later. 
@@ -189,7 +254,21 @@ This returns 354, which tells us the 354th building in our data set has year rec
 Which building in the data set has the largest value of site EUI? Hint: In the code above, we were looking for a minimum (min). Now, we are looking for a maximum (max). 
 :::
 
-Now that we know we want to look at the 354th building, how do we do that? 
+<BUTTON ONCLICK="ShowAndHide('q8_solution')">Solution</BUTTON>
+
+<DIV ID="q8_solution" STYLE="display:none">
+
+Building 61166
+
+```{r eval = F}
+which.max(train$site_eui)
+```
+
+</DIV>
+
+</br>
+
+Now that we know we want to look at the 354th building to find the smallest year built, how do we actually look at that row? Use the code below.  
 
 ```r
 train[354,]

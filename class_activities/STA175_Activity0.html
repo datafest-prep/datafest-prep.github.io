@@ -336,6 +336,23 @@ There are other columns in the data set. These represent identifying information
 <h4>Question 1</h4>
 <p>Based on the information in this quadrant, how many rows are in the data set? How many columns (variables)?</p>
 </div>
+<SCRIPT>
+function ShowAndHide(divid) {
+    var x = document.getElementById(divid);
+    if (x.style.display == 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+    }
+}
+</SCRIPT>
+<BUTTON ONCLICK="ShowAndHide(&#39;q1_solution&#39;)">
+Solution
+</BUTTON>
+<div id="q1_solution" style="display:none">
+<p>There are 75757 rows and 64 columns.</p>
+</div>
+<p></br></p>
 <p>Data at DataFest is generally large. This can mean that the data set has a lot of rows, a lot of columns, or both. The data can even come in more than one data set that you might have to merge with other data sets before your analysis can begin.</p>
 <p>Because the data is so large, it is important to learn how to focus on individual pieces of the data. For instance, suppose I only want to look at the third column in the data set. To do this, we create a chunk in our Markdown file and run the following:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>train[,<span class="dv">1</span>]</span></code></pre></div>
@@ -347,18 +364,33 @@ There are other columns in the data set. These represent identifying information
 <h4>Question 2</h4>
 <p>How many commercial buildings are in this data set? How many residential?</p>
 </div>
+<BUTTON ONCLICK="ShowAndHide(&#39;q2_solution&#39;)">
+Solution
+</BUTTON>
+<div id="q2_solution" style="display:none">
+<p>There are 32199 commercial buildings and 43558 residential buildings.</p>
+</div>
+<p></br></p>
 <p>Why is this an important skill? Well, at DataFest, you may be asked to look at only the commercial buildings, or only the residential. Using a table allows you to see how much data you have in any particular category.</p>
 <div id="question-3" class="section level4 question">
 <h4>Question 3</h4>
 <p>How many buildings in this data set are colleges or universities? Hint: That information is contained in the <code>facility_type</code> variable in the data set.</p>
 </div>
+<BUTTON ONCLICK="ShowAndHide(&#39;q3_solution&#39;)">
+Solution
+</BUTTON>
+<div id="q3_solution" style="display:none">
+<p>There are 1056 buildings labelled <code>Education_College_or_university</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(train<span class="sc">$</span>facility_type)</span></code></pre></div>
+</div>
+<p></br></p>
 <p>Tables are a really powerful tool for <strong>categorical</strong> data, but what about numeric? Our response variable (Y) of interest in this data is:</p>
 <ul>
 <li><code>site_eui</code> - Site Energy Usage Intensity (Site EUI). This is the amount of heat and electricity consumed by a building. This is recorded from utility bills for the building over the last year.</li>
 </ul>
 <p>This is not a categorical variable; it’s numeric. This means that making a table is not a great plan for exploring this variable. Why? There are too many unique value of site EUI! This means we would get a really big table.</p>
 <p>Instead of using a table, for numeric variables we use a summary.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(train<span class="sc">$</span>site_eui)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(train<span class="sc">$</span>site_eui)</span></code></pre></div>
 <p>This produces 6 numbers.</p>
 <p>-<code>Min</code>: The smallest value of variable. - <code>1st Qu.</code>: The first quartile of the variable. 25% of the values for site EUI are below this value. - <code>Median</code>: The median/second quartile of the variable. 50% of the values for site EUI are below this value. - <code>Mean</code>: The average value of site EUI. - <code>3rd Qu.</code>: The third quartile of the variable. 75% of the values for site EUI are below this value. - <code>Max</code>: The largest value of site EUI.</p>
 <p>In addition to the values above, the summary can also help us see things in the data that are unusual.</p>
@@ -366,8 +398,15 @@ There are other columns in the data set. These represent identifying information
 <h4>Question 4</h4>
 <p>Take a look at the maximum value of site EUI versus all the other numbers. Based on this, do you think there are (A) some unusually small values in the site EUI, (B) some unusually large values of site EUI, (C) no unusual values of site EUI?</p>
 </div>
+<BUTTON ONCLICK="ShowAndHide(&#39;q4_solution&#39;)">
+Solution
+</BUTTON>
+<div id="q4_solution" style="display:none">
+<p>Unusually large!</p>
+</div>
+<p></br></p>
 <p>To confirm your theory, you can make a boxplot of site EUI:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(train<span class="sc">$</span>site_eui, <span class="at">horizontal =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(train<span class="sc">$</span>site_eui, <span class="at">horizontal =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <div id="question-5" class="section level4 question">
 <h4>Question 5</h4>
 <p>Was your answer to Question 4 correct?</p>
@@ -387,22 +426,37 @@ There are other columns in the data set. These represent identifying information
 <h4>Question 7</h4>
 <p>Make an appropriate summary to explore the <code>year_built</code> variable.</p>
 </div>
+<BUTTON ONCLICK="ShowAndHide(&#39;q7_solution&#39;)">
+Solution
+</BUTTON>
+<div id="q7_solution" style="display:none">
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(train<span class="sc">$</span>year_built)</span></code></pre></div>
+</div>
+<p></br></p>
 <p>When you do this, you will notice that the minimum value for year built is 0, and there are 1837 vales that are recorded as NA.</p>
 <p>NA stands for “not available”, and this means that we do not have information on the year 1837 of our buildings were built. We’ll come back to this later.</p>
 <p>For now, let’s think about that house that was built in year 0. This seems…highly unlikely. What if I want to look at just that one rows in the data and see what is going on? Can I do that?</p>
 <p>To find the rows in the data that has the smallest value of year, we use</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which.min</span>(train<span class="sc">$</span>year_built)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which.min</span>(train<span class="sc">$</span>year_built)</span></code></pre></div>
 <p>This returns 354, which tells us the 354th building in our data set has year recorded as 0.</p>
 <div id="question-8" class="section level4 question">
 <h4>Question 8</h4>
 <p>Which building in the data set has the largest value of site EUI? Hint: In the code above, we were looking for a minimum (min). Now, we are looking for a maximum (max).</p>
 </div>
-<p>Now that we know we want to look at the 354th building, how do we do that?</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>train[<span class="dv">354</span>,]</span></code></pre></div>
+<BUTTON ONCLICK="ShowAndHide(&#39;q8_solution&#39;)">
+Solution
+</BUTTON>
+<div id="q8_solution" style="display:none">
+<p>Building 61166</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which.max</span>(train<span class="sc">$</span>site_eui)</span></code></pre></div>
+</div>
+<p></br></p>
+<p>Now that we know we want to look at the 354th building to find the smallest year built, how do we actually look at that row? Use the code below.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>train[<span class="dv">354</span>,]</span></code></pre></div>
 <p>This provides a lot of information about this building!! The rest of the variables in this data set look okay, so we then consider this 0 again. What does this mean? Well, it could mean the building was built this year, and so someone recorded building age rather than building year. It could also mean the building year was not known, ans someone used a 0 to record that. We just don’t know.</p>
 <p>This is a reality of real data! It can be messy, and we will encounter things like this at DataFest.</p>
 <p>One common way to handle things like this is to replace the 0 with NA. In other words, since we don’t know the year, let’s replace it with something that actually means “we don’t know.”</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>train<span class="sc">$</span>year_built[<span class="dv">354</span>] <span class="ot">&lt;-</span> <span class="st">&quot;NA&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>train<span class="sc">$</span>year_built[<span class="dv">354</span>] <span class="ot">&lt;-</span> <span class="st">&quot;NA&quot;</span></span></code></pre></div>
 <p>This code combines working with rows and columns. We choose our column (<code>train$year_built</code>) and we look at a specific building (<code>[354]</code>). We then replace the 354th year built with NA.</p>
 </div>
 <div id="next-steps" class="section level1">
