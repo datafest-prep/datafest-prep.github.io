@@ -185,9 +185,11 @@
         <nav role="navigation" id="toc">
           <ul>
           <li><a href="#the-goal">The Goal</a></li>
-          <li><a href="#setup">Setup</a></li>
-          <li><a href="#exploring-regression">Exploring Regression</a></li>
+          <li><a href="#exploring-regression">Exploring Regression</a>
+          <ul>
+          <li><a href="#recall-the-client">Recall: The Client</a></li>
           <li><a href="#next-steps">Next steps</a></li>
+          </ul></li>
           </ul>
         </nav>
         <ul class="authors">
@@ -216,24 +218,10 @@
 <h2>The Goal</h2>
 <p>In this activity we’ll start on modeling, and we will work on describing some of the relationships in this data you explored visually. We will start with linear regression. Linear regression is often a good first choice for data, because it is easy to use and interpret and quick to run.</p>
 </div>
-<div id="setup" class="section level2">
-<h2>Setup</h2>
-<p>Log in to RStudio Pro, and set your working directory to</p>
-<p><code>/deac/sta/classes/sta175-sp-2022/your_username</code></p>
-<p>where <code>your_username</code> should be replaced with your actual username.</p>
-<p>Now open the group project your team created last time:</p>
-<ul>
-<li>Click on File at the top of their screen.</li>
-<li>Choose Open Project.</li>
-<li>Choose the project you or a teammate created last week.</li>
-</ul>
-<p>Finally, have one person in the team create a new file called <code>Master_Activity5</code>. This should be an R script or a Markdown file where you will all put your final code. The person who creates the file should create a section with each team members name by using <code>## Name Here</code>. This helps show everyone where it is safe to type.</p>
-<p>Each team member will work on a separate part of the analysis, and add their results to the master file.</p>
-</div>
-<div id="exploring-regression" class="section level2">
-<h2>Exploring Regression</h2>
-<div id="recall-the-client" class="section level3">
-<h3>Recall: The Client</h3>
+<div id="exploring-regression" class="section level1">
+<h1>Exploring Regression</h1>
+<div id="recall-the-client" class="section level2">
+<h2>Recall: The Client</h2>
 <p>We have a client who is interested in determining what features (explanatory variables) in the data set are related to high energy use for residential buildings with at least 6000 sq feet of floor area. Recall that energy use is included in the EUI variable in the data set.</p>
 <p>Since the client is particularly interested in large residential buildings, make a subset of your data called <code>large_residential</code>, which contains only residential buildings with at least 6000 sq feet of floor area.</p>
 <p>The client asks you to create visualizations and/or use a model to explore this. The goal is to identify features related to high energy use so the client can explore ways to help buildings make changes and reduce energy consumption. They ask you specifically to look at the age of the building, but want you to examine other features as well.</p>
@@ -301,10 +289,10 @@
 <p>Your client is particularly interested in building age as an explanatory variable. Examine the relationship between building age and EUI, after accounting for the other variables in your model. Is the relationship what you expect? Does the relationship depend on other variables – that is, does age interact with other predictors?</p>
 </div>
 </div>
-</div>
 <div id="next-steps" class="section level2">
 <h2>Next steps</h2>
 <p>Exploring relationships by hand is important, but we probably can’t investigate every variable in the data this way. A linear relationship might also not be an appropriate choice for our data. In our next steps, we’ll talk about model selection techniques, and consider other types of regression.</p>
+</div>
 </div>
 
    

@@ -1,5 +1,5 @@
 ---
-title: "STA 175 DataFest Activity 6"
+title: "Activity 6: Subset Selection"
 output: 
   rmdformats::robobook:
     css: "homework.css"
@@ -9,29 +9,11 @@ link-citations: yes
 
 ## The Goal
 
-Last time, you started to explore multiple linear regression models to describe the relationship between variables in your data. Today we will investigate model selection tools (best subset selection and stepwise selection) as a way to build models when there are a lot of variables in the data. You will continue collaborating in RStudio Pro with your teammates. 
+Last time, you started to explore multiple linear regression models to describe the relationship between variables in your data. Today we will investigate model selection tools (best subset selection and stepwise selection) as a way to build models when there are a lot of variables in the data.  
 
-## Setup
+# Exploring Variable Selection
 
-Log in to RStudio Pro, and set your working directory to 
-
-`/deac/sta/classes/sta175-sp-2022/your_username`
-
-where `your_username` should be replaced with your actual username.
-
-Now open the group project your team created last time:
-
-* Click on File at the top of their screen.
-* Choose Open Project.
-* Choose the project you or a teammate created last week.
-
-Finally, have one person in the team create a new file called `Master_Activity6`. This should be an R script or a Markdown file where you will all put your final code. The person who creates the file should create a section with each team members name by using `## Name Here`. This helps show everyone where it is safe to type.
-
-Each team member will work on a separate part of the analysis, and add their results to the master file.
-
-## Exploring Variable Selection
-
-### Recall: The Client
+## Recall: The Client
 
 We have a client who is interested in determining what features (explanatory variables) in the data set are related to high energy use for residential buildings with at least 6000 sq feet of floor area. Recall that energy use is included in the EUI variable in the data set.
 

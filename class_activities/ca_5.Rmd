@@ -11,27 +11,9 @@ link-citations: yes
 
 In this activity we'll start on modeling, and we will work on describing some of the relationships in this data you explored visually. We will start with linear regression. Linear regression is often a good first choice for data, because it is easy to use and interpret and quick to run.
 
-## Setup
+# Exploring Regression
 
-Log in to RStudio Pro, and set your working directory to 
-
-`/deac/sta/classes/sta175-sp-2022/your_username`
-
-where `your_username` should be replaced with your actual username.
-
-Now open the group project your team created last time:
-
-* Click on File at the top of their screen.
-* Choose Open Project.
-* Choose the project you or a teammate created last week.
-
-Finally, have one person in the team create a new file called `Master_Activity5`. This should be an R script or a Markdown file where you will all put your final code. The person who creates the file should create a section with each team members name by using `## Name Here`. This helps show everyone where it is safe to type.
-
-Each team member will work on a separate part of the analysis, and add their results to the master file.
-
-## Exploring Regression
-
-### Recall: The Client
+## Recall: The Client
 
 We have a client who is interested in determining what features (explanatory variables) in the data set are related to high energy use for residential buildings with at least 6000 sq feet of floor area. Recall that energy use is included in the EUI variable in the data set.
 
