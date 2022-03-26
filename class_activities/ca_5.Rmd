@@ -1,5 +1,5 @@
 ---
-title: "STA 175 DataFest Activity 5"
+title: "Activity 5: Regression"
 output: 
   rmdformats::robobook:
     css: "homework.css"
@@ -9,9 +9,7 @@ link-citations: yes
 
 ## The Goal
 
-Last time, you started to work in RStudio Pro to collaborate on data analysis. You each selected a feature of interest in the data, and explored its relationship with site EUI (our response variable).
-
-Today, we'll start on modeling, and work on describing some of those relationships you explored visually with linear regression. Linear regression is often a good first choice for data, because it is easy to use and interpret and quick to run.
+In this activity we'll start on modeling, and we will work on describing some of the relationships in this data you explored visually. We will start with linear regression. Linear regression is often a good first choice for data, because it is easy to use and interpret and quick to run.
 
 ## Setup
 
