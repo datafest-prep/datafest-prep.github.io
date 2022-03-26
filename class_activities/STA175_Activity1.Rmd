@@ -29,6 +29,25 @@ Our client is interested in exploring how existing buildings can be updated to i
 Based on this, is our challenge a prediction or an association task?
 :::
 
+<SCRIPT>
+function ShowAndHide(divid) {
+    var x = document.getElementById(divid);
+    if (x.style.display == 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+    }
+}
+</SCRIPT>
+
+<BUTTON ONCLICK="ShowAndHide('q1_solution')">Solution</BUTTON>
+
+<DIV ID="q1_solution" STYLE="display:none">
+This is an association task. Our client is interested in understanding relationships in the data. 
+</DIV>
+
+</br>
+
 Why does this matter? Well, if our goal is only prediction, we can use really complicated models, and as long as they predict well, we are probably fine with that. However, if our goal is association, we have to choose a model that allows us to actually interpret the relationships going on in the data. Really complex models may not allow this. This means we need to be aware of the goal of the analysis from the very start.
 
 Now that we know the goal, the next step is to start digging in to the data. Characteristics of the data themselves (yes, data is a plural term!) can also help us decide on modeling techniques. In the real competition, this is a good time to split up the features (explanatory variables) you might want to visualize among your team - it's more efficient to split up the work.
@@ -68,6 +87,14 @@ suppressMessages(library(ggplot2)
 What types of variable is site EUI, and based on that, what kinds of plots could we create to explore it? List at least two.
 :::
 
+<BUTTON ONCLICK="ShowAndHide('q2_solution')">Solution</BUTTON>
+
+<DIV ID="q2_solution" STYLE="display:none">
+
+Plots like box plots, histograms, and dot plots work well for exploring the distribution of one numeric variable. Note that a bar plot is not an appropriate choice here. Bar plots are for categorical variables or discrete numeric variables (meaning numeric variables with only a few options like 1, 2, 3, 4.)
+</DIV>
+
+</br>
 
 <p>We are going to start off with a histogram.To create the histogram of site EUI, paste the following code in a chunk and hit play.</p>
 
@@ -93,6 +120,19 @@ ggplot(train, aes(x=site_eui)) +
 
 Create a histogram of average temperatures in March, using 15 bins. Make the bars of the histogram cyan and outline them in white. Show your result.
 :::
+
+<BUTTON ONCLICK="ShowAndHide('q3_solution')">Solution</BUTTON>
+
+<DIV ID="q3_solution" STYLE="display:none">
+
+```{r eval=F}
+ggplot(train, aes(march_avg_temp)) + 
+  geom_histogram(fill = "cyan", col = "white")
+```
+
+</DIV>
+
+</br>
 
 
 <h3>First Rule of Graphs: Labels and Titles</h3>
@@ -127,6 +167,22 @@ caption = "A histogram of site EUI.")
 Copy the code you used to make the graph from Question 3. Now, add the title "Figure 2:" and add appropriate labels to the x and y axis, and add a caption.
 :::
 
+<BUTTON ONCLICK="ShowAndHide('q4_solution')">Solution</BUTTON>
+
+<DIV ID="q4_solution" STYLE="display:none">
+
+```{r eval=F}
+ggplot(train, aes(march_avg_temp)) + 
+  geom_histogram(fill = "cyan", col = "white")+
+  labs(x = "Average Temp in March",
+       y = "Number of Days", 
+       title = "Figure 2")
+```
+
+</DIV>
+
+</br>
+
 
 <p>One VERY important thing to remember when we make plots is to make sure the axes are easily interpretable by your reader. You do not want to use default variable names, like "march_avg_temp". Instead, we want clear labels like "March Average Temperature". This is important for any plots you make in statistics - label your axes appropriately and title your graphs.</p>
 
@@ -138,6 +194,34 @@ Copy the code you used to make the graph from Question 3. Now, add the title "Fi
 Create a box plot of site EUI. Fill the plot in gold and outline it in black. Title your plot Figure 3, and label the x axis "Site EUI". The y axis does not matter in this box plot (it literally gives us no information), so we want a blank axis label " " . Hint: Instead of a <code>geom_bar</code>, we want <code>geom_boxplot</code>, and box plots do not have bins.
 :::
 
+<BUTTON ONCLICK="ShowAndHide('q5_solution')">Solution</BUTTON>
+
+<DIV ID="q5_solution" STYLE="display:none">
+
+To make the boxplot, you use 
+
+```{r eval=F}
+ggplot(train, aes(site_eui)) + 
+  geom_boxplot(fill = "gold", col = "black")+
+  labs(x = "Site EUI",
+       y = "", 
+       title = "Figure 3")
+```
+
+You will notice that there is information on the y axis that we don't need. To remove that, you can use this: 
+
+```{r eval=F}
+ggplot(train, aes(site_eui, "site_eui")) + 
+  geom_boxplot(fill = "gold", col = "black")+
+  labs(x = "Site EUI",
+       y = "", 
+       title = "Figure 3")
+```
+
+</DIV>
+
+</br>
+
 
 
 <p>Now that we have our graphs, let's think about what information they yield.</p>
@@ -148,6 +232,15 @@ Create a box plot of site EUI. Fill the plot in gold and outline it in black. Ti
 
 Based on Figure 1 and Figure 3, describe the distribution of site EUI. Do you see any outliers? Does the distribution seem unimodal or multimodal? Symmetric or skewed? Etc.
 :::
+
+<BUTTON ONCLICK="ShowAndHide('q6_solution')">Solution</BUTTON>
+
+<DIV ID="q6_solution" STYLE="display:none">
+
+Site EUI is heavily skewed to the right (meaning it has a lot of large values.) There are many outliers! In fact, every building with a site EUI above about 161 is an outlier. The distribution is unimodal. 
+</DIV>
+
+</br>
 
 <p>All of these questions can help us determine the type of model we might want to consider.</p>
 
@@ -169,6 +262,23 @@ ggplot(train, aes(x=floor_area, y = site_eui)) + geom_point()
 Start with the code above to create a scatter plot for the year the building was constructed (X) vs site EUI (Y). Color the dots purple.(Hint: This time we are not specifying a <code>fill</code>, but a <code>color</code>). Title your plot Figure 4, and label the x axis and the y axis.
 :::
 
+<BUTTON ONCLICK="ShowAndHide('q7_solution')">Solution</BUTTON>
+
+<DIV ID="q7_solution" STYLE="display:none">
+
+```{r eval=F}
+ggplot(train, aes(year_built, site_eui)) + 
+  geom_point(color = "purple")+
+  labs(x = "Year Built",
+       y = "Site EUI", 
+       title = "Figure 4")
+```
+
+</DIV>
+
+</br>
+
+
 <p>In the figure you have just constructed, you should notice something unusual. There are 5 buildings which were built in year 0!</p>
 
 ```r
@@ -182,6 +292,18 @@ which(train$year_built ==0)
 
 What do you think a 0 for year built is supposed to indicate? And how would you suggest dealing with these 5 buildings? Explain your choice.
 :::
+
+<BUTTON ONCLICK="ShowAndHide('q8_solution')">Solution</BUTTON>
+
+<DIV ID="q8_solution" STYLE="display:none">
+
+There are a few possibilities here. The two most likely are that (1) the information on when these buildings were built was not known, so a 0 was recorded. In this case, we would do better to replace that 0 with NA (not available) to indicate that the data is missing. 
+
+The other option (2) is that these are newly constructed buildings, and someone mis-understood that we wanted building year, not building age. In this case, we replace 0 with 2015 (the newest building in the data)
+
+</DIV>
+
+</br>
 
 <h2>Stacking Graphs</h2>
 
@@ -217,6 +339,30 @@ gridExtra::grid.arrange(g1,g2, ncol = 2)
 
 Create a (1) box plot for site EUI, (2) histogram for site EUI, (3) box plot for the average temperature in March and (4) histogram for the average temperature in March. Stack 4 graphs in a 2 x 2 grid (2 rows and 2 columns). You have already made some of the graphs you need!
 :::
+
+<BUTTON ONCLICK="ShowAndHide('q9_solution')">Solution</BUTTON>
+
+<DIV ID="q9_solution" STYLE="display:none">
+
+```{r eval = F}
+g1 <- ggplot(train, aes(site_eui, "site_eui"))+
+  geom_boxplot(fill = "white", col = "purple")+
+  labs(x = "Site EUI", y= "", title = "Figure 5A")
+g2 <- ggplot(train, aes(site_eui))+
+  geom_histogram(fill = "cyan", bins = 15)+
+  labs(x = "Site EUI", y= "", title = "Figure 5B")
+g3 <- ggplot(train, aes(march_avg_temp, "site_eui"))+
+  geom_boxplot(fill = "yellow", col = "blue")+
+  labs(x = "March Average Temp", y= "", title = "Figure 5C")
+g4 <- ggplot(train, aes(march_avg_temp))+
+  geom_histogram(fill = "blue", bins = 15)+
+  labs(x = "March Average Temp", y= "", title = "Figure 5D")
+gridExtra::grid.arrange(g1,g2,g3,g4, ncol = 2)
+```
+
+</DIV>
+
+</br>
 
 
 <h2>Changing Themes</h2>
@@ -265,6 +411,22 @@ While we are thinking about EDA, we don't only focus on numeric variables. What 
 Make a bar plot to display the building class. Make sure you title your graphs appropriately!
 :::
 
+<BUTTON ONCLICK="ShowAndHide('q10_solution')">Solution</BUTTON>
+
+<DIV ID="q10_solution" STYLE="display:none">
+
+You can choose whatever colors you like!
+
+```{r eval = F}
+ggplot(train, aes(building_class))+
+  geom_bar(fill = "white", col = "purple")+
+  labs(x = "Site EUI", y= "", title = "Figure 6")
+```
+
+</DIV>
+
+</br>
+
 
 There are several ways to make tables in R, but we will discuss two. The first is very direct. We tell R we want to use the <code>train</code> data set and the variable <code>building_class</code>, by using the code `train$building_class` (`dataset$variable`). Then, we use the `table(whatWeWantToMakeATableWith)` command to actually make the table.
 
@@ -285,6 +447,19 @@ There are several ways to make tables in R, but we will discuss two. The first i
 
 Create a table, using the second way to make a table, for the facility type. Make sure your columns are labelled Facility Type and Count. (Hint: The <code>col.names</code> part of the code above will help with that.)
 :::
+
+<BUTTON ONCLICK="ShowAndHide('q11_solution')">Solution</BUTTON>
+
+<DIV ID="q11_solution" STYLE="display:none">
+
+```{r eval = F}
+knitr::kable(table(train$facility_type),
+             col.names=c("Facility Type", "Count"))
+```
+
+</DIV>
+
+</br>
 
 # Next Steps
 
