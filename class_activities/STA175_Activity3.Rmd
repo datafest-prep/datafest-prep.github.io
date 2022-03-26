@@ -177,4 +177,8 @@ What techniques do you know that could help you decide which features to explore
 
 EDA and data wrangling can take a while - don't be surprised if you spend a lot of time at the competition working on these skills! 
 
-Once you are comfortable with the data, you will likely start focusing on modeling. Do you want to try to build a model to explore what is related to higher EUI? What kind of model might be appropriate? And how do you build it?? We'll work on these skills as our next steps. 
+Once you are comfortable with the data, you will likely start focusing on modeling. Do you want to try to build a model to explore what is related to higher EUI? What kind of model might be appropriate? And how do you build it?? We'll work on these skills as our next steps.
+
+<div id="license">
+<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work was created by Nicole Dalzell is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>. Last updated 2022 February 10.
+</div>
