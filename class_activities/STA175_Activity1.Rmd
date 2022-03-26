@@ -1,5 +1,5 @@
 ---
-title: "Activity 1 Part 3: Data Visualization"
+title: "Activity 2: Data Visualization"
 output: 
   rmdformats::robobook:
     css: "homework.css"
@@ -11,7 +11,7 @@ link-citations: yes
 
 At the start of DataFest in April, you will be given a data set and provided with the research questions your client would like you to explore - and that's it! How you approach the problem, what model you choose...everything is completely up to you.
 
-In the last part of this activity, we learned that one way to start to explore a data set involves using tables and summaries. In this part of the activity, we are going to visualize data in R. We will also see some best practices for visualizations (like adding appropriate labels and titles to graphs) that your team should use for DataFest and indeed any formal report or presentation!  
+In the last activity, we learned that one way to start to explore a data set involves using tables and summaries. In this part of the activity, we are going to visualize data in R. We will also see some best practices for visualizations (like adding appropriate labels and titles to graphs) that your team should use for DataFest and indeed any formal report or presentation!  
 
 ## First Steps: The Type of Task
 
