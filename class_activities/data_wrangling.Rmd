@@ -440,3 +440,21 @@ penguins %>%
 </DIV>
 
 </br>
+
+
+# Summary
+
+* Work with a smaller, manageable subset of the data
+  * `filter`
+* Remove missing data
+  * `drop_na`
+* Calculate summary statistics
+  * `summarize` and `group_by`
+* Create new variables
+  * `mutate`
+  
+</br>
+
+<div id="license">
+<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work was created by Ciaran Evans and is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>. Last updated 2022 March 26.
+</div>
