@@ -1,5 +1,5 @@
 ---
-title: "STA 175 DataFest Activity 8: Practice Starter"
+title: "Activity 8: Road Map for Getting Started"
 output: 
   rmdformats::robobook:
     css: "homework.css"
@@ -9,7 +9,7 @@ link-citations: yes
 
 ## The Goal
 
-So far, we have covered exploratory data analysis and data wrangling, linear regression, model selection, and trees. So you have a lot of tools to work with for the competition! But when you get a new dataset, it can be daunting to plan out your analysis. That's ok! The purpose of today's activity is to give you practice working with a new dataset and planning how you will use the tools we have learned to start analyzing it.
+So far, we have covered exploratory data analysis and data wrangling, linear regression, model selection, and trees. So you have a lot of tools to work with for the competition! But when you get a new dataset, it can be daunting to plan out your analysis. That's ok! The purpose of today's activity is to give you practice working with a new data set and planning how you will use the tools we have learned to start analyzing it.
 
 ## The Data
 
@@ -49,7 +49,7 @@ This dataset contains 899,164 loans completely or partially guaranteed by the SB
 
 You can download the data at [this google drive link](https://drive.google.com/file/d/1wfDtMhTCQo_coPXttOhq7R9AIEBXwuZ0/view?usp=sharing)
 
-You will need to save the data to your computer, upload it to RStudio Pro, then load it into R with `read.csv` or `read_csv`.
+You will need to save the data to your computer, upload it to RStudio, then load it into R with `read.csv` or `read_csv`.
 
 ### Research questions
 
