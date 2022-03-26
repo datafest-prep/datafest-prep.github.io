@@ -1,5 +1,5 @@
 ---
-title: "STA 175 DataFest Activity 9"
+title: "Activity 9"
 output: 
   rmdformats::robobook:
     css: "homework.css"
@@ -20,7 +20,7 @@ Today, we are going to shift our focus from the beginning of the analysis to the
 
 # DataFest - Presenting to the Judges 
 
-On Sunday morning April 3rd at DataFest, each of your teams will be presenting your results to a panel of judges. You will have about 7-9 minutes to present your results, and we will have a timer. Now, this isn't very much time, but it is actually fairly reflective of the time you might have in a meeting in industry to summarize your results to a client.  
+On the final day of DataFest, each of your teams will be presenting your results to a panel of judges. You will have only a few minutes to present your results. Now, this isn't very much time, but it is actually fairly reflective of the time you might have in a meeting in industry to summarize your results to a client.  
 
 Even if you have an incredible analysis or visualization or insight...you cannot win if you do not present your results to the judges in a clear and compelling way. 
 
@@ -219,5 +219,5 @@ Your presentation will go much more smoothly if you discuss all of these things 
 
 # Get Ready! 
 
-DataFest is next week!!
+DataFest is coming up! 
 
