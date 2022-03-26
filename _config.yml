@@ -18,7 +18,7 @@ tagline: DataFest Prep
 description: Activties and Tips for Participating in ASA DataFest
 author: Dr. Nicole Dalzell and Dr. Ciaran Evans, Wake Forest University
 baseurl: # the subpath of your site, e.g. /blog
-url: 'https://datafest-prep.github.io/' # the base hostname & protocol for your site, e.g. http://example.com
+url: 'https://datafest-prep.github.io' # the base hostname & protocol for your site, e.g. http://example.com
 exclude: ["Gemfile", "Gemfile.lock", "LICENSE", "README.md"]
 
 # Theme settings

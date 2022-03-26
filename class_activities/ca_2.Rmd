@@ -193,3 +193,7 @@ Now calculate the correlation between age and energy efficiency for each residen
 
 When calculating the age of each building, we compared the year in which it was built to 2022. While we don't know in which year the buildings were inspected, this is fine as long as all buildings were measured in the same year. However, the buildings in this dataset were actually measured across seven different years. How would you handle this when analyzing building age?
 :::
+
+<div id="license">
+<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work was created by Ciaran Evans and is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>. Last updated 2022 March 25.
+</div>

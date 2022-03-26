@@ -27,5 +27,5 @@ If you are new to RMarkdown, start on the [RMarkdown](https://datafest-prep.gith
 
 # Getting Started 
 
-Once you have the all the softaware ready to go, head to the [Activities and Resources page](https://datafest-prep.github.io//calendar/) to get started!
+Once you have the all the software ready to go, head to the [Activities and Resources page](https://datafest-prep.github.io//calendar/) to get started!
 

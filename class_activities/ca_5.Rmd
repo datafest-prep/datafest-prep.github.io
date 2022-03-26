@@ -115,3 +115,7 @@ Your client is particularly interested in building age as an explanatory variabl
 ## Next steps
 
 Exploring relationships by hand is important, but we probably can't investigate every variable in the data this way. A linear relationship might also not be an appropriate choice for our data. In our next steps, we'll talk about model selection techniques, and consider other types of regression.
+
+<div id="license">
+<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work was created by Ciaran Evans and is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>. Last updated 2022 March 25.
+</div>

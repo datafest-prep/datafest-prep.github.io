@@ -240,3 +240,7 @@ Which goal(s) correspond to the research question(s)?
 
 What tools will you use to answer the research questions? (Hypothesis testing, model selection, visualizations, etc.) Describe in detail how you will use these tools (e.g., write down the hypotheses you will test, describe how you will interpret the results of model selection, etc.)
 :::
+
+<div id="license">
+<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work was created by Ciaran Evans and is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>. Last updated 2022 March 25.
+</div>
