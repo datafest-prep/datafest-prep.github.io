@@ -1,0 +1,302 @@
+---
+title: "Activity 4"
+output: 
+  rmdformats::robobook:
+    css: "homework.css"
+    highlight: pygments
+link-citations: yes
+---
+
+# The Goal
+
+So far, we have explored how to create graphs using ggplot2 and how to use tidyR to wrangle the data (which means using code to get the data ready for us to work with). However, our activities so far have been rather guided. When we get a data set at DataFest, we don't have steps helping us decide what do to first, second, etc. All of that is up to us. 
+
+Today, you are going to be working with the energy efficiency data (the same data set we have been working with) as though we were in a competition. If you need a refresher on plotting, look back at Activity 2. If you need a refresher on data wrangling, you can look at [the slides](https://https://datafest-prep.github.io/slides/data_wrangling.html) we covered last time.
+
+We are also going to start our discussion of **collaborative coding** today. What does that mean? Well, during DataFest, everyone on your team will be coding on their own computers, but you will all be working together to complete the project. How can you do this efficiently? We will talk about some tips for this as we move through the semester. Today, we will start with practicing **reproducible coding**. 
+
+# Setup
+
+For this activity you will need the `dplyr`, `ggplot2`, and `tidyr` packages. Create a chunk and load these into R by using  `library(tidyverse)` and `library(ggplot2)`.
+
+**Note: This first step (loading the libraries) is something you should do before starting any analysis for this course. This is also something you should do before starting your work at DataFest.** 
+
+We will continue using the energy efficiency data. Load the `train.csv` data set into R. The easiest way to do this is just to copy the chunk that you used to load the data in previous activities and paste that into your Markdown file for this activity. You can also go back and look at the activity for loading the data for full instructions. 
+
+# The Client
+
+At DataFest, you will be given a set of research questions from a client. These research questions will drive your work. For today, we have a client who is interested in determining what features (explanatory variables) in the data set are related to high energy use for residential buildings with at least 6000 sq feet of floor area. Recall that energy use is included in the EUI variable in the data set. 
+
+The client asks you to create visualizations and/or use a model to explore this. The goal is to identify features related to high energy use so the client can explore ways to help buildings make changes and reduce energy consumption. They ask you specifically to look at the age of the building, but want you to examine other features as well. 
+
+## Data Wrangling when working in Teams  
+
+:::{.question}
+#### Question 1
+
+With your team, make a list of any data wrangling steps that you need to perform to take your current data and focus in on just the rows of data that are of interest to your client. Right now, write the steps out in words, not in code. 
+:::
+
+<SCRIPT>
+function ShowAndHide(divid) {
+    var x = document.getElementById(divid);
+    if (x.style.display == 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+    }
+}
+</SCRIPT>
+
+<BUTTON ONCLICK="ShowAndHide('q1_solution')">Solution</BUTTON>
+
+<DIV ID="q1_solution" STYLE="display:none">
+We need to (1) look at only the residential buildings and then (2) choose only the ones over 600 sq feet. We also need to know the age of the building. 
+</DIV>
+
+</br>
+
+
+Now, data wrangling is a step that everyone on your team will need to do. If, for instance, you choose to handle missing data a certain way, or include only rows from a certain year, etc., everyone on your team needs to make the same choices before working with their data. Otherwise, you may end up fitting models to different data sets!! 
+
+Because of this, it is very important to **annotate** your code, which means putting short notes in your code that allow your teammates to know what steps you have taken. To do this in RMarkdown you just put a # in a chunk. Anything you put in the line with the # will be ignored when running the chunk, so you can put notes to yourself or your colleagues. 
+
+For example, in the following chunk, the only line of code the computer will run is the second one (`library(ggplot2)`). The first line (green, and in italics) will be treated as a comment and ignored.  
+
+```r
+# Load the ggplot2 package
+library(ggplot2)
+```
+
+Note: The same thing works in R scripts. # marks at the start of the line tell the computer to treat the line as a comment rather than as code.   
+
+:::{.question}
+#### Question 2
+
+Perform the data wrangling steps your listed in Question 1 to create a new data set called **trainNew**. This new data set should contain only the rows of data that you need based on the client's request. Make sure to annotate your steps so your teammates can follow it.  
+:::
+
+<BUTTON ONCLICK="ShowAndHide('q2_solution')">Solution</BUTTON>
+
+<DIV ID="q2_solution" STYLE="display:none">
+
+There are multiple ways to do this, but here is one. 
+
+```{r eval = F}
+library(dplyr)
+# Select residential buildings 
+# with at least 600 sq feet
+trainNew <- train %>%
+  filter( building_class == "Residential" &
+            floor_area > 6000)
+```
+ 
+
+</DIV>
+
+</br>
+
+Okay, so everyone on your team has now done the same steps. Is there a way to do this if only one person is coding? Yes! One way to handle this sort of data wrangling when working with teammates is to have one person perform the wrangling and then that person send the new data set to the rest of the group, along with the code used to create it. 
+
+To take a data set from R and send it to another person, you need to be able to **export** a data set that you create. For us, this typically means turning a data set in R into a .csv file that you can send to a teammate. Do to this in R, we use the `write.csv` function. 
+```r
+write.csv(trainNew, "trainNew.csv", row.names = FALSE)
+```
+
+The first input (`trainNew`) is the name of the data set you want to send to your teammates. The second input (`trainNew.csv`) is the name of the file you will be storing the data set in. The third input (`row.names = FALSE`) just keeps the computer from adding in a column of 1, 2, 3, etc. to the beginning of your file. 
+
+:::{.question}
+#### Question 3
+
+Using the code above, create a file called `trainNew` containing the data you created in Question 2. Check to make sure you or a teammate can load the data into R, and that it looks correct!
+:::
+
+If you get stuck with any of this, let us know!! Collaborative coding takes practice, and we'll build up our skills gradually in this area. You will also find that different teams have different preferences when it comes to working together. This is a chance for you to figure out what works for your group. 
+
+## Considering Age 
+
+Now that we have the data ready, let's start with the variable the client asked us specifically to include - age. 
+
+Take a look at your data set (`trainNew`). Do we have a column that indicates building age in the data set? It turns out that no, we do not. This is common in data analysis work - sometimes the variable we need is not present, but we have the columns we need to create it in the data set. That is the case for us today. 
+
+:::{.question}
+#### Question 4
+
+Using the `mutate` function, create a new column which records the (current) age of each building.
+:::
+
+<BUTTON ONCLICK="ShowAndHide('q4_solution')">Solution</BUTTON>
+
+<DIV ID="q4_solution" STYLE="display:none">
+
+Note that we are currently in 2022, so we subtract the year the building was constructed from 2022 to determine building age. 
+
+```{r eval = F}
+# Add on a column for age
+trainNew <- trainNew %>%
+  mutate( Age = 2022 - year_built)
+```
+ 
+</DIV>
+
+</br>
+
+Now that we've made a column for building age, we can explore this new variable.
+
+:::{.question}
+#### Question 5
+
+How many buildings in the data have a missing value for age? *(Hint: check out the `is.na` function in the table of logical operators below).* The `summary` function can also be helpful for this. 
+:::
+
+<BUTTON ONCLICK="ShowAndHide('q5_solution')">Solution</BUTTON>
+
+<DIV ID="q5_solution" STYLE="display:none">
+
+Here, we use `is.na` to help us. This is a function that returns "TRUE" if a row has missing data for Age and "FALSE" otherwise. For example, 
+
+```{r eval = F}
+# The first row is not missing age
+is.na(trainNew$Age[1])
+# The 16th row is!
+is.na(trainNew$Age[16])
+```
+To count how many are missing age, we can use `sum`. 
+
+```{r eval = F}
+sum(is.na(trainNew$Age))
+```
+There are 408 buildings with no age information.  
+</DIV>
+
+</br>
+
+| operator | definition | operator | definition |
+| --- | --- | --- | --- |
+| `<`         | less than | `x | y` | `x` OR `y` |
+| `<= ` | less than or equal to | `is.na(x)` | test if `x` is `NA` |
+| `>` | greater than | `!is.na(x)` |  test if `x` is not `NA` |
+| `>=` | greater than or equal to | `x %in% y` | test if `x` is in `y` |
+| `==` | exactly equal to | `!(x %in% y)`| test if `x` is not in `y`|
+| `!=` | not equal to | `!x` | not `x` |
+| `x & y` | `x` AND `y` | | |
+
+:::{.question}
+#### Question 6
+
+Do the residential buildings with missing age tend to belong to a specific facility type?
+:::
+
+<BUTTON ONCLICK="ShowAndHide('q6_solution')">Solution</BUTTON>
+
+<DIV ID="q6_solution" STYLE="display:none">
+
+To figure this out, we need to (1) create a column indicating which buildings are missing their age, (2) group together the different facility types and (3) find out how many buildings of each facillity type are missing data on age. We can do that using the following
+
+```{r eval = F}
+trainNew %>%
+  # Add a new column indicating missing age
+  mutate(isMissing = is.na(Age)) %>%
+  # Group the data by facility type
+  group_by(facility_type) %>%
+  # Count how many buildings are missing age
+  summarise(sum(isMissing))
+```
+
+ 
+From this, we will see that `Multifamily_Uncategorized` buildings have the most missing data (383 buildings). 
+</DIV>
+
+</br>
+
+Now, let's take a look at what the client asked for - how does age relate to the energy use of the building. 
+
+:::{.question}
+#### Question 7
+
+Fill in the code below to create a scatter plot showing the relationship between age and energy efficiency. Change the color and shape of the points to reflect facility type. Add good labels, a title, and a caption. Feel free to change the theme too.
+
+```r
+ggplot(trainNew, aes(x = ...,
+             y = ...)) +
+  geom_...() +
+  labs(x = "...",
+       y = "...",
+       title = "...",
+       caption = "...") +
+  theme_bw()
+```
+:::
+
+<BUTTON ONCLICK="ShowAndHide('q7_solution')">Solution</BUTTON>
+
+<DIV ID="q7_solution" STYLE="display:none">
+
+Feel free to change the color and shape!
+
+```{r eval = F}
+ggplot(trainNew, aes(x = Age,
+             y = site_eui)) +
+  geom_point(col = "blue") +
+  labs(x = "Building Age",
+       y = "Site EUI",
+       title = "Figure 1",
+       caption = "A scatter plot for the relationship between building age and site energy use") +
+  theme_bw()
+```
+
+</DIV>
+
+</br>
+
+
+:::{.question}
+#### Question 8
+
+Based on your work, what patterns do you see between age and energy usage? Note: It is totally fine if you explore a variable and then decide it does not relate to the response variable. The client has asked us to explore...and this means that not every variable will prove to have a strong relationship or indeed any relationship with the response variable.  
+:::
+
+:::{.question}
+#### Question 9
+
+When calculating the age of each building, we compared the year in which it was built to 2022. While we don't know in which year the buildings were inspected, this is fine as long as all buildings were measured in the same year. However, the buildings in this data set were actually measured across seven different years. How would you handle this when analyzing building age?
+:::
+
+
+## Choosing Other Variables  
+
+Now, we have a ton of variables in this data set. Our client wants to know which of them is associated with high energy usage. Does this means we have to look at all 60+ at once??? Nope. If you are familiar with variable selection techniques and want to try that, go for it. However, it is also totally reasonable to start exploring just a few variables. 
+
+As you are working in a team, it is also likely that each person will explore a feature on their own and then share their findings with the group. Let's practice that. 
+
+:::{.question}
+#### Question 10
+
+Have each member of your team choose one feature (explanatory variable) that they want to explore. Each team member should use appropriate graphs or summaries to explore the relationship between their chosen feature and EUI. 
+:::
+
+:::{.question}
+#### Question 11
+
+Come back together as a team. Share with one another what each of you has found. Based on this work, what patterns do you see between the features and energy usage? Have you identified any features that might be associated with high EUI? How might this help you respond to your client's research question? 
+:::
+
+## Time Permitting 
+
+If your team is feeling comfortable with the EDA you have done so far, start thinking about how you would handle the remaining features.
+
+:::{.question}
+#### Question 12
+
+What techniques do you know that could help you decide which features to explore? Are there any features that might prove difficult to use? Why? Talk through these concepts with your group - this is a great way to learn about each others skills, and to practice allocating tasks like we would need to do at DataFest. 
+:::
+
+## Next Steps
+
+EDA and data wrangling can take a while - don't be surprised if you spend a lot of time at the competition working on these skills! 
+
+Once you are comfortable with the data, you will likely start focusing on modeling. Do you want to try to build a model to explore what is related to higher EUI? What kind of model might be appropriate? And how do you build it?? We'll work on these skills as our next steps.
+
+<div id="license">
+<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work was created by Nicole Dalzell is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>. Last updated 2022 March 26.
+</div>
