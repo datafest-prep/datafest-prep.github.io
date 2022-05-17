@@ -11,9 +11,9 @@ link-citations: yes
 
 So far, we have explored how to create graphs using ggplot2 and how to use tidyR to wrangle the data (which means using code to get the data ready for us to work with). However, our activities so far have been rather guided. When we get a data set at DataFest, we don't have steps helping us decide what do to first, second, etc. All of that is up to us. 
 
-Today, you are going to be working with the energy efficiency data (the same data set we have been working with) as though we were in a competition. If you need a refresher on plotting, look back at Activity 1. If you need a refresher on data wrangling, you can look at [the slides](https://https://datafest-prep.github.io/slides/data_wrangling.html) we covered last time.
+Today, you are going to be working with the energy efficiency data (the same data set we have been working with) as though we were in a competition. If you need a refresher on plotting, look back at Activity 1. If you need a refresher on data wrangling, you can look at [Activity 3A](https://datafest-prep.github.io/class_activities/data_wrangling.html).
 
-We are also going to start our discussion of **collaborative coding** today. What does that mean? Well, during DataFest, everyone on your team will be coding on their own computers, but you will all be working together to complete the project. How can you do this efficiently? We will talk about some tips for this as we move through the semester. Today, we will start with practicing **reproducible coding**. 
+We are also going to start our discussion of **collaborative coding** today. What does that mean? Well, during DataFest, everyone on your team will be coding on their own computers, but you will all be working together to complete the project. How can you do this efficiently? We will talk about some tips for this as we move through these activities. Today, we will start with practicing **reproducible coding**. 
 
 # Setup
 
@@ -21,7 +21,7 @@ For this activity you will need the `dplyr`, `ggplot2`, and `tidyr` packages. Cr
 
 **Note: This first step (loading the libraries) is something you should do before starting any analysis for this course. This is also something you should do before starting your work at DataFest.** 
 
-We will continue using the energy efficiency data from last week. Load the `train.csv` data set into R. The easiest way to do this is just to copy the chunk that you used to load the data in Activity 2 and paste that into your Markdown file for this activity. You can also see [Activity 1](https://sta175-s22.github.io/class_activities/ca_1.html) for full instructions.
+We will continue using the energy efficiency data from last week. Load the `train.csv` data set into R. The easiest way to do this is just to copy the chunk that you used to load the data in Activity 2 and paste that into your Markdown file for this activity. You can also see [Activity 1 Part 1](https://datafest-prep.github.io/slides/loadingData.html) for full instructions.
 
 # The Client
 
@@ -29,7 +29,7 @@ At DataFest, you will be given a set of research questions from a client. These 
 
 The client asks you to create visualizations and/or use a model to explore this. The goal is to identify features related to high energy use so the client can explore ways to help buildings make changes and reduce energy consumption. They ask you specifically to look at the age of the building, but want you to examine other features as well. 
 
-## Data Wrangling when working in Teams  
+# Data Wrangling when working in Teams  
 
 :::{.question}
 #### Question 1
@@ -73,9 +73,9 @@ Using the code above, create a file called `trainNew` containing the data you cr
 
 If you get stuck with any of this, let us know!! Collaborative coding takes practice, and we'll build up our skills gradually in this area. You will also find that different teams have different preferences when it comes to working together. This is a chance for you to figure out what works for your group. 
 
-## Considering Age 
+# Considering Age 
 
-Now that we have the data ready, let's start with the variable the client asked us specifically to include - age. 
+Now that we have the data ready, let's start with the variable the client asked us specifically to include - the age of the building. 
 
 Take a look at your data set (`trainNew`). Do we have a column that indicates building age in the data set? It turns out that no, we do not. This is common in data analysis work - sometimes the variable we need is not present, but we have the columns we need to create it in the data set. That is the case for us today. 
 
@@ -145,7 +145,7 @@ Based on your work, what patterns do you see between age and energy usage? Note:
 When calculating the age of each building, we compared the year in which it was built to 2022. While we don't know in which year the buildings were inspected, this is fine as long as all buildings were measured in the same year. However, the buildings in this data set were actually measured across seven different years. How would you handle this when analyzing building age?
 :::
 
-## Choosing Other Variables  
+# Choosing Other Variables  
 
 Now, we have a ton of variables in this data set. Our client wants to know which of them is associated with high energy usage. Does this means we have to look at all 60+ at once??? Nope. If you are familiar with variable selection techniques and want to try that, go for it. However, it is also totally reasonable to start exploring just a few variables. 
 
@@ -179,6 +179,15 @@ EDA and data wrangling can take a while - don't be surprised if you spend a lot 
 
 Once you are comfortable with the data, you will likely start focusing on modeling. Do you want to try to build a model to explore what is related to higher EUI? What kind of model might be appropriate? And how do you build it?? We'll work on these skills as our next steps.
 
+## Citation 
+
+:::{.question}
+This activity uses data from: 
+
+Climate Change AI (CCAI) and Lawrence Berkeley National Laboratory (Berkeley Lab). (2022 January). WiDS Datathon 2022, Version 1. Retrieved January 10, 2022 from https://www.kaggle.com/competitions/widsdatathon2022/overview.
+:::
+
+
 <div id="license">
-<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work was created by Nicole Dalzell is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>. Last updated 2022 February 10.
+<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work was created by Nicole Dalzell is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>. Last updated 2022 May 17.
 </div>
