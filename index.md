@@ -15,9 +15,13 @@ seo:
 
 Welcome! This site contains information and activities to help you prepare for competing in [ASA DataFest](https://ww2.amstat.org/education/datafest/).
 
-# Software 
+# What do I need to know before starting? 
 
-You are welcome to use any coding language you like at DataFest, but this site focuses on using R for DataFest. 
+You are welcome to use any coding language you like at DataFest, but this site focuses on using R. 
+
+We have designed this site for students who have had a statistics course in regression, or are currently in a course on regression. However, you don't need more than that!
+
+# Software 
 
 If you are new to R or Rtudio, you have two choices to gain access to the software. Both are free!
 * Option 1: You can [follow this link](https://datafest-prep.github.io//slides/RStudioCloud.html) to learn how to access RStudio online. 
