@@ -179,6 +179,15 @@ Compare your resulting models. Do they agree on which variables should be includ
 Think about your client's original question -- what would your answer be for the features most related to energy use?
 :::
 
+### Citation 
+
+:::{.question}
+This activity uses data from: 
+
+Climate Change AI (CCAI) and Lawrence Berkeley National Laboratory (Berkeley Lab). (2022 January). WiDS Datathon 2022, Version 1. Retrieved January 10, 2022  from https://www.kaggle.com/competitions/widsdatathon2022/overview.
+:::
+
+
 <div id="license">
 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work was created by Ciaran Evans and is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>. Last updated 2022 March 25.
 </div>
