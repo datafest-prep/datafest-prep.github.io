@@ -7,17 +7,15 @@ description: >-
 
 # What is this site for?
 
-This site provided activities to help you prepare for the American Statistical Association (ASA) DataFest Competition. 
+This site provides activities to help you prepare for the American Statistical Association (ASA) DataFest Competition. 
 
 DataFest is a competition that takes place across the nation each spring for undergraduate and graduate students. Competitors will work in teams to analyze a large real world data set, and then present their results to a panel of judges. 
 
 Past data sets have come from TicketMaster, Olympic sports teams, Edmunds, and so on. Last year's topic explored the abuse of sleep medications in college students. 
 
-**Our competition will begin in April 2022.**
+Typically, folks compete in teams of 2-5 students. 
 
-You will be competing in teams of 2-5 students. 
-
-# Course Topics 
+# Topics 
 
 The activities cover topics like: 
 
