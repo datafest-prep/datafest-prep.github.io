@@ -41,11 +41,27 @@ Let's start by fitting a simple linear regression model with your chosen feature
 age_lm <- lm(site_eui ~ age, data = large_residential)
 ```
 
+Let's break that down. 
+
+- The `lm` part of the code tells R we want to build a linear regression model. 
+- The second piece of the code is our Y variable (`site_eui`).
+- The third piece in the code is our X variable (`age`).
+- We then provide the data set (`data = large_residential`) where the two variables can be found. 
+- We then store all of our results under the object called `age_lm`.
+
+To get the coefficients (estimated intercept and slope) for the linear regression model, we use
+
+```r
+age_lm$coefficients
+```
+
 :::{.question}
 #### Question 3
 
 Using your chosen feature, fit a simple linear regression model with EUI as the response. Is the sign of the slope (positive or negative) what you would expect?
 :::
+
+## Checking Assumptions 
 
 Linear regression works best when some assumptions about the relationship between our predictor(s) and response are satisfied. In particular, we often make the following assumptions:
 
@@ -53,7 +69,7 @@ Linear regression works best when some assumptions about the relationship betwee
 * **Constant variance:** the variance of the residuals is the same for different values of the predictor(s)
 * **Normality:** the residuals are approximately normal
 
-As you may recall from STA 112 or STA 312, we can assess these assumptions with diagnostic plots, like residual plots and QQ plots. For example, here is some code to make a residual plot and a QQ plot for the `age_lm` model above:
+We can assess these assumptions with diagnostic plots, like residual plots (constant variance) and QQ plots (normality). For example, here is some code to make a residual plot and a QQ plot for the `age_lm` model above:
 
 ```r
 # residual plot
@@ -65,7 +81,6 @@ large_residential %>%
   labs(x = "Predicted EUI",
        y = "Residual") +
   theme_bw()
-
 # QQ plot
 large_residential %>%
   ggplot(aes(sample = resid(age_lm))) +
@@ -79,7 +94,7 @@ large_residential %>%
 :::{.question}
 #### Question 4
 
-Create diagnostic plots for your fitted model from Question 3. Do the assumptions look reasonable? Do you notice any unusual points which may affect the fitted regression line?
+Create diagnostic plots for your fitted model from Question 3 using the code above. Do the assumptions look reasonable? Do you notice any unusual points which may affect the fitted regression line?
 :::
 
 :::{.question}
@@ -88,7 +103,13 @@ Create diagnostic plots for your fitted model from Question 3. Do the assumption
 If you noticed anything unusual in Question 4, investigate further. Try some transformations of the predictor and/or response, and see how the diagnostic plots change. See if unusual points substantially change the fitted line, or if any of the unusual points are clear measurement errors (e.g., a negative age).
 :::
 
+## Assessing Model Fit
+
 Once we have a fitted regression model for which the assumptions seem reasonable, we want to know whether it is actually useful at predicting EUI. For a simple least-squares linear regression (one predictor), we typically summarize model fit with the correlation ( $r$ ) or coefficient of determination ( $R^2$ ). For multiple least-squares regression, we use the adjusted coefficient of determination ( $R^2_{adj}$ ), which accounts for the number of parameters in our model. $R^2$ and $R^2_{adj}$ can be found in the `summary` output in R.
+
+```r
+summary(age_lm)
+```
 
 :::{.question}
 #### Question 6
@@ -115,6 +136,15 @@ Your client is particularly interested in building age as an explanatory variabl
 ## Next steps
 
 Exploring relationships by hand is important, but we probably can't investigate every variable in the data this way. A linear relationship might also not be an appropriate choice for our data. In our next steps, we'll talk about model selection techniques, and consider other types of regression.
+
+### Citation 
+
+:::{.question}
+This activity uses data from: 
+
+Climate Change AI (CCAI) and Lawrence Berkeley National Laboratory (Berkeley Lab). (2022 January). WiDS Datathon 2022, Version 1. Retrieved January 10, 2022  from https://www.kaggle.com/competitions/widsdatathon2022/overview.
+:::
+
 
 <div id="license">
 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work was created by Ciaran Evans and is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>. Last updated 2022 March 25.
