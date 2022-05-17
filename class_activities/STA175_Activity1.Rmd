@@ -9,19 +9,19 @@ link-citations: yes
 
 # The Goal
 
-At the start of DataFest in April, you will be given a data set and provided with the research questions your client would like you to explore - and that's it! How you approach the problem, what model you choose...everything is completely up to you.
+At the start of DataFest, you will be given a data set and provided with the research questions your client would like you to explore - and that's it! How you approach the problem, what model you choose...everything is completely up to you.
 
-In the last activity, we learned that one way to start to explore a data set involves using tables and summaries. In this part of the activity, we are going to visualize data in R. We will also see some best practices for visualizations (like adding appropriate labels and titles to graphs) that your team should use for DataFest and indeed any formal report or presentation!  
+In the last activity, we learned that one way to start to explore a data set involves using tables and summaries. In this activity, we are going to explore a data set using visualizations (graphs) R. We will also see some best practices for visualizations (like adding appropriate labels and titles to graphs) that your team should use for DataFest and indeed for any formal report or presentation!  
 
-## First Steps: The Type of Task
+# First Steps: The Type of Task
 
-We met the data in the last part of the activity. We have a lot of rows, and a LOT of possible features in this data set. The data at DataFest may be even bigger. Sometimes the hardest part is figuring out how to get started, so let's talk about that.
+We will continue working with our same data set. We have a lot of rows, and a LOT of possible features in this data set. The data at DataFest may be even bigger. Sometimes the hardest part is figuring out how to get started, so let's talk about that.
 
-<p>The first question to ask yourselves: What is the goal? Are we building a model to help predict something? If so, then our goal is <strong>prediction</strong>. Is our goal to understand relationships among some of the features (explanatory variables) and our response? If so, then our goal is <strong>association</strong>.
+The first question to ask yourselves: What is the goal? Are we building a model to help predict something? If so, then our goal is <strong>prediction</strong>. Is our goal to understand relationships among some of the features (explanatory variables) and our response variable? If so, then our goal is <strong>association</strong>.
 
 There are other types of goals, like establishing causal relationships, but generally with DataFest we have either prediction or association.
 
-Our client is interested in exploring how existing buildings can be updated to improve their energy efficiency and reduce their carbon foot print. They are interested in identifying traits associated with high energy usage, and recommendations on how buildings can improve their energy efficiency.
+Our client is interested in exploring how existing buildings can be updated to improve their energy efficiency and reduce their carbon foot print. They are interested in identifying traits associated with high energy usage, and they would like recommendations on how buildings can improve their energy efficiency.
 
 :::{.question}
 #### Question 1
@@ -48,7 +48,7 @@ This is an association task. Our client is interested in understanding relations
 
 </br>
 
-Why does this matter? Well, if our goal is only prediction, we can use really complicated models, and as long as they predict well, we are probably fine with that. However, if our goal is association, we have to choose a model that allows us to actually interpret the relationships going on in the data. Really complex models may not allow this. This means we need to be aware of the goal of the analysis from the very start.
+Why does this matter? Well, if our goal is only prediction, we can use really complicated models, and as long as they predict well, we are probably fine with that. However, if our goal is association, we have to choose a model that allows us to actually interpret the relationships going on in the data. Really complex models may not allow for this. This means we need to be aware of the goal of the analysis from the very start.
 
 Now that we know the goal, the next step is to start digging in to the data. Characteristics of the data themselves (yes, data is a plural term!) can also help us decide on modeling techniques. In the real competition, this is a good time to split up the features (explanatory variables) you might want to visualize among your team - it's more efficient to split up the work.
 
@@ -70,21 +70,21 @@ library(rlang)
 <p>Once you have installed the ggplot2 package, you need to tell R that you would like to begin using the function by <strong>loading the library</strong>. Remember that we said installing a package is like teaching R a skill? <strong>Loading a library</strong> is how we tell we R we want it to use those skills. To do this, create a chunk in your RMarkdown and copy and paste the following, and hit play.</p>
 
 ```r
-suppressMessages(library(ggplot2)
+suppressMessages(library(ggplot2))
 ```
 
 <p><strong>Note that this process of loading a library is one you have to do ONCE each time we start a lab or project</strong>.This tells R "Hey, remember those skills we taught you? Use them."</p>
 
 <p>You are now ready to begin EDA.</p>
 
-<h2>EDA: One Numeric Variable</h2>
+# EDA: One Numeric Variable
 
 <p>To start off with, let's create a visual to explore the distribution the response variable, site EUI. What are we looking for? Things like modality, outliers, spread, etc.</p>
 
 :::{.question}
 #### Question 2
 
-What types of variable is site EUI, and based on that, what kinds of plots could we create to explore it? List at least two.
+What type of variable is site EUI, and based on that, what kinds of plots could we create to explore its distribution? List at least two.
 :::
 
 <BUTTON ONCLICK="ShowAndHide('q2_solution')">Solution</BUTTON>
@@ -102,8 +102,13 @@ Plots like box plots, histograms, and dot plots work well for exploring the dist
 ggplot(train, aes(x=site_eui)) + 
  geom_histogram(bins = 20, fill='blue', col = 'black')
 ```
+Welcome to building plots in `ggplot2`! Let's talk about what we just did. 
 
-<p>The creation of plots in ggplot2 requires building the plot in layers. First, we build the background, the grid on which we will be building our graph. This is the job of the <code><span class="kw">ggplot()</span></code> part of the code. Once we have built the background, we are ready to plot our data. The command we will use for this depends upon the data type we are working with. In this case, we want a histogram. The command we use to build a histogram is <code><span class="kw">geom_histogram()</span></code>. In this same layer, we specify that we want the bars to be filled (<code>'fill'</code>) in blue and we want them outlined (<code>'col'</code>) in black. The only other part of the command is <code>bins=20</code>. We need this because for histograms, we have to specify how many bins we want.</p>
+The creation of plots in ggplot2 requires building the plot in layers. 
+
+- First, we build the background, the grid on which we will be building our graph. This is the job of the <code><span class="kw">ggplot()</span></code> part of the code. 
+- Once we have built the background, we are ready to plot our data. The command we will use for this depends upon the data type we are working with. In this case, we want a histogram. The command we use to build a histogram is <code><span class="kw">geom_histogram()</span></code>. 
+- In this same layer, we specify that we want the bars to be filled (`fill`) in blue and we want them outlined (`col`) in black. The only other part of the command is `bins=20`. We need this because for histograms, we have to specify how many bins we want.
 
 <p>Notice that to add each layer to the graph, in the code we use a plus sign. We add the background AND THEN the bars to make the final graph. Let's break that down in more detail:</p>
 <p>
@@ -143,22 +148,21 @@ ggplot(train, aes(march_avg_temp)) +
 
 The command `labs`, which stands for labels, is used for this.
 
-```r
+```{r eval=F}
 ggplot(train, aes(x=site_eui)) + 
-  geom_histogram(fill='blue', col = 'black', bins = 20)+
-  labs(title="Figure 1:", x = "Site EUI", 
-       y =   "Frequency")
+   geom_histogram(fill='blue', col = 'black', bins = 20)+
+   labs(title="Figure 1:", x = "Site EUI", y = "Frequency")
 ```
 
 <p>This ggplot syntax actually mimics the ways humans would draw a graph by hand. First, you draw the axes. Then, you add on your data. Finally, you add a label. Thinking through the steps in this manner will help you understand the syntax of this package.</p>
 
 <p>You can also add captions to the bottom of graphs:</p>
 
-```r
+```{r eval=F}
 ggplot(train, aes(x=site_eui)) +
-geom_histogram(fill='blue', col = 'black', bins = 20) +
-labs(title="Figure 1:", x = "Site EUI", y = "Frequency",
-caption = "A histogram of site EUI.")
+  geom_histogram(fill='blue', col = 'black', bins = 20) +
+  labs(title="Figure 1:", x = "Site EUI", y = "Frequency",
+       caption = "A histogram of site EUI.")
 ```
 
 :::{.question}
@@ -176,7 +180,8 @@ ggplot(train, aes(march_avg_temp)) +
   geom_histogram(fill = "cyan", col = "white")+
   labs(x = "Average Temp in March",
        y = "Number of Days", 
-       title = "Figure 2")
+       title = "Figure 2",
+       caption = "A histogram of Average March Temperatures."))
 ```
 
 </DIV>
@@ -191,14 +196,14 @@ ggplot(train, aes(march_avg_temp)) +
 :::{.question}
 #### Question 5
 
-Create a box plot of site EUI. Fill the plot in gold and outline it in black. Title your plot Figure 3, and label the x axis "Site EUI". The y axis does not matter in this box plot (it literally gives us no information), so we want a blank axis label " " . Hint: Instead of a <code>geom_bar</code>, we want <code>geom_boxplot</code>, and box plots do not have bins.
+Create a box plot of site EUI. Fill the plot in gold and outline it in black. Title your plot Figure 3, and label the x axis "Site EUI". The y axis does not matter in this box plot (it literally gives us no information), so we want a blank axis label (`y = "`) . Hint: Instead of a `geom_histogram`, we want `geom_boxplot`, and box plots do not have bins.
 :::
 
 <BUTTON ONCLICK="ShowAndHide('q5_solution')">Solution</BUTTON>
 
 <DIV ID="q5_solution" STYLE="display:none">
 
-To make the boxplot, you use 
+To make the box plot, you use 
 
 ```{r eval=F}
 ggplot(train, aes(site_eui)) + 
@@ -244,22 +249,24 @@ Site EUI is heavily skewed to the right (meaning it has a lot of large values.) 
 
 <p>All of these questions can help us determine the type of model we might want to consider.</p>
 
-<h2>Plotting Two Numeric Variables</h2>
+# Plotting Two Numeric Variables
 
 <p> Once we have explored our response variable, we will likely want to get some idea of how some of the features relate to the response variable. This means that we want to create a graph to examine the relationship between two variables.</p>
 
-<p>Let's start with the amount of square feet in the building. This means we have two numeric variables, so we need a scatter plot. We could create the necessary plot using the following code:</p>
+Let's start with X = the amount of square feet in the building. This means we have two numeric variables, so we need a scatter plot to explore their relationship. We could create the necessary plot using the following code:
 
 ```r
 ggplot(train, aes(x=floor_area, y = site_eui)) + geom_point()
 ```
 
-<p>Just as before, we have two layers. The first draws the background and the second adds on the graph. Here, in the first layer, we specify both the x and y axis of the graph, as we have two variables that we are working with.</p>
+Just as before, we have two layers. The first draws the background and the second adds on the graph. Here, in the first layer, we specify both the x and y axis of the graph, as we have two variables that we are working with. 
+
+`geom_point()` tells R to make a scatter plot. 
 
 :::{.question}
 #### Question 7
 
-Start with the code above to create a scatter plot for the year the building was constructed (X) vs site EUI (Y). Color the dots purple.(Hint: This time we are not specifying a <code>fill</code>, but a <code>color</code>). Title your plot Figure 4, and label the x axis and the y axis.
+Start with the code above to create a scatter plot. Adapt it so that X = the year the building was constructed. Keep Y = site EUI. Color the dots purple.(Hint: This time we are not specifying a <code>fill</code>, but a <code>color</code>). Title your plot Figure 4, and label the x axis and the y axis.
 :::
 
 <BUTTON ONCLICK="ShowAndHide('q7_solution')">Solution</BUTTON>
@@ -305,26 +312,31 @@ The other option (2) is that these are newly constructed buildings, and someone 
 
 </br>
 
-<h2>Stacking Graphs</h2>
+# Stacking Graphs
 
 <p>Okay, so we have seen how to make a few different kinds of graphs. Great. However, we have a lot of features to explore, so we have the potential for a lot of plots. That starts to take up a lot of space in a report. One nice way to present multiple graphs is to stack them.</p>
 
-<p>Suppose I want to make a histogram of site EUI (as we have already done). The code I need for that is:</p>
+<p>Suppose we want to make a histogram of site EUI (as we have already done). The code we need for that is:</p>
 
-```r
+```{r eval=F}
 ggplot(train, aes(x=site_eui)) +
-geom_histogram(fill='blue', col = 'black', bins = 20) +
-labs(title="Figure 1:", x = "Site EUI", y = "Frequency")
+  geom_histogram(fill='blue', col = 'black', bins = 20) +
+  labs(title="Figure 1:", x = "Site EUI", y = "Frequency")
 ```
 
-<p>If I put that in a chunk and press play, one histogram will appear on my screen. Let's suppose I want to show a box plot along with this histogram. I can create both graphs and have them both print out separately in my knit document. However, I can also tell the computer to print more than one graph at once to save space. Try the following:</p>
+<p>If we put that in a chunk and press play, one histogram will appear on our screen. Let's suppose we want to show a box plot along with this histogram. We can create both graphs and have them both print out separately in our knit document. However, we can also tell the computer to print more than one graph at once to save space. Try the following:</p>
 
-```r
-ggplot(train, aes(x=site_eui)) +
-geom_histogram(fill='blue', col = 'black', bins = 20) +
-labs(title="Figure 1:", x = "Site EUI", y = "Frequency")
+```{r eval=F}
+# Create the Histogram
+g1 <- ggplot(train, aes(x=site_eui)) +
+  geom_histogram(fill='blue', col = 'black', bins = 20) +
+  labs(title="Figure 1:", x = "Site EUI", y = "Frequency")
+
+# Create the box plot 
 g2 <- ggplot(train, aes(x=site_eui)) +
-geom_boxplot(fill='gold') + labs(title="Figure 2:", x = "Site EUI", y = "")
+  geom_boxplot(fill='gold') + labs(title="Figure 2:", x = "Site EUI", y = "")
+
+# Show the plots side by side
 gridExtra::grid.arrange(g1,g2, ncol = 2)
 ```
 
@@ -345,18 +357,27 @@ Create a (1) box plot for site EUI, (2) histogram for site EUI, (3) box plot for
 <DIV ID="q9_solution" STYLE="display:none">
 
 ```{r eval = F}
+# Create the boxplot of Site EUI 
 g1 <- ggplot(train, aes(site_eui, "site_eui"))+
   geom_boxplot(fill = "white", col = "purple")+
   labs(x = "Site EUI", y= "", title = "Figure 5A")
+
+# Create the histogram of Site EUI 
 g2 <- ggplot(train, aes(site_eui))+
   geom_histogram(fill = "cyan", bins = 15)+
   labs(x = "Site EUI", y= "", title = "Figure 5B")
+
+# Create the box plot of March Temperatures
 g3 <- ggplot(train, aes(march_avg_temp, "site_eui"))+
   geom_boxplot(fill = "yellow", col = "blue")+
   labs(x = "March Average Temp", y= "", title = "Figure 5C")
+
+# Create the histogram of March Temperatures 
 g4 <- ggplot(train, aes(march_avg_temp))+
   geom_histogram(fill = "blue", bins = 15)+
   labs(x = "March Average Temp", y= "", title = "Figure 5D")
+
+# Print out all 4 graphs in a 2 by 2 grid 
 gridExtra::grid.arrange(g1,g2,g3,g4, ncol = 2)
 ```
 
@@ -365,38 +386,38 @@ gridExtra::grid.arrange(g1,g2,g3,g4, ncol = 2)
 </br>
 
 
-<h2>Changing Themes</h2>
+# Changing Themes
 
 <p>When using ggplot2, you also have an option to change the theme of your graphs. Consider these:</p>
 
 <p><strong>The Light Theme</strong></p>
 
-```r
+```{r eval = F}
 ggplot(train, aes(x=site_eui)) +
-geom_histogram(fill='blue', col = 'black', bins = 20) +
-labs(title="Figure 1:", x = "Site EUI", y = "Frequency",
-caption = "A histogram of site EUI.") +
-theme_light()
+  geom_histogram(fill='blue', col = 'black', bins = 20) +
+  labs(title="Figure 1:", x = "Site EUI", y = "Frequency",
+       caption = "A histogram of site EUI.") +
+  theme_light()
 ```
 
 <p><strong>The BW Theme</strong></p>
 
-```r
+```{r eval = F}
 ggplot(train, aes(x=site_eui)) +
-geom_histogram(fill='blue', col = 'black', bins = 20) +
-labs(title="Figure 1:", x = "Site EUI", y = "Frequency",
-caption = "A histogram of site EUI.") +
-theme_bw()
+  geom_histogram(fill='blue', col = 'black', bins = 20) +
+  labs(title="Figure 1:", x = "Site EUI", y = "Frequency",
+       caption = "A histogram of site EUI.") +
+  theme_bw()
 ```
 
 <p><strong>The Minimal Theme</strong></p>
 
-```r
+```{r eval = F}
 ggplot(train, aes(x=site_eui)) +
-geom_histogram(fill='blue', col = 'black', bins = 20) +
-labs(title="Figure 1:", x = "Site EUI", y = "Frequency",
-caption = "A histogram of site EUI.") +
-theme_minimal()
+  geom_histogram(fill='blue', col = 'black', bins = 20) +
+  labs(title="Figure 1:", x = "Site EUI", y = "Frequency",
+       caption = "A histogram of site EUI.") +
+  theme_minimal()
 ```
 
 <p>Take a look and, as a team, decide what you like!</p>
@@ -434,8 +455,9 @@ There are several ways to make tables in R, but we will discuss two. The first i
 
 <p>However, this makes a table that is not particularly pretty or professional when you knit. A second option that does create professional tables is:</p>
 
-```r
-`knitr::kable(table(train$building_class), col.names=c("Building Type", "Count") )
+```{r eval = F}
+knitr::kable(table(train$building_class), 
+             col.names=c("Building Type", "Count") )
 ```
 
 <p>The code is more complex, but the heart of it is the same table. This table will not look very pretty when you press play, but go ahead and knit. See how nicely the table gets formatted?</p>
@@ -479,6 +501,15 @@ Take a look at the variables (features) you are given. Are there any that you th
 
 We will keep working with this data set for future activities.
 
+### Citation 
+
+:::{.question}
+This activity uses data from: 
+
+Climate Change AI (CCAI) and Lawrence Berkeley National Laboratory (Berkeley Lab). (2022 January). WiDS Datathon 2022, Version 1. Retrieved January 10, 2022  from https://www.kaggle.com/competitions/widsdatathon2022/overview.
+:::
+
+
 <div id="license">
-<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work was created by Nicole Dalzell is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>. Last updated 2022 January 22.
+<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work was created by Nicole Dalzell is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>. Last updated 2022 May 17.
 </div>

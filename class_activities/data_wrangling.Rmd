@@ -1,5 +1,5 @@
 ---
-title: "Introduction to Data Wrangling"
+title: "Activity 3A: Introduction to Data Wrangling"
 output: 
   rmdformats::robobook:
     css: "homework.css"
@@ -7,18 +7,18 @@ output:
 link-citations: yes
 ---
 
-# The Goal: Data Wrangling
+# The Goal: 
 
-When you first start working with a dataset, it can be daunting to know where to start. This is particularly true when you have large, complex data! A good starting point is to explore basic characteristics of the dataset, like its size, the types of variables recorded, whether there are any missing data, and summaries and visualizations of important variables.
+We have been working on ways to explore the data using R. In Activity 1, we learned about summaries and tables. In Activity 2, we learned about creating visualizations using ggplot2. In this activity, we are going to focus on **data wrangling:** manipulating, summarizing, and transforming data for exploratory data analysis and statistical modeling. 
 
-In this activity, we will cover several important skills that are useful in exploratory data analysis:
+In this activity, we will cover several important skills that are useful in data wrangling:
 
 * **Creating a subset of the data.** By focusing initially on a subset, we can make exploration more manageable. Then we can explore the rest of the data later.
 * **Checking for missing data.** Missing data can be a problem for statistical analyses, so we need to know whether any data is missing.
 * **Calculating summary statistics.** Summary statistics are useful for describing the variables in our data. We usually begin with the variables that seem most important.
 * **Creating new variables.** Sometimes, the question we're interested in requires us to create new variables from some combination of the existing variables.
 
-These skills are examples of **data wrangling:** manipulating, summarizing, and transforming data for exploratory data analysis and statistical modeling. This activity will introduce data wrangling functions from the `dplyr` and `tidyr` R packages.
+This activity will introduce data wrangling functions from the `dplyr` and `tidyr` R packages.
 
 # Setup
 
@@ -276,7 +276,6 @@ Calculate the mean bill length for *Adelie* penguins.
 ```{r eval=F}
 adelie_penguins <- penguins %>%
   filter(species == "Adelie")
-
 adelie_penguins %>%
   summarize(mean_bill_length = mean(bill_length_mm))
 ```

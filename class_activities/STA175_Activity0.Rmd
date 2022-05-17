@@ -23,7 +23,7 @@ Our data today is provided by a client who is interested in exploring how existi
 </ul>
 </div>
 
-<p>There are other columns in the data set. These represent identifying information about the building and possible <strong>features</strong> that we can use to help us build a model for Site EUI.</p>
+<p>There are other columns in the data set. These represent identifying information about the building and possible <strong>features</strong> that we can use to help us build a model for Site EUI. A <strong>feature</strong> is an explanatory variable, meaning a variable we can use when we build our model for Y = Site EUI.</p>
 
 <div>
 <ul>
@@ -91,30 +91,36 @@ There are 75757 rows and 64 columns.
 
 </br>
 
-Data at DataFest is generally large. This can mean that the data set has a lot of rows, a lot of columns, or both. The data can even come in more than one data set that you might have to merge with other data sets before your analysis can begin. 
+Data at DataFest are generally large. This can mean that the data set has a lot of rows, a lot of columns, or both. The data can even come in more than one data set that you might have to merge with other data sets before your analysis can begin. 
 
-Because the data is so large, it is important to learn how to focus on individual pieces of the data. For instance, suppose I only want to look at the third column in the data set. To do this, we create a chunk in our Markdown file and run the following: 
+Because the data are so large, it is important to learn how to focus on individual pieces of the data. For instance, suppose I only want to look at the third column in the data set. To do this, we create a chunk in our Markdown file and run the following: 
 
 ```r
-train[,1]
+train[,3]
 ```
 
-The third column in the data set is called `building_class`, and it tells us whether each building is commercial (for business) or residential (for living in). This means we can also look at the third column by using 
+This tells R to look at the data set called `train` and access the third column(`[, 3]`).
+
+It turns out there is a second way to access the third column. The third column in the data set is called `building_class`, and it tells us whether each building is commercial (for business) or residential (for living in). This means we can also look at the third column by using 
 
 ```r
 train$building_class
 ```
 
-Now, both of these codes produce a VERY large amount of output; 75757 pieces of output to be exact!! This is too much for us to really look at. Instead, what we want to do is look at a table that summarizes what is in the  column. 
+This tells R to look at the data set called `train` and access (`$`) the column called `building_class`.
+
+Now, both of these codes produce a VERY large amount of output; 75757 pieces of output to be exact!! This is too much for us to really look at. Instead, what we want to do is look at a table that summarizes what is in the column. To do this, we can use the `table` command. 
 
 ```r
 table(train$building_class)
 ```
 
+This tells R to create a table (`table`) of the building class column in the train data (`train$building_class`)
+
 :::{.question}
 #### Question 2
 
-How many commercial buildings are in this data set? How many residential? 
+Based on the table, how many commercial buildings are in this data set? How many residential buildings? 
 :::
 
 
@@ -128,7 +134,7 @@ There are  32199 commercial buildings and 43558 residential buildings.
 
 </br>
 
-Why is this an important skill? Well, at DataFest, you may be asked to look at only the commercial buildings, or only the residential. Using a table allows you to see how much data you have in any particular category. 
+Why is important that we can answer questions like Question 2? Well, at DataFest, you may be asked to look at only the commercial buildings, or only the residential. Using a table allows you to see how much data you have in any particular category. 
 
 :::{.question}
 #### Question 3
@@ -150,7 +156,7 @@ table(train$facility_type)
 
 </br>
 
-Tables are a really powerful tool for **categorical** data, but what about numeric? Our response variable (Y) of interest in this data is: 
+Tables are a really powerful tool for **categorical** data, but what about numeric data? Our response variable (Y) of interest in this data set is: 
 
 - `site_eui` - Site Energy Usage Intensity (Site EUI). This is the amount of heat and electricity consumed by a building. This is recorded from utility bills for the building over the last year. 
 
@@ -164,7 +170,7 @@ summary(train$site_eui)
 
 This produces 6 numbers. 
 
--`Min`: The smallest value of variable.
+- `Min`: The smallest value of variable.
 - `1st Qu.`: The first quartile of the variable. 25% of the values for site EUI are below this value. 
 - `Median`: The median/second quartile of the variable. 50% of the values for site EUI are below this value. 
 - `Mean`: The average value of site EUI. 
@@ -183,12 +189,12 @@ Take a look at the maximum value of site EUI versus all the other numbers. Based
 
 <DIV ID="q4_solution" STYLE="display:none">
 
-Unusually large! 
+(B) Unusually large! 
 </DIV>
 
 </br>
 
-To confirm your theory, you can make a boxplot of site EUI: 
+To confirm your theory, you can make a box plot of site EUI: 
 
 ```r
 boxplot(train$site_eui, horizontal = TRUE)
@@ -202,7 +208,7 @@ Was your answer to Question 4 correct?
 
 Looking at data summaries can help us identify unusual features of the data, including skew or very large/very small values. We can also find missing data and other things that will be important for when modeling. 
 
-The bottom line: Spending the time to look at summaries of the variables you are interested in can make a big difference in your ability to answer the client's questions at DataFest. 
+The bottom line: Spending the time to look at summaries or tables of the variables you are interested in can make a big difference in your ability to answer the client's questions at DataFest. 
 
 However...there are 64 variables in this data set! It would be a lot of work for one person to explore them all. That's why we work in teams for DataFest. 
 
@@ -234,11 +240,11 @@ summary(train$year_built)
 
 </br>
 
-When you do this, you will notice that the minimum value for year built is 0, and there are 1837 vales that are recorded as NA. 
+When you do this, you will notice that the minimum value for year built is 0, and there are 1837 values that are recorded as NA. 
 
-NA stands for "not available", and this means that we do not have information on the year 1837 of our buildings were built. We'll come back to this later. 
+NA stands for "not available", and this means that we do not have information on the year that 1837 of our buildings were built. We'll come back to this later. 
 
-For now, let's think about that house that was built in year 0. This seems...highly unlikely. What if I want to look at just that one rows in the data and see what is going on? Can I do that? 
+For now, let's think about that house that was built in year 0. This seems...highly unlikely. What if I want to look at just that one row in the data and see what is going on? Can I do that? 
 
 To find the rows in the data that has the smallest value of year, we use 
 
@@ -274,7 +280,15 @@ Now that we know we want to look at the 354th building to find the smallest year
 train[354,]
 ```
 
-This provides a lot of information about this building!! The rest of the variables in this data set look okay, so we then consider this 0 again. What does this mean? Well, it could mean the building was built this year, and so someone recorded building age rather than building year. It could also mean the building year was not known, ans someone used a 0 to record that. We just don't know. 
+<strong>Note:</strong> We saw before that `train[,3]` pulled the third column. Now we see that `train[354,]` pulls the 354th row. This means that when you use `train[ , ]`, anything that comes BEFORE the comma indicates a row. Anything that comes AFTER the comma indicates a column. 
+
+Now, look at the results of running this code. 
+
+```r
+train[354,]
+```
+
+This provides a lot of information about this building!! The rest of the variables in this data set look okay, so we then consider this 0 again. What does this mean? Well, it could mean the building was built this year (literally the year we are in now), and so someone recorded building age rather than building year. It could also mean the building year was not known, and someone used a 0 to record that. We just don't know. 
 
 This is a reality of real data! It can be messy, and we will encounter things like this at DataFest. 
 
@@ -292,6 +306,15 @@ This may seem like a lot of code right now, but remember, you don't have to memo
 
 In the next part of this activity, we will add on to this exploration of the data with some visualizations. 
 
+:::{.question}
+**Citation**
+
+This activity uses data from: 
+
+Climate Change AI (CCAI) and Lawrence Berkeley National Laboratory (Berkeley Lab). (2022 January). WiDS Datathon 2022, Version 1. Retrieved January 10, 2022  from https://www.kaggle.com/competitions/widsdatathon2022/overview.
+:::
+
+
 <div id="license">
-<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work was created by Nicole Dalzell is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>. Last updated 2022 March 25.
+<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work was created by Nicole Dalzell is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>. Last updated 2022 May 17.
 </div>

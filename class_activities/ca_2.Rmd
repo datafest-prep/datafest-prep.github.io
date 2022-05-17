@@ -1,5 +1,5 @@
 ---
-title: "Activity 3"
+title: 'Activity 3B: Data Wrangling Practice'
 output: 
   rmdformats::robobook:
     css: "homework.css"
@@ -9,9 +9,7 @@ link-citations: yes
 
 # The Goal
 
-Where do you start when you get a dataset? We generally begin by exploring basic characteristics of the data: how large is the data, what types of observations are recorded, are there any missing data, etc. We can also do some summaries and visualizations of variables we know or expect to be important.
-
-Doing this kind of data exploration requires some data wrangling tools. In [the slides](https://sta175-s22.github.io/slides/data_wrangling.html) we covered some useful data wrangling functions from the `dplyr` package. In this activity, you will practice using these functions to explore the energy efficiency data we started work on last time.
+In [the last activity](https://sta175-s22.github.io/slides/data_wrangling.html) we covered some useful data wrangling functions from the `dplyr` package. In this activity, you will practice using these functions to explore the energy efficiency data we have been using for the rest of our activities. This allows you to try out these techniques on a larger data set.
 
 # Setup
 
@@ -25,13 +23,9 @@ Once the `tidyverse` package is installed, load it into R with `library(tidyvers
 
 We will continue using the energy efficiency data from last week. Load the `train.csv` dataset into R (see [Activity 1](https://sta175-s22.github.io/class_activities/ca_1.html) for full instructions).
 
-### R Markdown
-
-A useful way to organize your code and analysis is with an R Markdown document. This isn't required, but I strongly encourage it. If you're unfamiliar with R Markdown, I have provided a starter template: [ca_02_template.Rmd](https://sta175-s22.github.io/class_activities/ca_02_template.Rmd). See the [R Markdown instructions](https://sta175-s22.github.io/class_activities/rmarkdown_instructions/) for more information.
-
 # Activity
 
-The first part of the activity contains some guided practice with the `dplyr` functions discussed on the slides, as well as some more visualizations with `ggplot`. The second part is more open-ended. If you feel very comfortable with data wrangling functions, you can start with Part II.
+The first part of the activity contains some guided practice with the `dplyr` functions discussed in the previous activity, as well as some more visualizations with `ggplot`. The second part is more open-ended. If you feel very comfortable with data wrangling functions, you can start with Part II.
 
 ## Part I
 
@@ -194,6 +188,10 @@ Now calculate the correlation between age and energy efficiency for each residen
 When calculating the age of each building, we compared the year in which it was built to 2022. While we don't know in which year the buildings were inspected, this is fine as long as all buildings were measured in the same year. However, the buildings in this dataset were actually measured across seven different years. How would you handle this when analyzing building age?
 :::
 
-<div id="license">
-<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work was created by Ciaran Evans and is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>. Last updated 2022 March 25.
-</div>
+## Citation 
+
+:::{.question}
+This activity uses data from: 
+
+Climate Change AI (CCAI) and Lawrence Berkeley National Laboratory (Berkeley Lab). (2022 January). WiDS Datathon 2022, Version 1. Retrieved January 10, 2022  from https://www.kaggle.com/competitions/widsdatathon2022/overview.
+:::

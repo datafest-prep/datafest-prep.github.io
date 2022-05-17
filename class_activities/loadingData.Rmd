@@ -1,0 +1,92 @@
+---
+title: "Activity 1 Part 1: Loading Data in RStudio"
+output: 
+  rmdformats::robobook:
+    css: "homework.css"
+    highlight: pygments
+link-citations: yes
+---
+
+# The Goal
+
+The first step in most statistics competitions is loading the data into R. Typically, the data is in the form of a CSV file. Today, we are going to talk about how to load data from such a file into R.
+
+# The Data 
+
+The data we will be using for many of our activities was created by Climate Change AI (CCAI) and Lawrence Berkeley National Laboratory (Berkeley Lab). This is a large data set and was used in March 2022 for  the 5th Annual Women in Data Science (WiDS) <a href="https://www.kaggle.com/c/widsdatathon2022">Datathon</a>. We encourage you to explore the [resources offered by WiDS](https://www.widsconference.org/)! 
+
+**Data Citation**
+
+Climate Change AI (CCAI) and Lawrence Berkeley National Laboratory (Berkeley Lab). (2022 January). WiDS Datathon 2022, Version 1. Retrieved January 10, 2022  from https://www.kaggle.com/competitions/widsdatathon2022/overview.
+
+# Getting the Data
+
+The first thing we need to do is get the data. Because the data set is very large, it is contained in a Google Drive file <a href="https://drive.google.com/file/d/1hM08da1DH21P5I126FyEoKJ0OwIElFUo">linked here</a>. It is very common during DataFest for data to be shared in this way, so it is good to get some practice downloading data from Google Drive.
+
+If the Drive link does not work, you can copy and paste the following into your browser: https://drive.google.com/file/d/1hM08da1DH21P5I126FyEoKJ0OwIElFUo
+
+Because the data set is so large, it is housed in a ZIP file. Download the ZIP file, and then extract the files that are inside of it. The one your are looking for is called <code>train.csv</code>
+
+Create a folder on your computer called DataFestPrep, and store this csv file inside the folder. 
+
+# Moving the data into RStudio
+
+There are two ways that you can choose to access RStudio - on your own computer, or on RStudio Cloud. There are instructions below for each of these two options. 
+
+## Option 1: For Folks Using RStudio on their Laptops
+
+<div>
+<ul>
+<li><strong>Step 1</strong> Open RStudio.</li>
+<li><strong>Step 2</strong> Look at the upper right hand panel of your screen.</li>
+<li><strong>Step 3</strong> Find "Import Dataset" or "Import" and click on it.</li>
+<li><strong>Step 4</strong> Choose "Text (base)" or "From CSV" (it will depend on your computer).</li>
+<li><strong>Step 5</strong> Find your data (train.csv) in the list that comes up. Choose it!</li>
+</ul>
+</div>
+
+The above 5 steps will allow you to load the data into RStudio. However, if you are using Markdown, you need a few more steps. 
+
+<div>
+<ul>
+<li><strong>Step 6</strong> Now, look the bottom right hand panel of your screen. You should see a line of code with something like <code>train <- read.csv("train.csv")</code> or <code>train <- read_csv("train.csv")`</code>.</li>
+<li><strong>Step 7</strong> Copy that ENTIRE line of code.</li>
+<li><strong>Step 8</strong> Open a Markdown file.</li>
+<li><strong>Step 9</strong> Insert a code chunk (Look to the upper right corner of the file and find the little green C icon. Find "R" on the drop down menu, and click it!)</li>
+<li><strong>Step 10</strong> You will notice a gray box appears on your Markdown file. This is called a chunk, and is basically a spot where we can type code.</li>
+<li><strong>Step 11</strong> Paste the line from Step 7 into this gray code chunk, and press the green arrow (the play button).</li>
+</ul>
+</div>
+
+And you are ready to go!! You now have the data loaded and you can work with it!
+
+## Option 2: For Folks Using RStudio Cloud 
+
+<div>
+<ul>
+<li><strong>Step 1</strong> Open RStudio Cloud.</li>
+<li><strong>Step 2</strong>  Look at the lower right hand quadrant of your RStudio screen./li>
+<li><strong>Step 3</strong> At the top of that square, look for "Upload".</li>
+<li><strong>Step 4</strong> Click Upload, and then browse for where you have stored the train.csv data on your computer.</li>
+<li><strong>Step 5</strong> Once you have found the file, hit "Import". This moves the data into RStudio Cloud, but you can't work with it yet.</li>
+<li><strong>Step 6</strong> Now, look at the upper right hand panel of your screen.</li>
+<li><strong>Step 7</strong> Find "Import Dataset" and click on it.</li>
+<li><strong>Step 8</strong>   - Choose "Text (base)" or "From CSV" (it will depend on your computer).</li>
+<li><strong>Step 9</strong> Find the data you want (train.csv) in the list that comes up. Choose it!</li>
+</ul>
+</div>
+
+The above 5 steps will allow you to load the data into RStudio. However, if you are using Markdown, you need a few more steps.
+
+<div>
+<ul>
+<li><strong>Step 10</strong> Now, look the bottom right hand panel of your screen. You should see a line of code with something like <code>train <- read.csv("train.csv")</code> or <code>train <- read_csv("train.csv")`</code>.</li>
+<li><strong>Step 11</strong> Copy that ENTIRE line of code.</li>
+<li><strong>Step 12</strong> Open a Markdown file.</li>
+<li><strong>Step 13</strong> Insert a code chunk (Look to the upper right corner of the file and find the little green C icon. Find "R" on the drop down menu, and click it!)</li>
+<li><strong>Step 14</strong> You will notice a gray box appears on your Markdown file. This is called a chunk, and is basically a spot where we can type code.</li>
+<li><strong>Step 15</strong> Paste the line from Step 11 into this gray code chunk, and press the green arrow (the play button).</li>
+</ul>
+</div>
+
+
